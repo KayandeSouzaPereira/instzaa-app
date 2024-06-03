@@ -19,22 +19,24 @@ export default function Cardapio({navigation}){
     function getDados(){
         let get = false;
         if (get === false){
-            getCardapio().then(result => {setItem(result.data.lista); get = true}).catch()
+            getCardapio().then(result => {setItem(result.data); get = true}).catch()
         }
         
     }
 
     function separaItem(items) {
-        
         destaques.pop();
         promocoes.pop();
         itemsNormais.pop();
         items.forEach((i) => {
-             if(i.destaque === 1){destaques.push(i)}
-             if(i.promocao === 1){promocoes.push(i)}
-            if(i.promocao === 0 && i.destaque === 0){itemsNormais.push(i)}  
+             if(i.destaque === true){
+                destaques.push(i)
+            }
+             if(i.promocao === true){
+                promocoes.push(i)
+            }
+            if(i.promocao === false && i.destaque === false){itemsNormais.push(i)}  
         })
-       console.log(itemsNormais)
     }
 
     useEffect(() => {

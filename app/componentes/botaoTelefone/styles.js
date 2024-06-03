@@ -22,8 +22,8 @@ export const styles = StyleSheet.create({
     text: {
         fontFamily: theme.fonts.subtitle2,
         fontSize: 25,
-        left:20,
-        bottom:35,
+        left:25,
+        bottom:30,
         textAlign: 'center',
         color: 'white'
     }

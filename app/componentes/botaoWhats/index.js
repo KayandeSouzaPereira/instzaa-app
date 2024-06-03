@@ -1,11 +1,12 @@
-import {Text, View, TouchableOpacity, Image} from 'react-native';
+import {Text, View, TouchableOpacity, Image, Linking} from 'react-native';
 import {styles} from './styles'
 import { FontAwesome } from '@expo/vector-icons';
 
-export function Botao({funcao, titulo}){
+export function BotaoWhats({numero, titulo}){
+    console.log("NUMERO : " + numero)
 
     return(
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity onPress={() => Linking.openURL('whatsapp://send?text=Olá estou de contatando ...&phone=+55'+ numero)} style={styles.container}>
            <View style={styles.containerText}>
            <FontAwesome style={{top:5}} name="whatsapp" size={45} color="white" />
             <Text style={styles.text}>{titulo}</Text>

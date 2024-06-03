@@ -1,7 +1,17 @@
 import { api } from "./Util";
 
+  const tk = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrYXlhbkB0ZXN0LmNvbSIsImlhdCI6MTcxNzMzODYzMSwiZXhwIjoxNzE3NTk3ODMxfQ.DHqligcz_Dl2pNliZ_xEc8aUU8zSIxVxWZ4ZDIeFC34";
+
   function getCardapio()  {
-    return api.get('cardapio/listCardapio')
+    const config = {
+      headers: {
+        "Cache-Control": "no-cache",
+        "Access-Control-Allow-Origin": "*",
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${tk}`,
+      }
+    };
+    return api.get('cardapio/', config)
     }  
     
     function getItemCardapio(id:number) {
@@ -9,7 +19,7 @@ import { api } from "./Util";
         const bodyParameters = {
             id
         };
-        return api.post('cardapio/findByIDCardapioItem', bodyParameters)
+        return api.post('cardapio/cardapio/', bodyParameters)
     }
 
     function deleteItemCardapio(id:number) {

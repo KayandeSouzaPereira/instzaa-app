@@ -22,6 +22,8 @@ export default function StackMainNavigation(props){
       <Tab.Navigator screenOptions={({ route }) => ({
         headerShown: false,
         tabBarActiveBackgroundColor: theme.colorsPrimary.highlight,
+        tabBarActiveTintColor: theme.colorsPrimary.heading,
+        tabBarInactiveTintColor: theme.colorsPrimary.secondary100,
         tabBarStyle: {
           height: 60,
           paddingHorizontal: 5,
