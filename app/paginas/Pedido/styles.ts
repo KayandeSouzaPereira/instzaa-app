@@ -10,16 +10,16 @@ export const styles = StyleSheet.create({
     },
     containerBox: {
         width: 600,
-        height: 300,
-        paddingHorizontal:20,
+        height: 500,
+        paddingHorizontal:15,
         backgroundColor: theme.colorsPrimary.primary,
     },
     containerText: {
         width: 600,
-        height: 150,
+        height: 100,
         paddingHorizontal: 30,
         paddingBottom: 10,
-        paddingTop: 10,
+        paddingTop: 5,
         backgroundColor: theme.colorsPrimary.primary,
     },
     text: {
@@ -28,6 +28,21 @@ export const styles = StyleSheet.create({
         paddingVertical: 20,
         right: 80,
         textAlign: 'center',
+        color: 'white'
+    },
+    textTotal: {
+        fontFamily: theme.fonts.subtitle2,
+        fontSize: 25,
+        paddingVertical: 15,
+        paddingHorizontal: 20,
+        textAlign: 'left',
+        color: 'white'
+    },
+    textSub: {
+        fontFamily: theme.fonts.subtitle2,
+        fontSize: 25,
+        paddingVertical: 15,
+        textAlign: 'left',
         color: 'white'
     }
     

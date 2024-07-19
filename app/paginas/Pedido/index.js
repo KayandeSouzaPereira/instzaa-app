@@ -1,18 +1,31 @@
 import { useState, useEffect } from "react"
-import  {Text, View, StatusBar} from "react-native"
+import  {Text, View, ScrollView} from "react-native"
 import { Cabecario } from "../../componentes/cabecario"
-import { Box } from "../../componentes/box"
+import { PedidoResumo } from "../../componentes/PedidoResumo"
+import { BotaoConcluir } from "../../componentes/botaoConcluir"
 import { styles } from "./styles"
+import  mockPedido  from '../../configs/const'
 import { theme } from "../../configs"
 
 export default function Contato({navigation}){
-
 
     return(
         <View style={styles.container}>
             <Cabecario/>
             <View style={styles.containerText}><Text style={styles.text}>Pedido</Text></View>
-            <View style={styles.containerBox}><Box/></View>
+            <View>
+            <Text style={styles.textTotal}>Total: XXXXX</Text>
+            <ScrollView nestedScrollEnabled = {true} style={styles.containerBox}>
+                <Text style={styles.textSub}>Resumo do Pedido:</Text>
+                <PedidoResumo pedidoList={mockPedido}/>
+                <View style={{height:30}}/>
+                <Text style={styles.textSub}>Informações de Entrega:</Text>
+                <PedidoResumo pedidoList={mockPedido}/>
+                <View style={{marginHorizontal: 50, marginVertical: 30}}>
+                <BotaoConcluir/>
+                </View>
+            </ScrollView>
+            </View>
             
         </View>
     )

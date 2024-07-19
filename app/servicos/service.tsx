@@ -1,6 +1,6 @@
 import { api } from "./Util";
 
-  const tk = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrYXlhbkB0ZXN0LmNvbSIsImlhdCI6MTcxNzMzODYzMSwiZXhwIjoxNzE3NTk3ODMxfQ.DHqligcz_Dl2pNliZ_xEc8aUU8zSIxVxWZ4ZDIeFC34";
+  const tk = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrYXlhbkB0ZXN0LmNvbSIsImlhdCI6MTcyMTQwODQzMywiZXhwIjoxNzIxNjY3NjMzfQ.GF5elSbMuH3VpOOj4J51vTQv4OYHJ97shFy-t2UHhuQ";
 
   function getCardapio()  {
     const config = {

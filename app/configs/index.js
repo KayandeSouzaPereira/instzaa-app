@@ -1,6 +1,7 @@
 export const theme = {
     colorsPrimary: {
       primary: '#242526',
+      primary90: '#242526',
       secondary100: '#2A0000',
       secondary90: '#0D133D', 
       overlay: 'rgba(0,0,0,0.7)',

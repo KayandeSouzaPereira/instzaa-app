@@ -11,14 +11,14 @@ export function Cabecario({}){
             <View
                 style={{
                     width: '100%',
-                    height: 150,
+                    height: 75,
                     padding: 10,
                     backgroundColor: theme.colorsPrimary.secondary100,
                     alignItems: 'center',
                     justifyContent: 'center'
                 }}
             >
-                <Text style={{fontFamily: theme.fonts.title2, fontSize: 30, color: 'white'}}>Instzaa</Text>
+                <Text style={{fontFamily: theme.fonts.title2, fontSize: 15, color: 'white'}}>Instzaa</Text>
             </View>
       </View>
     )
