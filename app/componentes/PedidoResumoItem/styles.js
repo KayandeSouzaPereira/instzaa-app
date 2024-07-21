@@ -13,10 +13,10 @@ export const styles = StyleSheet.create({
     },
     containerItem:{
         flex: 1,
-        width:350,
+        width:380,
         height:150,
         marginVertical: 10,
-        marginHorizontal: 25,
+        marginHorizontal: 5,
         backgroundColor: theme.colorsPrimary.secondary100,
         borderRadius: 15,
         flexDirection: 'row',

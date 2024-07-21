@@ -35,4 +35,5 @@ export const styles = StyleSheet.create({
         width: 230,
         flexDirection:'row-reverse'
     }
+    
 })

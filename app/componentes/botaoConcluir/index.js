@@ -8,7 +8,7 @@ export function BotaoConcluir({callback}){
         <TouchableOpacity onPress={() => console.log("OK")} style={styles.container}>
            <View style={styles.containerText}>
            <MaterialIcons style={{top:5}} name="delivery-dining" size={45} color="white" />
-            <Text style={styles.text}>Enviar</Text>
+            <Text style={styles.text}>Pagamento</Text>
             </View> 
         </TouchableOpacity>
     )

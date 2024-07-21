@@ -3,7 +3,6 @@ import {styles} from './styles'
 import { FontAwesome } from '@expo/vector-icons';
 
 export function BotaoWhats({numero, titulo}){
-    console.log("NUMERO : " + numero)
 
     return(
         <TouchableOpacity onPress={() => Linking.openURL('whatsapp://send?text=Olá estou de contatando ...&phone=+55'+ numero)} style={styles.container}>

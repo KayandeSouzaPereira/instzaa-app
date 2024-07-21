@@ -2,7 +2,6 @@ import {Text, View, TouchableOpacity, Image} from 'react-native';
 import {styles} from './styles'
 
 export function CaixaDestaque({data, callback}){
-    console.log(data.imagem != null)
     return(
         <View style={styles.container}>
             <TouchableOpacity >

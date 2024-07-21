@@ -1,6 +1,11 @@
-import { api } from "./Util";
+import { api, apiCEP } from "./Util";
 
   const tk = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrYXlhbkB0ZXN0LmNvbSIsImlhdCI6MTcyMTQwODQzMywiZXhwIjoxNzIxNjY3NjMzfQ.GF5elSbMuH3VpOOj4J51vTQv4OYHJ97shFy-t2UHhuQ";
+
+
+  function getEndereco(cep) {
+    return apiCEP.get(cep + "/json/")
+  }
 
   function getCardapio()  {
     const config = {
@@ -70,4 +75,4 @@ import { api } from "./Util";
   }
 
 
-export { getCardapio,getItemCardapio,deleteItemCardapio, setItemCardapio, getPedidos, getPedidoId, deletePedido, savePedido}
+export { getCardapio,getItemCardapio,deleteItemCardapio, setItemCardapio, getPedidos, getPedidoId, deletePedido, savePedido, getEndereco}
