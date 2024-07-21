@@ -52,4 +52,4 @@ export default mockPedido =
       ],
       "cpf": "123.456.789-10"
     }
-  ];
+];

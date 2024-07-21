@@ -30,6 +30,13 @@ export const styles = StyleSheet.create({
         color: theme.colorsPrimary.cardColor,
         fontSize: 20,
     },
+    cont:{
+        width: 30,
+        backgroundColor: theme.colorsPrimary.cardColor,
+        fontSize: 20,
+        marginHorizontal: 5,
+        bottom: 5
+    },
     controleItemPedido:{
         marginTop: 30,
         width: 230,

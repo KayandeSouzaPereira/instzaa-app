@@ -1,6 +1,7 @@
 import React from "react"
 import { useState, useEffect } from "react"
 import { View, FlatList, Text, SafeAreaView, ScrollView} from "react-native"
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Cabecario } from "../../componentes/cabecario"
 import { CaixaDestaque } from "../../componentes/caixadestaque"
