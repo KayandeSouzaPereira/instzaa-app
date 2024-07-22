@@ -16,6 +16,7 @@ export default function Cardapio({navigation}){
     const [destaques, setDestaques] = useState([]);
     const [promocoes, setPromocoes] = useState([]);
     const [itemsNormais, setItemsNormais] = useState([]);
+    const [pedido, setPedido] = useState([]);
 
     function getDados(){
         let get = false;
@@ -40,6 +41,17 @@ export default function Cardapio({navigation}){
         })
     }
 
+    async function updateList(pedidoObj){
+       
+        let pedidoLs = [];
+        pedidoLs = pedido;
+        pedidoLs.push(pedidoObj);
+        setPedido(pedidoLs);
+        await AsyncStorage.setItem('Pedido', JSON.stringify(pedidoLs));
+        let pedidoObjTest = await AsyncStorage.getItem("Pedido");
+        console.log("PEDIDOS : " + JSON.stringify(pedidoObj))
+    }
+
     useEffect(() => {
         getDados()
     }, []);
@@ -49,15 +61,12 @@ export default function Cardapio({navigation}){
     }, [items]);
 
 
-    
-
 
     return(
         <View  style={styles.container}>
             <ScrollView>
                         <Cabecario/>
                         <View style={styles.containerDestaque}>
-                        <Text style={styles.textCategoria}>DESTAQUES</Text>
                             { <FlatList
                                 horizontal={true}
                                 data={destaques}
@@ -65,15 +74,17 @@ export default function Cardapio({navigation}){
                                 renderItem={({item}) => (
                                         <CaixaDestaque 
                                         data={item}
+                                        callback={() => {updateList(item)}}
                                         />
                                     ) 
                                 }
                                         contentContainerStyle={{ paddingRight: 200, paddingLeft: 70}}
                                         showsHorizontalScrollIndicator={false}
                             /> }
+                            <Text style={styles.textCategoria}>DESTAQUES</Text>
                         </View>
                         <View style={styles.containerDestaque}>
-                        <Text style={styles.textCategoria}>PROMOCOES</Text>
+                       
                                 { <FlatList
                                     horizontal={true}
                                     data={promocoes}
@@ -87,10 +98,11 @@ export default function Cardapio({navigation}){
                                         contentContainerStyle={{ paddingRight: 200, paddingLeft: 70}}
                                         showsHorizontalScrollIndicator={false}
                             /> }
+                             <Text style={styles.textCategoria}>PROMOCOES</Text>
                          </View>
                          
                             <View style={styles.containerDestaque}>
-                            <Text style={styles.textCategoria}>Nossos Produtos</Text>
+                            <Text style={[styles.textCategoria, {textAlign:'left', marginLeft: 100}]}>Nossos Produtos</Text>
                                 { <FlatList
                                     data={itemsNormais}
                                     horizontal={true}

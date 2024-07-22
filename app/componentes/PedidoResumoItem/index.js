@@ -10,6 +10,7 @@ export function PedidoResumoItem({pedidoItem, callback}){
     const [value, setValue] = useState(0);
     const [defvalue, setDefValue] = useState(0);
    
+
     const Minus = () => {
         if (contItens > 0){
             let cont = contItens;

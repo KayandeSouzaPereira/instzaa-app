@@ -1,6 +1,6 @@
 import { api, apiCEP } from "./Util";
 
-  const tk = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrYXlhbkB0ZXN0LmNvbSIsImlhdCI6MTcyMTQwODQzMywiZXhwIjoxNzIxNjY3NjMzfQ.GF5elSbMuH3VpOOj4J51vTQv4OYHJ97shFy-t2UHhuQ";
+  const tk = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrYXlhbkB0ZXN0LmNvbSIsImlhdCI6MTcyMTY3MzUwNCwiZXhwIjoxNzIxOTMyNzA0fQ.BBIOWVBrPS-MVN4Uyqt2l9nMpxgeVjCrRQUbtBn-gK0";
 
 
   function getEndereco(cep) {

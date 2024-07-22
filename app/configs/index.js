@@ -1,3 +1,4 @@
+
 export const theme = {
     colorsPrimary: {
       primary: '#242526',
@@ -27,11 +28,8 @@ export const theme = {
     }
   };
 
-  
 
-export const GLOBALS = {
-  
-}
+
 
 export const SYSTEM_MESSAGES = {
   AVISO: "Aviso :"
