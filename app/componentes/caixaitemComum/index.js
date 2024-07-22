@@ -4,7 +4,7 @@ import { Entypo, MaterialIcons } from '@expo/vector-icons';
 import {styles} from './styles'
 import { theme } from '../../configs';
 
-export function CaixaDestaque({data, callback}){
+export function CaixaComum({data, callback}){
     const [modal, setModal] = useState(false);
 
 
@@ -39,7 +39,7 @@ export function CaixaDestaque({data, callback}){
                     </View>
                 </Modal>
                 {   data.imagem ?
-                        <Image style={{width: 380, height: 230,borderRadius: 15, marginHorizontal: 5,resizeMode: 'cover'}}  source={{uri: data.imagem}}/>
+                        <Image style={{width: 250, height: 120,borderRadius: 15, marginHorizontal: 5,resizeMode: 'cover'}}  source={{uri: data.imagem}}/>
                         : 
                         <></>
                     }

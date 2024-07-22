@@ -21,13 +21,13 @@ export default function StackMainNavigation(props){
     return(
       <Tab.Navigator screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarActiveBackgroundColor: theme.colorsPrimary.highlight,
+        tabBarActiveBackgroundColor: theme.colorsPrimary.primary80,
         tabBarActiveTintColor: theme.colorsPrimary.heading,
-        tabBarInactiveTintColor: theme.colorsPrimary.secondary100,
+        tabBarInactiveTintColor: theme.colorsPrimary.heading,
         tabBarStyle: {
           height: 60,
           paddingHorizontal: 5,
-          backgroundColor: theme.colorsPrimary.highlight,
+          backgroundColor: theme.colorsPrimary.primary90,
           position: 'absolute',
           borderTopWidth: 0,
         },
@@ -67,9 +67,7 @@ const styles = StyleSheet.create({
   container:{
       width: 600,
       height: 100,
-      
       right: 10,
-      backgroundColor: theme.colorsPrimary.highlight,
       alignContent: 'flex-start',
   },
   containerIcones:{

@@ -4,8 +4,8 @@ import { theme } from '../../configs';
 export const styles = StyleSheet.create({
 
     container:{
-        width: 430,
-        height: 350,
+        width: 270,
+        height: 170,
         alignItems: 'center',
         alignContent: 'center',
         borderRadius: 15,
@@ -40,9 +40,10 @@ export const styles = StyleSheet.create({
         flexDirection:'row'
     },
     containerTextIMG:{
+        position:'absolute',
+        right: 70,
         height: 60,
-        marginVertical: 30,
-        alignItems:'center'
+        top: 120
     },
     titulo:{
         fontFamily: theme.fonts.subtitle,

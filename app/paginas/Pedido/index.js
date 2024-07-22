@@ -15,8 +15,6 @@ export default function Pedido({navigation}){
     const [pedido, setPedido] = useState({});
 
     useEffect(()=> {
-        //AsyncStorage.setItem('Pedido', JSON.stringify(mockPedido));
-        //const pedidoOBJ = await AsyncStorage.getItem("Pedido");
         const pedidoOBJ = mockPedido[0].resumoPedido;
         console.log("PEDIDO : ")
         console.log(pedidoOBJ);
@@ -30,10 +28,10 @@ export default function Pedido({navigation}){
             <View>
             <Text style={styles.textTotal}>Total R$: XXX,XX</Text>
             <ScrollView nestedScrollEnabled = {true} style={styles.containerBox}>
+                {pedido.length>0?
+                <View>
                 <Text style={styles.textSub}>Pedido:</Text>
-                {pedido.length >0 ?
                 <PedidoResumo pedidoList={pedido}/>
-                :<></>} 
                 <View style={{height:30}}/>
                 <Text style={styles.textSub}>Entrega :</Text>
                 <View>
@@ -46,6 +44,8 @@ export default function Pedido({navigation}){
                 <View style={{marginHorizontal: 50, marginVertical: 30}}>
                 <BotaoConcluir/>
                 </View>
+                </View>
+                :<></>} 
             </ScrollView>
             </View>
             

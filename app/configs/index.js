@@ -2,9 +2,11 @@
 export const theme = {
     colorsPrimary: {
       primary: '#242526',
-      primary90: '#242526',
+      primary90: '#4E070C',
+      primary80: '#5F1F24',
       secondary100: '#2A0000',
       secondary90: '#0D133D', 
+      secondary80: '#3D4263',
       overlay: 'rgba(0,0,0,0.7)',
       border: '#1b5a76',
       highlight: '#822D14',

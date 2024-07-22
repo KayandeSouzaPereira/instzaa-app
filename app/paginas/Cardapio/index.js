@@ -2,9 +2,13 @@ import React from "react"
 import { useState, useEffect } from "react"
 import { View, FlatList, Text, SafeAreaView, ScrollView} from "react-native"
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { LinearGradient } from 'expo-linear-gradient';
+
+import { theme } from "../../configs";
 
 import { Cabecario } from "../../componentes/cabecario"
 import { CaixaDestaque } from "../../componentes/caixadestaque"
+import { CaixaComum } from "../../componentes/caixaitemComum";
 
 import { getCardapio } from '../../servicos/service'
 
@@ -63,8 +67,11 @@ export default function Cardapio({navigation}){
 
 
     return(
-        <View  style={styles.container}>
-            <ScrollView>
+        <View style={styles.container}>
+            <LinearGradient
+            colors={[theme.colorsPrimary.primary,theme.colorsPrimary.primary90, theme.colorsPrimary.primary80,theme.colorsPrimary.primary90,theme.colorsPrimary.primary]}
+            style={styles.container}>
+            <ScrollView nestedScrollEnabled = {true}>
                         <Cabecario/>
                         <View style={styles.containerDestaque}>
                             { <FlatList
@@ -78,7 +85,7 @@ export default function Cardapio({navigation}){
                                         />
                                     ) 
                                 }
-                                        contentContainerStyle={{ paddingRight: 200, paddingLeft: 70}}
+                                        contentContainerStyle={{ paddingRight: 180, paddingLeft: 0}}
                                         showsHorizontalScrollIndicator={false}
                             /> }
                             <Text style={styles.textCategoria}>DESTAQUES</Text>
@@ -95,29 +102,31 @@ export default function Cardapio({navigation}){
                                         />
                                         ) 
                                     }
-                                        contentContainerStyle={{ paddingRight: 200, paddingLeft: 70}}
+                                        contentContainerStyle={{ paddingRight: 200, paddingLeft: 0}}
                                         showsHorizontalScrollIndicator={false}
                             /> }
-                             <Text style={styles.textCategoria}>PROMOCOES</Text>
+                                <Text style={styles.textCategoria}>PROMOCOES</Text>
                          </View>
                          
-                            <View style={styles.containerDestaque}>
-                            <Text style={[styles.textCategoria, {textAlign:'left', marginLeft: 100}]}>Nossos Produtos</Text>
-                                { <FlatList
-                                    data={itemsNormais}
-                                    horizontal={true}
-                                    keyExtractor={item => item.idCardapio}
-                                    renderItem={({item}) => (
-                                            <CaixaDestaque 
+                            <View style={[styles.containerItens, {alignContent: 'center', alignItems: 'center'}]}>
+                            <Text style={[styles.textCategoriaComun, {textAlign:'left', width: '100%', marginLeft: 200}]}>Nossos Produtos</Text>
+                                <ScrollView style={{width: 400, height: 400}} nestedScrollEnabled = {true}>
+                                    {
+                                     itemsNormais.map((item,key) =>(
+                                        <View>
+                                        <CaixaComum 
                                             data={item}
                                             />
-                                        ) 
+                                        <View style={{height:10}}/>
+                                        </View>
+                                     ))   
                                     }
-                                            contentContainerStyle={{ paddingRight: 200, paddingLeft: 70}}
-                                            showsHorizontalScrollIndicator={false}
-                                /> }
+                                    
+                                </ScrollView>
                             </View>
+                            <View style={{height:50}}/>
             </ScrollView>
+            </LinearGradient>
         </View >
     )
     
