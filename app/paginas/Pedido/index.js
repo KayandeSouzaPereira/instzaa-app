@@ -16,8 +16,6 @@ export default function Pedido({navigation}){
 
     useEffect(()=> {
         const pedidoOBJ = mockPedido[0].resumoPedido;
-        console.log("PEDIDO : ")
-        console.log(pedidoOBJ);
         setPedido(pedidoOBJ);
     },[])
 
