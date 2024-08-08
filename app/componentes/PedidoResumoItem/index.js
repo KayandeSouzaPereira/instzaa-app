@@ -4,7 +4,7 @@ import { Entypo, Ionicons } from '@expo/vector-icons';
 import {styles} from './styles'
 
 
-export function PedidoResumoItem({pedidoItem, callback}){
+export function PedidoResumoItem({pedidoItem, callback, valueCall}){
     const [item, setItem] = useState({});
     const [contItens, setContItens] = useState(1);
     const [value, setValue] = useState(0);
@@ -26,11 +26,15 @@ export function PedidoResumoItem({pedidoItem, callback}){
         setItem(pedidoItem);
         setValue(pedidoItem.preco);
         setDefValue(pedidoItem.preco);
+        if (pedidoItem.contagem){
+            setContItens(pedidoItem.contagem)
+        }
     },[])
 
     useEffect(() => {
         if(contItens>0 && defvalue>0){
             setValue(defvalue*contItens)
+            valueCall(pedidoItem.id, contItens)
         }
     },[contItens])
 
@@ -39,7 +43,7 @@ export function PedidoResumoItem({pedidoItem, callback}){
             <Image style={{width: 120, height: 120,borderRadius: 15, marginHorizontal: 5,resizeMode: 'cover'}} source={{uri: item.imagem}}></Image>
             <View style={{flexDirection: 'column', width: 200}}>
                 <Text style={styles.text}>{item.nome}</Text>
-                <Text style={styles.text}>R$: {value}</Text>
+                <Text style={styles.text}>{value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</Text>
                 <View style={styles.controleItemPedido}>
                     <TouchableOpacity onPress={Plus} style={styles.trash}>
                     <Ionicons style={styles.trash} name="add" size={24}/>

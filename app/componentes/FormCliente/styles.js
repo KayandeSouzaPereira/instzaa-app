@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     container:{
         flex: 1,
         width:400,
-        height:300,
+        height:500,
         backgroundColor: theme.colorsPrimary.overlay,
         color: theme.colorsPrimary.cardColor,
         flexDirection: 'column',

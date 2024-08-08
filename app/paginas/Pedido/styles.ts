@@ -11,8 +11,9 @@ export const styles = StyleSheet.create({
     containerBox: {
         width: 600,
         height: 500,
-        paddingHorizontal:15,
+        marginHorizontal:15,
         backgroundColor: theme.colorsPrimary.primary,
+        alignContent: 'center'
     },
     containerText: {
         width: 600,
@@ -20,6 +21,12 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 30,
         paddingBottom: 5,
         paddingTop: 5,
+        backgroundColor: theme.colorsPrimary.primary,
+    },
+    containerTextAviso: {
+        width: 600,
+        height: 250,
+        marginVertical: 150,
         backgroundColor: theme.colorsPrimary.primary,
     },
     text: {

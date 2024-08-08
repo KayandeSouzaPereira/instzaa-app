@@ -11,6 +11,7 @@ export const theme = {
       border: '#1b5a76',
       highlight: '#822D14',
       thirdary: '#CD1414',
+      thirdaryOFF: '#520808',
       forthary: "#C28638",
       heading: '#DDE3F0',
       line: '#991F36',

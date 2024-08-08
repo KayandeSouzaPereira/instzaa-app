@@ -1,8 +1,9 @@
 import React from "react"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { View, FlatList, Text, SafeAreaView, ScrollView} from "react-native"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useFocusEffect } from "@react-navigation/native";
 
 import { theme } from "../../configs";
 
@@ -22,42 +23,68 @@ export default function Cardapio({navigation}){
     const [itemsNormais, setItemsNormais] = useState([]);
     const [pedido, setPedido] = useState([]);
 
+
+    useFocusEffect(
+        useCallback(() => {
+            sync();
+          return () => {};
+        }, [])
+    );
+
+    const sync = async () => {
+        let _pedido = await AsyncStorage.getItem("Pedido");
+        if (JSON.parse(_pedido).length > 0){
+            setPedido(JSON.parse(_pedido))
+        }else {
+            setPedido([])
+        }
+    }
+
     function getDados(){
         let get = false;
         if (get === false){
             getCardapio().then(result => {setItem(result.data); get = true}).catch()
         }
-        
     }
 
     function separaItem(items) {
-        destaques.pop();
-        promocoes.pop();
-        itemsNormais.pop();
+        let cont = 0
         items.forEach((i) => {
              if(i.destaque === true){
-                destaques.push(i)
+                let _destaques = []
+                _destaques = destaques
+                _destaques.push(i)
+                setDestaques(_destaques)
             }
              if(i.promocao === true){
-                promocoes.push(i)
+                let _promocoes = []
+                _promocoes = promocoes
+                _promocoes.push(i)
+                setPromocoes(_promocoes)
             }
-            if(i.promocao === false && i.destaque === false){itemsNormais.push(i)}  
+            if(i.promocao === false && i.destaque === false){
+                let _normais = []
+                let add = {}
+                add[cont] = i
+                _normais = itemsNormais
+                _normais.push(add)
+                setItemsNormais(_normais)
+                cont ++
+            }  
         })
     }
 
     async function updateList(pedidoObj){
-       
         let pedidoLs = [];
         pedidoLs = pedido;
         pedidoLs.push(pedidoObj);
         setPedido(pedidoLs);
         await AsyncStorage.setItem('Pedido', JSON.stringify(pedidoLs));
-        let pedidoObjTest = await AsyncStorage.getItem("Pedido");
-        console.log("PEDIDOS : " + JSON.stringify(pedidoObj))
     }
 
     useEffect(() => {
         getDados()
+        AsyncStorage.clear();
     }, []);
 
     useEffect(() => {
@@ -99,6 +126,7 @@ export default function Cardapio({navigation}){
                                     renderItem={({item}) => (
                                         <CaixaDestaque 
                                         data={item}
+                                        callback={() => {updateList(item)}}
                                         />
                                         ) 
                                     }
@@ -112,10 +140,11 @@ export default function Cardapio({navigation}){
                             <Text style={[styles.textCategoriaComun, {textAlign:'left', width: '100%', marginLeft: 200}]}>Nossos Produtos</Text>
                                 <ScrollView style={{width: 400, height: 400}} nestedScrollEnabled = {true}>
                                     {
-                                     itemsNormais.map((item,key) =>(
+                                     itemsNormais.map((item) =>(
                                         <View>
                                         <CaixaComum 
                                             data={item}
+                                            callback={() => {updateList(item)}}
                                             />
                                         <View style={{height:10}}/>
                                         </View>

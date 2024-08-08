@@ -36,6 +36,7 @@
     "expo-splash-screen": "~0.27.5",
     "expo-status-bar": "~1.12.1",
     "moment": "^2.30.1",
+    "payment-token-efi": "^3.0.3",
     "react": "18.2.0",
     "react-icons": "^4.10.1",
     "react-native": "0.74.3",

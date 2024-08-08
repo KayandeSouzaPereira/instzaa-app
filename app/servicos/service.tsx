@@ -1,13 +1,30 @@
 import { api, apiCEP } from "./Util";
 
-  const tk = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrYXlhbkB0ZXN0LmNvbSIsImlhdCI6MTcyMTY3MzUwNCwiZXhwIjoxNzIxOTMyNzA0fQ.BBIOWVBrPS-MVN4Uyqt2l9nMpxgeVjCrRQUbtBn-gK0";
+ 
 
 
   function getEndereco(cep) {
     return apiCEP.get(cep + "/json/")
   }
 
-  function getCardapio()  {
+  async function getToken()  {
+    const config = {
+      headers: {
+        "Cache-Control": "no-cache",
+        "Access-Control-Allow-Origin": "*",
+        'Content-Type': 'application/json',
+      }
+    };
+    const body = {
+        "email": "instzaa@app.com",
+        "password": "Instzaa@834"
+      }
+    return api.post('/auth/login',body, config).then(res => {return res.data.token})
+    }  
+
+
+  async function getCardapio()  {
+    let tk = await getToken();
     const config = {
       headers: {
         "Cache-Control": "no-cache",

@@ -1,11 +1,8 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import {
   Platform,
   ScrollView,
-  StyleSheet,
-  Switch,
-  Text,
-  View
+  StyleSheet
 } from "react-native"
 import {
   CreditCardView,
@@ -53,10 +50,16 @@ const s = StyleSheet.create({
 })
 
 
-export default function Example() {
+export default function Cartao({callback}) {
 
   const [focusedField, setFocusedField] = useState()
   const [formData, setFormData] = useState()
+
+  useEffect (()=> {
+    if (formData){
+      callback(formData);
+    }
+  },[formData])
 
   return (
     <ScrollView contentContainerStyle={s.container}>
