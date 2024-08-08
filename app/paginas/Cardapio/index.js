@@ -63,16 +63,12 @@ export default function Cardapio({navigation}){
                 setPromocoes(_promocoes)
             }
             if(i.promocao === false && i.destaque === false){
+                setItemsNormais([])
                 let _normais = []
-                let add = {}
-                add[cont] = i
-                _normais = itemsNormais
-                _normais.push(add)
+                _normais.push(i)
                 setItemsNormais(_normais)
-                cont ++
             }  
         })
-        console.log(itemsNormais.length)
     }
 
     async function updateList(pedidoObj){

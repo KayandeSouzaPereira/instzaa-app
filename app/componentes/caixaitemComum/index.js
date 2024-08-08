@@ -6,9 +6,7 @@ import { theme } from '../../configs';
 
 export function CaixaComum({data, callback}){
     const [modal, setModal] = useState(false);
-    const [dataM, setDataM] = useState(data[0]);
-
-    console.log(dataM.nome);
+    const [dataM, setDataM] = useState(data);
 
     return(
         <View style={styles.container}>

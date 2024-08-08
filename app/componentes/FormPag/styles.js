@@ -11,6 +11,14 @@ export const styles = StyleSheet.create({
         color: theme.colorsPrimary.cardColor,
         flexDirection: 'column',
     },
+    containerPix:{
+        flex: 1,
+        width:380,
+        height:300,
+        backgroundColor: theme.colorsPrimary.overlay,
+        color: theme.colorsPrimary.cardColor,
+        flexDirection: 'column',
+    },
     viewEndereco:{
         flexDirection:'row',
         marginHorizontal:42,
@@ -20,21 +28,30 @@ export const styles = StyleSheet.create({
         width:'100%',marginHorizontal:20, marginVertical:15
     },
     viewCampForm:{
-        width:'100%',marginHorizontal:40, marginVertical:15
+        width:'100%',marginHorizontal:40, marginVertical:10
     },
     viewCampOPT:{
         width:'100%',marginVertical:5,marginHorizontal:7,flexDirection:'column'
+    },
+    viewCampAviso:{
+        width:'80%',marginHorizontal:40, marginVertical:40
     },
     
     textCamp:{
         color: theme.colorsPrimary.cardColor,
         fontFamily: theme.fonts.subtitle,
-        fontSize: 15
+        fontSize: 18
     },
     textCampHigh:{
         color: theme.colorsPrimary.cardColor,
         fontFamily: theme.fonts.text,
         fontSize: 17
+    },
+    textCampAviso:{
+        color: theme.colorsPrimary.cardColor,
+        fontFamily: theme.fonts.text,
+        fontSize: 15,
+        textAlign: 'center'
     },
     formCamp:{
         width: 300,

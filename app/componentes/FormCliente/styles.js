@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
         width:'100%',marginHorizontal:50, marginVertical:7
     },
     viewCampEnd:{
-        width:'55%',marginVertical:5,marginLeft:5,marginRight:50
+        width:'55%',marginVertical:5,marginLeft:7,marginRight:50
     },
     viewCampEndNum:{
         width:'20%',marginVertical:5, marginHorizontal:20,
@@ -42,7 +42,7 @@ export const styles = StyleSheet.create({
         borderRadius: 5
     },
     formCampEnd:{
-        width: 230,
+        width: 220,
         height: 35,
         fontFamily: theme.fonts.text,
         fontSize: 15,

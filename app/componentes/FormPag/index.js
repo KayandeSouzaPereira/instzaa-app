@@ -9,7 +9,9 @@ import WebView from 'react-native-webview';
 import {styles} from './styles'
 
 
-export function FormPag({endereco}){
+export function FormPag({endereco, cliente}){
+    const [ativo, setAtivo] = useState(false);
+
     const [pix, setPix] = useState(false);
     const [selectedValue, setSelectedValue] = useState('pix');
     const [enderecoCob, setEnderecoCob] = useState(true);
@@ -53,9 +55,15 @@ export function FormPag({endereco}){
         }
     },[ano])
 
+    useEffect(() => {
+        if (cliente.cpf != undefined && endereco.cep != undefined && ativo == false){
+            setAtivo(true);
+        }
+    },[cliente, endereco])
+
     return(
     <SafeAreaView>
-       
+            { ativo == true ?
             <ScrollView nestedScrollEnabled = {true} style={styles.container}>
                 <View style={styles.viewCamp}>
                     <Text style={styles.textCamp}>Methodo de Pagamento</Text>
@@ -108,13 +116,15 @@ export function FormPag({endereco}){
                         <View style={styles.viewCamp}>
                             <Text style={styles.textCampHigh}>Informações para pagamento com cartão.</Text>
                         </View>
+                        
                         <View style={styles.viewCampForm}>
                             <TextInput
                                 style={styles.formCamp}
                                 value={nascimento}
                                 onChangeText={setNascimento}
+                                maxLength={8}
                                 keyboardType='phone-pad'
-                                placeholder='A data de nascimento'
+                                placeholder='A data de nascimento so em numeros'
                                 returnKeyType="next"
                             />
                         </View>
@@ -152,10 +162,16 @@ export function FormPag({endereco}){
 
                 }
                     </View>
-                        :<></>
+                :<></>
                 }
-                
-           </ScrollView>    
+           </ScrollView>  
+           :
+           <ScrollView nestedScrollEnabled = {true} style={styles.containerPix}>
+           <View style={styles.viewCampAviso}>
+                   <Text style={styles.textCampAviso}>E necessário preencher os campos da entrega para seguir com essa etapa.</Text>
+               </View>
+       </ScrollView>
+        }  
         </SafeAreaView>
     )
 }

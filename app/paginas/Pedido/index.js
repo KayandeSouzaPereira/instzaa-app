@@ -14,6 +14,8 @@ import { useFocusEffect } from "@react-navigation/native";
 export default function Pedido({navigation}){
     const [pedido, setPedido] = useState([]);
     const [valorTotal, setValorTotal] = useState(0);
+    const [cliente, setCliente] = useState({});
+    const [endereco, setEndereco] = useState({}) 
     
 
     useFocusEffect(
@@ -56,12 +58,15 @@ export default function Pedido({navigation}){
 
    
     const updateList = (list) => {
-        
         AsyncStorage.setItem("Pedido", JSON.stringify(list));
         setPedido(list);
         calculaPedido(list);
     }
 
+    const updateCliente = (cliente, endereco) => {
+        setCliente(cliente);
+        setEndereco(endereco);
+    }
    
 
     return(
@@ -78,11 +83,11 @@ export default function Pedido({navigation}){
                 <View style={{height:30}}/>
                 <Text style={styles.textSub}>Entrega :</Text>
                 <View>
-                    <FormClient/>
+                    <FormClient callback={updateCliente}/>
                 </View>
                 <Text style={styles.textSub}>Pagamento :</Text>
                 <View>
-                    <FormPag/>
+                    <FormPag endereco={endereco} cliente={cliente}/>
                 </View>
                
                 <View style={{marginHorizontal: 50, marginVertical: 30}}>
