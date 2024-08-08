@@ -12,7 +12,7 @@ import {
 const s = StyleSheet.create({
   container: {
     width: "80%",
-    maxWidth: 400,
+    maxWidth: 430,
     marginHorizontal: "auto",
     backgroundColor: "#f0f0f0",
     borderRadius: 10,

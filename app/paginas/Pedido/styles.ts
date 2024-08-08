@@ -16,17 +16,18 @@ export const styles = StyleSheet.create({
         alignContent: 'center'
     },
     containerText: {
-        width: 600,
+        width: 570,
         height: 100,
-        paddingHorizontal: 30,
+        paddingHorizontal: 50,
         paddingBottom: 5,
         paddingTop: 5,
         backgroundColor: theme.colorsPrimary.primary,
     },
     containerTextAviso: {
-        width: 600,
+        width: 450,
         height: 250,
         marginVertical: 150,
+        marginHorizontal: 50,
         backgroundColor: theme.colorsPrimary.primary,
     },
     text: {

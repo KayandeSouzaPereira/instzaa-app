@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         alignContent: 'center',
         borderRadius: 15,
-        marginHorizontal: 5,
+        marginHorizontal: 0,
         backgroundColor:theme.colorsPrimary.secondary100
     },
     containerModal:{
@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         alignContent: 'center',
         borderRadius: 15,
-        bottom:100,
+        bottom:70,
         backgroundColor:theme.colorsPrimary.secondary100
     },
     containerText:{

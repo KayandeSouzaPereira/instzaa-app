@@ -6,7 +6,9 @@ import { theme } from '../../configs';
 
 export function CaixaComum({data, callback}){
     const [modal, setModal] = useState(false);
+    const [dataM, setDataM] = useState(data[0]);
 
+    console.log(dataM.nome);
 
     return(
         <View style={styles.container}>
@@ -21,14 +23,14 @@ export function CaixaComum({data, callback}){
                             <Entypo style={{flex:1, top:30}} name="cross" size={30} color={theme.colorsPrimary.cardColor} />
                         </TouchableOpacity>
                         <View style={styles.containerModal}>
-                        {   data.imagem ?
-                        <Image style={{width: 380, height: 250,borderRadius: 15, marginHorizontal: 5,resizeMode: 'cover', marginTop:15}}  source={{uri: data.imagem}}/>
+                        {   dataM.imagem ?
+                        <Image style={{width: 380, height: 250,borderRadius: 15, marginHorizontal: 5,resizeMode: 'cover', marginTop:15}}  source={{uri: dataM.imagem}}/>
                         : 
                         <></>
                         }
-                        <Text style={styles.tituloModal}>{data.nome}</Text>
-                        <Text style={styles.valorModal}>Valor : {data.preco}</Text>
-                        <Text style={styles.descricaoModal}>Descrição : {data.descricao}</Text>
+                        <Text style={styles.tituloModal}>{dataM.nome}</Text>
+                        <Text style={styles.valorModal}>Valor : {dataM.preco}</Text>
+                        <Text style={styles.descricaoModal}>Descrição : {dataM.descricao}</Text>
                         <TouchableOpacity onPress={callback} style={styles.containerButton}>
                         <View style={styles.containerTextButton}>
                         <MaterialIcons style={{marginHorizontal: 20}} name="delivery-dining" size={45} color="white" />
@@ -38,22 +40,22 @@ export function CaixaComum({data, callback}){
                         </View>
                     </View>
                 </Modal>
-                {   data.imagem ?
-                        <Image style={{width: 250, height: 120,borderRadius: 15, marginHorizontal: 5,resizeMode: 'cover'}}  source={{uri: data.imagem}}/>
+                {   dataM.imagem ?
+                        <Image style={{width: 250, height: 120,borderRadius: 15, marginHorizontal: 5,resizeMode: 'cover'}}  source={{uri: dataM.imagem}}/>
                         : 
                         <></>
                     }
                     
-                    {   data.imagem ?
+                    {   dataM.imagem ?
                     <View style={styles.containerTextIMG}>
-                    <Text style={styles.titulo}>{data.nome}</Text>
-                    <Text style={styles.descricao}>{data.descricao}
+                    <Text style={styles.titulo}>{dataM.nome}</Text>
+                    <Text style={styles.descricao}>{dataM.descricao}
                     </Text>
                 </View>
                         : 
                         <View style={styles.containerText}>
-                        <Text style={styles.titulo}>{data.nome}</Text>
-                        <Text style={styles.descricao}>{data.descricao}
+                        <Text style={styles.titulo}>{dataM.nome}</Text>
+                        <Text style={styles.descricao}>{dataM.descricao}
                         </Text>
                     </View>
                     }

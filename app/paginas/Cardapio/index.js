@@ -72,6 +72,7 @@ export default function Cardapio({navigation}){
                 cont ++
             }  
         })
+        console.log(itemsNormais.length)
     }
 
     async function updateList(pedidoObj){

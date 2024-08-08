@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
 
     container:{
         flex: 1,
-        width:400,
+        width:380,
         height:500,
         backgroundColor: theme.colorsPrimary.overlay,
         color: theme.colorsPrimary.cardColor,
@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
     textCampHigh:{
         color: theme.colorsPrimary.cardColor,
         fontFamily: theme.fonts.text,
-        fontSize: 18
+        fontSize: 17
     },
     formCamp:{
         width: 300,

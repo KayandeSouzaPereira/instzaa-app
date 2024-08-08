@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
 
     container:{
         flex: 1,
-        width:400,
+        width:380,
         height:500,
         backgroundColor: theme.colorsPrimary.overlay,
         color: theme.colorsPrimary.cardColor,
@@ -20,10 +20,10 @@ export const styles = StyleSheet.create({
         width:'100%',marginHorizontal:50, marginVertical:7
     },
     viewCampEnd:{
-        width:'65%',marginVertical:5,marginHorizontal:7,
+        width:'55%',marginVertical:5,marginLeft:5,marginRight:50
     },
     viewCampEndNum:{
-        width:'30%',marginVertical:5, marginHorizontal:28,
+        width:'20%',marginVertical:5, marginHorizontal:20,
     },
     
     textCamp:{
@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
         fontSize: 20
     },
     formCamp:{
-        width: 300,
+        width: 280,
         height: 35,
         fontFamily: theme.fonts.text,
         fontSize: 15,
@@ -52,7 +52,7 @@ export const styles = StyleSheet.create({
         borderRadius: 5
     },
     formCampEndNum:{
-        width: 60,
+        width: 50,
         height: 35,
         fontFamily: theme.fonts.text,
         fontSize: 15,

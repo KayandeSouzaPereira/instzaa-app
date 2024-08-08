@@ -9,10 +9,11 @@ import WebView from 'react-native-webview';
 import {styles} from './styles'
 
 
-export function FormPag({pedidoList}){
+export function FormPag({endereco}){
     const [pix, setPix] = useState(false);
     const [selectedValue, setSelectedValue] = useState('pix');
     const [enderecoCob, setEnderecoCob] = useState(true);
+    
     const [nascimento, setNascimento] = useState('');
     const [email, setEmail] = useState('');
     const [tokenCard, setTokenCard] = useState(false);
@@ -22,6 +23,14 @@ export function FormPag({pedidoList}){
     const [ano, setAno] = useState("");
     const [bandeira, setBandeira] = useState("");
     const [cartaoValid, setCartaoValid] = useState(false);
+
+    const [cep, setCEP] = useState("");
+    const [rua, setRua] = useState("");
+    const [numero, setNumero] = useState("");
+    const [complemento, setComplemento] = useState("");
+    const [bairro, setBairro] = useState("");
+    const [UF, setUF] = useState("");
+    const [cidade, setCidade] = useState("");
 
     const cartaoData = async (data) => {
         if (data.valid){
@@ -36,6 +45,7 @@ export function FormPag({pedidoList}){
     useEffect(() => {
         if(ano != ""){
             if (ano.includes("20")){
+                console.log(`https://instzaa-landing.vercel.app/card/${cartao}/${cvc}/${bandeira}/${ano}/${mes}`)
                 setCartaoValid(true);
             }else{
                 setAno("20" + ano)
@@ -123,7 +133,7 @@ export function FormPag({pedidoList}){
                         
                 {
                     tokenCard ? 
-                    <View style={{width: 400, height: 250}}>
+                    <View style={{width: 380, height: 250}}>
                         <WebView
                              source={{ uri: `https://instzaa-landing.vercel.app/card/${cartao}/${cvc}/${bandeira}/${ano}/${mes}`}}
                              javaScriptEnabled={true}
@@ -135,7 +145,7 @@ export function FormPag({pedidoList}){
                         />
                     </View>
                     : 
-                    <View style={{width: 400, height: 500}}>
+                    <View style={{width: 380, height: 500}}>
                         <Cartao callback={cartaoData}/>
                         <BotaoValidar valid={cartaoValid} callback={() => setTokenCard(true)}/>
                     </View>
