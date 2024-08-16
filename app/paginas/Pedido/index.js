@@ -1,6 +1,5 @@
 import { useState, useEffect,useCallback } from "react"
-import  {Text, View, ScrollView} from "react-native"
-import { WebView } from 'react-native-webview';
+import  {Text, View, ScrollView, Modal, Image,TouchableOpacity, Alert} from "react-native"
 import { Cabecario } from "../../componentes/cabecario"
 import { PedidoResumo } from "../../componentes/PedidoResumo"
 import { FormClient } from "../../componentes/FormCliente"
@@ -8,15 +7,25 @@ import { FormPag } from "../../componentes/FormPag"
 import { BotaoConcluir } from "../../componentes/botaoConcluir"
 import { styles } from "./styles"
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Clipboard from 'expo-clipboard';
+import { Entypo, MaterialIcons, AntDesign } from '@expo/vector-icons';
 import { useFocusEffect } from "@react-navigation/native";
-
+import { setPagamentoPix, setPagamentoCartao } from "../../servicos/service"
+import { theme } from '../../configs';
 
 export default function Pedido({navigation}){
     const [pedido, setPedido] = useState([]);
     const [valorTotal, setValorTotal] = useState(0);
     const [cliente, setCliente] = useState({});
-    const [endereco, setEndereco] = useState({}) 
-    
+    const [endereco, setEndereco] = useState({});
+    const [pagamento, setPagamento] = useState({});
+    const [selectedValue, setSelectedValue] = useState('pix');
+
+    const [qrCode, setQrCode] = useState("");
+    const [linkPix, setLinkPix] = useState("");
+
+    const [validPay, setValidPay] = useState(false);
+    const [checkoutPedido, setCheckoutPedido] = useState(false);
 
     useFocusEffect(
         useCallback(() => {
@@ -26,18 +35,22 @@ export default function Pedido({navigation}){
           return () => {};
         }, [])
     );
+    
 
     const sync = async() => {
         const _pedido = await AsyncStorage.getItem("Pedido");
+        const _cliente = await AsyncStorage.getItem("Cliente");
+        const _endereco = await AsyncStorage.getItem("Endereco");
         if (_pedido != null && _pedido != undefined){
             setPedido(JSON.parse(_pedido));
             calculaPedido(JSON.parse(_pedido));
         }
-    }
-
-    const generatePaymentToken = () => {
-        setTokenCard(false);
-        setTokenCard(true);
+        if (_cliente != null && _cliente != undefined){
+            setCliente(JSON.parse(_cliente));
+        }
+        if (_endereco != null && _endereco != undefined){
+            setEndereco(JSON.parse(_endereco));
+        }
     }
 
     
@@ -64,9 +77,49 @@ export default function Pedido({navigation}){
     }
 
     const updateCliente = (cliente, endereco) => {
+        AsyncStorage.setItem("Cliente", JSON.stringify(cliente));
+        AsyncStorage.setItem("Endereco", JSON.stringify(endereco));
         setCliente(cliente);
         setEndereco(endereco);
     }
+
+    const updatePagamento = (_pagamento, tipo) => {
+        if (tipo.includes("pix")){
+            _pagamento.Valor = valorTotal.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}).substring(3, valorTotal.length).replaceAll(',', '.');
+        }else {
+            _pagamento.Valor = valorTotal.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}).substring(3, valorTotal.length).replaceAll(',', '');
+        }
+        setPagamento(_pagamento);
+        setSelectedValue(tipo);
+        setValidPay(true)
+    }
+
+    const disableButton = () => {}
+
+    const checkout = async () => {
+        if (selectedValue.includes("pix")){
+            console.log(pagamento);
+            let _info = await setPagamentoPix(pagamento);
+            setLinkPix(_info.data.Pix);
+            setQrCode(_info.data.QrCode);
+            setCheckoutPedido(true);
+        } else if(selectedValue.includes("credito")){
+            let _info = await setPagamentoCartao(pagamento);
+            if(_info.data != undefined){
+                if(_info.data.includes("Cobranca Realizada !")){
+                    setCheckoutPedido(true);
+                }
+            }else{
+                Alert.alert("Ops: ", "Ocorreu um erro no envio dos seus dados, confirme se todos os campos foram preenchidos.")
+            }
+        }
+    }
+
+    const copyToClipboardPix = async () => {
+        await Clipboard.setStringAsync(linkPix);
+        Alert.alert("Pix:", "link copiado com sucesso !");
+    };
+    
    
 
     return(
@@ -74,24 +127,52 @@ export default function Pedido({navigation}){
             <Cabecario/>
             <View style={styles.containerText}><Text style={styles.text}>Pedido</Text></View>
             <View>
+            <Modal
+                    visible={checkoutPedido}
+                    transparent={true}
+            >
+                <View  style={{backgroundColor:'rgba(52, 52, 52, 0.7)', flex: 1, justifyContent:'center', alignItems:'center'}}>
+                <TouchableOpacity onPress={() => setCheckoutPedido(false)} style={{flex:1,width:30,height:30}}>
+                            <Entypo style={{flex:1, top:30}} name="cross" size={30} color={theme.colorsPrimary.cardColor} />
+                </TouchableOpacity>
+                <View style={styles.containerModal}>
+                {   qrCode != '' ?
+                    <View style={{width: 380, height: 500, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
+                        <View ><Text style={styles.textPixTitle}>PIX</Text></View>
+                        <Image style={{width: 250, height: 250,marginHorizontal: 5,resizeMode: 'cover', marginTop:15, backgroundColor: 'white'}}  source={{uri: qrCode}}/>
+                        <View><Text style={styles.textPix}>Pague com QrCode ou Copie o link :{"\n"}{"\n"}<Text style={styles.textPixLink}>{linkPix}</Text></Text></View>
+                        <TouchableOpacity onPress={() => copyToClipboardPix()} style={{flex:1,width:30,height:30}}>
+                            <MaterialIcons style={{flex:1, top:30}} name="content-copy" size={30} color={theme.colorsPrimary.cardColor} />
+                        </TouchableOpacity>
+                    </View>
+                        : 
+                    <View style={{width: 380, height: 500, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
+                        <View ><Text style={styles.textPixTitle}>Pagamento Credito</Text></View>
+                        <AntDesign style={{marginTop:20}} name="checkcircleo" size={180} color="green" />
+                        <View style={{width: 280,marginTop:50}}><Text style={styles.textPix}>Em breve avisaremos que estamos preparando seu pedido !</Text></View>
+                    </View>
+                }
+                </View>
+                </View>
+            </Modal>
             { valorTotal != 0? <Text style={styles.textTotal}>Total: {valorTotal.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</Text>: <Text style={styles.textTotal}>Total R$: XXX,XX</Text>}
             <ScrollView nestedScrollEnabled = {true} style={styles.containerBox}>
                 {pedido.length>0?
                 <View>
                 <Text style={styles.textSub}>Pedido:</Text>
-                <PedidoResumo pedidoList={pedido} callback={updateList}/>
+                    <PedidoResumo pedidoList={pedido} callback={updateList}/>
                 <View style={{height:30}}/>
                 <Text style={styles.textSub}>Entrega :</Text>
                 <View>
-                    <FormClient callback={updateCliente}/>
+                    <FormClient callback={updateCliente} cliente_={cliente} endereco_={endereco}/>
                 </View>
                 <Text style={styles.textSub}>Pagamento :</Text>
                 <View>
-                    <FormPag endereco={endereco} cliente={cliente}/>
+                    <FormPag endereco={endereco} cliente={cliente} valor={valorTotal} callback={updatePagamento} disableButton={() => disableButton()}/>
                 </View>
                
-                <View style={{marginHorizontal: 50, marginVertical: 30}}>
-                <BotaoConcluir callback={generatePaymentToken}/>
+                <View style={{marginHorizontal: 30, marginVertical: 30}}>
+                <BotaoConcluir callback={checkout} validPay={validPay}/>
                 </View>
                 </View>
                 : 

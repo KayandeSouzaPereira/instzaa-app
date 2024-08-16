@@ -21,14 +21,22 @@ export const styles = StyleSheet.create({
     },
     viewEndereco:{
         flexDirection:'row',
-        marginHorizontal:42,
-        
+        marginHorizontal:22,
     },
     viewCamp:{
         width:'100%',marginHorizontal:20, marginVertical:15
     },
+    viewCampEnd:{
+        width:'55%',marginVertical:5,marginLeft:0,marginRight:50
+    },
+    viewCampEndNum:{
+        width:'20%',marginVertical:5, marginHorizontal:20,
+    },
     viewCampForm:{
-        width:'100%',marginHorizontal:40, marginVertical:10
+        width:'100%',marginHorizontal:30, marginVertical:10
+    },
+    viewCampFormDate:{
+        width:'83%',marginHorizontal:30, marginVertical:10, backgroundColor: theme.colorsPrimary.cardColor
     },
     viewCampOPT:{
         width:'100%',marginVertical:5,marginHorizontal:7,flexDirection:'column'
@@ -74,7 +82,7 @@ export const styles = StyleSheet.create({
         borderRadius: 5
     },
     formCampEndNum:{
-        width: 60,
+        width: 55,
         height: 35,
         fontFamily: theme.fonts.text,
         fontSize: 15,

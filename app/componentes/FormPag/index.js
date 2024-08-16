@@ -6,17 +6,23 @@ import Cartao from '../cartao';
 import { RadioButton } from 'react-native-paper';
 import { BotaoValidar } from '../botaoValidar';
 import WebView from 'react-native-webview';
+import DateTimePicker from 'react-native-ui-datepicker';
+import dayjs from 'dayjs';
 import {styles} from './styles'
+import { getEndereco } from '../../servicos/service';
+
+import 'dayjs/locale/pt-br';
 
 
-export function FormPag({endereco, cliente}){
+
+export function FormPag({endereco, cliente, valor, callback, disableButton}){
+    const [pagamento, setPagamento] = useState({});
+
     const [ativo, setAtivo] = useState(false);
-
-    const [pix, setPix] = useState(false);
     const [selectedValue, setSelectedValue] = useState('pix');
     const [enderecoCob, setEnderecoCob] = useState(true);
     
-    const [nascimento, setNascimento] = useState('');
+    const [nascimento, setNascimento] = useState(dayjs());
     const [email, setEmail] = useState('');
     const [tokenCard, setTokenCard] = useState(false);
     const [cartao, setCartao] = useState("");
@@ -25,6 +31,7 @@ export function FormPag({endereco, cliente}){
     const [ano, setAno] = useState("");
     const [bandeira, setBandeira] = useState("");
     const [cartaoValid, setCartaoValid] = useState(false);
+    const [paymentToken, setPaymentToken] = useState(""); 
 
     const [cep, setCEP] = useState("");
     const [rua, setRua] = useState("");
@@ -43,6 +50,32 @@ export function FormPag({endereco, cliente}){
             await setAno(data.values.expiry.substring(3, 5));
         }
     }
+    async function getEnderecodata() {
+        const reqCEP = await getEndereco(cep);
+        const endereco = reqCEP.data;
+        setBairro(endereco.bairro)
+        setRua(endereco.logradouro)
+        setUF(endereco.uf)
+        setCidade(endereco.localidade)
+    }
+
+    useEffect(() => {
+        if(pagamento.Cpf != undefined && valor > 0){
+            callback(pagamento, selectedValue)
+        }
+    },[pagamento, valor])
+
+    useEffect(()=>{
+        if (selectedValue.includes('pix')){
+            _pagamento = {}
+            _pagamento.Nome = cliente.nome;
+            _pagamento.Cpf = cliente.cpf;
+            _pagamento.Valor = valor;
+            setPagamento(_pagamento);
+        }else if(selectedValue.includes("credito")){
+            disableButton();
+        }
+    },[selectedValue])
 
     useEffect(() => {
         if(ano != ""){
@@ -60,6 +93,36 @@ export function FormPag({endereco, cliente}){
             setAtivo(true);
         }
     },[cliente, endereco])
+
+    useEffect(() => {
+        if (paymentToken != ""){
+            _pagamento = {}
+            _pagamento.Nome = cliente.nome;
+            _pagamento.Telefone = cliente.numeroContato;
+            _pagamento.Cpf = cliente.cpf;
+            _pagamento.Valor = valor;
+            _pagamento.PaymentToken = paymentToken;
+            _pagamento.Email = email;
+            _pagamento.DataDeNascimento = nascimento;
+
+            if (enderecoCob == false){
+                _pagamento.Rua = rua
+                _pagamento.NumeroEndereco = numero
+                _pagamento.Bairro = bairro
+                _pagamento.Cep = cep;
+                _pagamento.Cidade = cidade;
+                _pagamento.Estado = UF;
+            }else if (enderecoCob == true){
+                _pagamento.Rua = endereco.rua
+                _pagamento.NumeroEndereco = endereco.numero
+                _pagamento.Bairro = endereco.bairro
+                _pagamento.Cep = endereco.cep;
+                _pagamento.Cidade = endereco.cidade;
+                _pagamento.Estado = endereco.uf;
+            }
+            setPagamento(_pagamento);
+        }
+    },[paymentToken])
 
     return(
     <SafeAreaView>
@@ -79,10 +142,6 @@ export function FormPag({endereco, cliente}){
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <RadioButton value="pix" color="blue" />
                     <Text style={styles.textCamp}>PIX</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <RadioButton value="debito" color="blue" />
-                    <Text style={styles.textCamp}>Debito</Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <RadioButton value="credito" color="blue" />
@@ -113,34 +172,118 @@ export function FormPag({endereco, cliente}){
                             </View>
                         </RadioButton.Group>
                         </View>
-                        <View style={styles.viewCamp}>
-                            <Text style={styles.textCampHigh}>Informações para pagamento com cartão.</Text>
+                        { enderecoCob? <></>:
+                        <View style={{marginLeft:10}}>
+                            <View style={styles.viewCamp}>
+                                <Text style={styles.textCamp}>Endereço cadastrado do cartão</Text>
+                            </View>
+                            <View style={styles.viewCamp}>
+                                <TextInput
+                                    style={styles.formCamp}
+                                    value={cep}
+                                    onChangeText={setCEP}
+                                    onBlur={() => getEnderecodata()}
+                                    keyboardType='phone-pad'
+                                    placeholder='Seu CEP sem Traço'
+                                    returnKeyType="next"
+                                />
+                            </View>
+                            <View style={styles.viewEndereco}>
+                                <View style={styles.viewCampEnd}>
+                                    <TextInput
+                                        style={styles.formCampEnd}
+                                        value={rua}
+                                        onChangeText={setRua}
+                                        placeholder='Endereço'
+                                        returnKeyType="next"
+                                    />
+                                </View>
+                                <View style={styles.viewCampEndNum}>
+                                    <TextInput
+                                        style={styles.formCampEndNum}
+                                        value={numero}
+                                        onChangeText={setNumero}
+                                        placeholder='Nº'
+                                        returnKeyType="next"
+                                    />
+                                </View>
+                            </View>
+                            <View style={styles.viewCamp}>
+                                <TextInput
+                                    style={styles.formCamp}
+                                    value={complemento}
+                                    onChangeText={setComplemento}
+                                    placeholder='Complemento'
+                                    returnKeyType="next"
+                                />
+                            </View>
+                            <View style={styles.viewCamp}>
+                                <TextInput
+                                    style={styles.formCamp}
+                                    value={bairro}
+                                    onChangeText={setBairro}
+                                    placeholder='Bairro'
+                                    returnKeyType="next"
+                                />
+                            </View>
+                            <View style={styles.viewCamp}>
+                                <TextInput
+                                    style={styles.formCamp}
+                                    value={UF}
+                                    onChangeText={setUF}
+                                    placeholder='Estado'
+                                    returnKeyType="next"
+                                />
+                            </View>
+                            <View style={styles.viewCamp}>
+                                <TextInput
+                                    style={styles.formCamp}
+                                    value={cidade}
+                                    onChangeText={setCidade}
+                                    placeholder='Cidade'
+                                />
+                            </View>
                         </View>
+                        }
+                            <View style={styles.viewCamp}>
+                                <Text style={styles.textCampHigh}>Informações para pagamento com cartão.</Text>
+                            </View>
+                            <View style={styles.viewCampForm}>
+                                <TextInput
+                                    style={styles.formCamp}
+                                    value={email}
+                                    onChangeText={setEmail}
+                                    placeholder='Email'
+                                    returnKeyType="next"
+                                />
+                            </View>
+                            <View style={styles.viewCampFormDate}>
+                               {/*  <TextInput
+                                    style={styles.formCamp}
+                                    value={nascimento}
+                                    onChangeText={setNascimento}
+                                    maxLength={8}
+                                    keyboardType='phone-pad'
+                                    placeholder='A data de nascimento so em numeros'
+                                    returnKeyType="next"
+                                /> */}
+                                <Text style={{marginHorizontal: 30}}>Selecione a data do seu nascimento.</Text>
+                                <DateTimePicker
+                                        mode="single"
+                                        locale={'pt-br'}
+                                        initialView={'year'}
+                                        date={nascimento}
+                                        onChange={(params) => {setNascimento(params.date.format('YYYY-MM-DD')); console.log(params.date.format('YYYY-MM-DD'))}}
+                                        minDate={dayjs('1950-01-01')}
+                                        maxDate={dayjs('2008-01-01')}
+                                    />
+                            </View>
+                            
+                            <View style={styles.viewCampForm}>
+                                <Text style={styles.textCampHigh}>Adicione o cartão para o pagamento.</Text>
+                            </View>
                         
-                        <View style={styles.viewCampForm}>
-                            <TextInput
-                                style={styles.formCamp}
-                                value={nascimento}
-                                onChangeText={setNascimento}
-                                maxLength={8}
-                                keyboardType='phone-pad'
-                                placeholder='A data de nascimento so em numeros'
-                                returnKeyType="next"
-                            />
-                        </View>
-                        <View style={styles.viewCampForm}>
-                            <TextInput
-                                style={styles.formCamp}
-                                value={email}
-                                onChangeText={setEmail}
-                                placeholder='Email'
-                                returnKeyType="next"
-                            />
-                        </View>
-                        <View style={styles.viewCampForm}>
-                            <Text style={styles.textCampHigh}>Adicione o cartão para o pagamento.</Text>
-                        </View>
-                        
+                   
                 {
                     tokenCard ? 
                     <View style={{width: 380, height: 250}}>
@@ -151,7 +294,8 @@ export function FormPag({endereco, cliente}){
                              allowFileAccess={true}
                              allowFileAccessFromFileURLS={true}
                              allowUniversalAccessFromFileURLs={true}
-                             onMessage={(event) => {console.log(event.nativeEvent.data);}}  
+                             onMessage={(event) => {setPaymentToken(event.nativeEvent.data);}}  
+                             style={{width: 350, height: 230, marginHorizontal: 5}}
                         />
                     </View>
                     : 

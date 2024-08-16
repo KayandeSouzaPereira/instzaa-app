@@ -6,8 +6,8 @@ import {styles} from './styles'
 
 import { getEndereco } from '../../servicos/service';
 
-export function FormClient({callback}){
-    const [cliente, SetCliente] = useState({});
+export function FormClient({callback, cliente_, endereco_}){
+    const [cliente, setCliente] = useState({});
     const [endereco, setEndereco] = useState({});
 
     const [nome, setNomeCliente] = useState("");
@@ -33,6 +33,26 @@ export function FormClient({callback}){
     }
 
     useEffect(() => {
+        
+        if (cliente_.nome != undefined && endereco_.cep != undefined){
+            setCliente(cliente_);
+            setEndereco(endereco_);
+            
+            setNomeCliente(cliente_.nome);
+            setCPF(cliente_.cpf);
+            setNumeroContato(cliente_.numeroContato);
+
+            setCEP(endereco_.cep);
+            setRua(endereco_.rua);
+            setNumero(endereco_.numero);
+            setBairro(endereco_.bairro);
+            setUF(endereco_.uf);
+            setCidade(endereco_.cidade);
+            setComplemento(endereco_.complemento);
+        }
+    }, [cliente_, endereco_])
+
+    useEffect(() => {
       if(cep != "" && rua != "" && numero != "" && bairro != "" && UF != "" && cidade != ""){
         let _endereco = {}
         _endereco.cep = cep;
@@ -52,12 +72,12 @@ export function FormClient({callback}){
             _cliente.nome = nome;
             _cliente.cpf = cpf;
             _cliente.numeroContato = numeroContato;
-            SetCliente(_cliente);
+            setCliente(_cliente);
         }
     },[nome, cpf, numeroContato])
 
     useEffect(() => {
-        if(cliente.cpf != undefined && endereco.cep != undefined){
+        if(cliente.cpf != undefined && endereco.cidade != undefined){
             callback(cliente, endereco)
         }
     },[cliente, endereco])

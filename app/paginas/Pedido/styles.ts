@@ -23,6 +23,15 @@ export const styles = StyleSheet.create({
         paddingTop: 5,
         backgroundColor: theme.colorsPrimary.primary,
     },
+    containerModal:{
+        width: 400,
+        height: 600,
+        alignItems: 'center',
+        alignContent: 'center',
+        borderRadius: 15,
+        bottom:120,
+        backgroundColor:theme.colorsPrimary.secondary100
+    },
     containerTextAviso: {
         width: 450,
         height: 250,
@@ -52,6 +61,34 @@ export const styles = StyleSheet.create({
         paddingVertical: 15,
         textAlign: 'left',
         color: 'white'
-    }
+    },
+    textPix: {
+        fontFamily: theme.fonts.subtitle2,
+        fontSize: 15,
+        paddingVertical: 15,
+        textAlign: 'center',
+        color: 'white'
+    },
+    textPixLink: {
+        fontFamily: theme.fonts.subtitle2,
+        fontSize: 10,
+        paddingVertical: 15,
+        textAlign: 'center',
+        color: 'cyan',
+    },
+    textPixTitle: {
+        fontFamily: theme.fonts.subtitle2,
+        fontSize: 25,
+        paddingVertical: 15,
+        textAlign: 'center',
+        color: 'white'
+    },
+    textCreditoTitle: {
+        fontFamily: theme.fonts.subtitle2,
+        fontSize: 25,
+        marginVertical: 30,
+        textAlign: 'center',
+        color: 'white'
+    },
     
 })

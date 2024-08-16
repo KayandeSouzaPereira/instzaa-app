@@ -33,7 +33,7 @@ export default function Cardapio({navigation}){
 
     const sync = async () => {
         let _pedido = await AsyncStorage.getItem("Pedido");
-        if (JSON.parse(_pedido).length > 0){
+        if (JSON.parse(_pedido) != null){
             setPedido(JSON.parse(_pedido))
         }else {
             setPedido([])
@@ -48,7 +48,6 @@ export default function Cardapio({navigation}){
     }
 
     function separaItem(items) {
-        let cont = 0
         items.forEach((i) => {
              if(i.destaque === true){
                 let _destaques = []
@@ -80,8 +79,7 @@ export default function Cardapio({navigation}){
     }
 
     useEffect(() => {
-        getDados()
-        AsyncStorage.clear();
+        getDados();
     }, []);
 
     useEffect(() => {

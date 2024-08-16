@@ -35,61 +35,40 @@ import { api, apiCEP } from "./Util";
     };
     return api.get('cardapio/', config)
     }  
-    
-    function getItemCardapio(id:number) {
-    
-        const bodyParameters = {
-            id
-        };
-        return api.post('cardapio/cardapio/', bodyParameters)
-    }
-
-    function deleteItemCardapio(id:number) {
-    
-        const bodyParameters = {
-            id
-        };
-        return api.post('cardapio/deleteCardapioItem', bodyParameters)
-    }
-
-    function setItemCardapio(body:any) {
-      
+  
+    async function setPagamentoPix(pagamento)  {
+      let tk = await getToken();
+      console.log(pagamento)
+      let data = {
+        cpf: pagamento.Cpf,
+        nome: pagamento.Nome,
+        valor: pagamento.Valor
+      }
+      const body = JSON.stringify(data)
       const config = {
-        headers: {"Cache-Control": "no-cache",
-        "Access-Control-Allow-Origin": "*",}
-    };
-      
-      return api.post('cardapio/saveCardapioItem', body, config)
-    }
-  
-
-  
- 
-  
-  function getPedidos() {
-    return api.get('pedido/listPedido')
+        headers: {
+          "Cache-Control": "no-cache",
+          "Access-Control-Allow-Origin": "*",
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${tk}`,
+        }
+      };
+      return api.post('pagamento/criarPagamento', body, config);
     }  
 
-  function getPedidoId(id:number) {
-    
-      const bodyParameters = {
-          id
+    async function setPagamentoCartao(pagamento)  {
+      let tk = await getToken();
+      const config = {
+        headers: {
+          "Cache-Control": "no-cache",
+          "Access-Control-Allow-Origin": "*",
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${tk}`,
+        }
       };
-      return api.post('pedido/findByIDPedido', bodyParameters)
-  }
-
-  function deletePedido(id:number) {
-  
-      const bodyParameters = {
-          id
-      };
-      return api.post('pedido/deletePedido', bodyParameters)
-  }
-
-  function savePedido(body:any) {
-    
-    return api.post('pedido/savePedido', body)
-  }
+      return api.post('pagamento/criarPagamentoCartao', pagamento, config);
+    }  
 
 
-export { getCardapio,getItemCardapio,deleteItemCardapio, setItemCardapio, getPedidos, getPedidoId, deletePedido, savePedido, getEndereco}
+
+export { getCardapio,setPagamentoPix, setPagamentoCartao, getEndereco}

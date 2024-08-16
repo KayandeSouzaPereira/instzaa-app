@@ -5,12 +5,6 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 export function BotaoValidar({callback, valid}){
 
-    const [valido, setValido] = useState(valid);
-
-    useEffect(() => {
-        console.log("OK")
-    },[valid])
-
 
     return(
         <View>

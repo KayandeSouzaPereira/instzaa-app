@@ -12,6 +12,16 @@ export const styles = StyleSheet.create({
         marginVertical: 10,
         backgroundColor:theme.colorsPrimary.thirdary
     },
+    containerOff:{
+        width: 250,
+        height: 50,
+        alignItems: 'center',
+        alignContent: 'center',
+        borderRadius: 15,
+        marginHorizontal: 60,
+        marginVertical: 10,
+        backgroundColor:theme.colorsPrimary.thirdaryOFF
+    },
     containerText: {
         width: 300,
         height: 150,

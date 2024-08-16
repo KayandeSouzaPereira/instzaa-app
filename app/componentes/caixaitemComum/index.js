@@ -18,7 +18,7 @@ export function CaixaComum({data, callback}){
                 >
                     <View  style={{backgroundColor:'rgba(52, 52, 52, 0.7)', flex: 1, justifyContent:'center', alignItems:'center'}}>
                         <TouchableOpacity onPress={() => setModal(false)} style={{flex:1,width:30,height:30}}>
-                            <Entypo style={{flex:1, top:30}} name="cross" size={30} color={theme.colorsPrimary.cardColor} />
+                            <Entypo style={{flex:1, top:5}} name="cross" size={30} color={theme.colorsPrimary.cardColor} />
                         </TouchableOpacity>
                         <View style={styles.containerModal}>
                         {   dataM.imagem ?
