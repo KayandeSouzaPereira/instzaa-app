@@ -38,7 +38,6 @@ import { api, apiCEP } from "./Util";
   
     async function setPagamentoPix(pagamento)  {
       let tk = await getToken();
-      console.log(pagamento)
       let data = {
         cpf: pagamento.Cpf,
         nome: pagamento.Nome,
@@ -69,6 +68,19 @@ import { api, apiCEP } from "./Util";
       return api.post('pagamento/criarPagamentoCartao', pagamento, config);
     }  
 
+    async function setPedidoEnvio(pedido)  {
+      let tk = await getToken();
+      const config = {
+        headers: {
+          "Cache-Control": "no-cache",
+          "Access-Control-Allow-Origin": "*",
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${tk}`,
+        }
+      };
+      return api.post('pedido', pedido, config);
+    }  
 
 
-export { getCardapio,setPagamentoPix, setPagamentoCartao, getEndereco}
+
+export { getCardapio,setPagamentoPix, setPagamentoCartao, getEndereco, setPedidoEnvio}

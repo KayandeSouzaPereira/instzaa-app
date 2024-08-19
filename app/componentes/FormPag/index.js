@@ -15,11 +15,11 @@ import 'dayjs/locale/pt-br';
 
 
 
-export function FormPag({endereco, cliente, valor, callback, disableButton}){
+export function FormPag({endereco, cliente, valor, callback}){
     const [pagamento, setPagamento] = useState({});
 
     const [ativo, setAtivo] = useState(false);
-    const [selectedValue, setSelectedValue] = useState('pix');
+    const [selectedValue, setSelectedValue] = useState('');
     const [enderecoCob, setEnderecoCob] = useState(true);
     
     const [nascimento, setNascimento] = useState(dayjs());
@@ -72,15 +72,12 @@ export function FormPag({endereco, cliente, valor, callback, disableButton}){
             _pagamento.Cpf = cliente.cpf;
             _pagamento.Valor = valor;
             setPagamento(_pagamento);
-        }else if(selectedValue.includes("credito")){
-            disableButton();
         }
     },[selectedValue])
 
     useEffect(() => {
         if(ano != ""){
             if (ano.includes("20")){
-                console.log(`https://instzaa-landing.vercel.app/card/${cartao}/${cvc}/${bandeira}/${ano}/${mes}`)
                 setCartaoValid(true);
             }else{
                 setAno("20" + ano)
@@ -149,7 +146,7 @@ export function FormPag({endereco, cliente, valor, callback, disableButton}){
                     </View>
                 </RadioButton.Group>
                 </View>
-                {selectedValue!="pix"?
+                {selectedValue!="pix" && selectedValue!="" ?
                     <View style={{marginVertical:10, marginHorizontal: 10}}>
                         
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -273,7 +270,7 @@ export function FormPag({endereco, cliente, valor, callback, disableButton}){
                                         locale={'pt-br'}
                                         initialView={'year'}
                                         date={nascimento}
-                                        onChange={(params) => {setNascimento(params.date.format('YYYY-MM-DD')); console.log(params.date.format('YYYY-MM-DD'))}}
+                                        onChange={(params) => {setNascimento(params.date.format('YYYY-MM-DD'))}}
                                         minDate={dayjs('1950-01-01')}
                                         maxDate={dayjs('2008-01-01')}
                                     />

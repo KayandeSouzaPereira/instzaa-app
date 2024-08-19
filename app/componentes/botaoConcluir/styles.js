@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         alignContent: 'center',
         borderRadius: 15,
-        marginHorizontal: 60,
+        marginHorizontal: 50,
         marginVertical: 10,
         backgroundColor:theme.colorsPrimary.thirdaryOFF
     },
@@ -34,6 +34,14 @@ export const styles = StyleSheet.create({
         fontSize: 25,
         left:20,
         bottom:35,
+        textAlign: 'center',
+        color: 'white'
+    },
+    textDisable: {
+        fontFamily: theme.fonts.subtitle2,
+        fontSize: 25,
+        left:20,
+        bottom:45,
         textAlign: 'center',
         color: 'white'
     }
