@@ -81,6 +81,20 @@ import { api, apiCEP } from "./Util";
       return api.post('pedido', pedido, config);
     }  
 
+    async function validPix(id)  {
+      let tk = await getToken();
+      console.log(`pagamento/checkPix/${id}`)
+      const config = {
+        headers: {
+          "Cache-Control": "no-cache",
+          "Access-Control-Allow-Origin": "*",
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${tk}`,
+        }
+      };
+      return api.get(`pagamento/checkPix/${id}`, config)
+      } 
 
 
-export { getCardapio,setPagamentoPix, setPagamentoCartao, getEndereco, setPedidoEnvio}
+
+export { getCardapio,setPagamentoPix, setPagamentoCartao, getEndereco, setPedidoEnvio, validPix}

@@ -10,7 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Clipboard from 'expo-clipboard';
 import { Entypo, MaterialIcons, AntDesign } from '@expo/vector-icons';
 import { useFocusEffect } from "@react-navigation/native";
-import { setPagamentoPix, setPagamentoCartao, setPedidoEnvio } from "../../servicos/service"
+import { setPagamentoPix, setPagamentoCartao, setPedidoEnvio, validPix } from "../../servicos/service"
 import { theme } from '../../configs';
 
 export default function Pedido({navigation}){
@@ -25,6 +25,7 @@ export default function Pedido({navigation}){
 
     const [qrCode, setQrCode] = useState("");
     const [linkPix, setLinkPix] = useState("");
+    const [idPix, setIdPix] = useState("");
 
     const [validPay, setValidPay] = useState(false);
     const [checkoutPedido, setCheckoutPedido] = useState(false);
@@ -37,6 +38,23 @@ export default function Pedido({navigation}){
           return () => {};
         }, [])
     );
+
+    const checkPix = async () => {
+        let checkPix = await validPix(idPix);
+        console.log(checkPix.data)
+        if (checkPix.data.includes("bem sucedido !")){
+            
+            return true;
+        }
+    }
+
+
+    useEffect(() => {
+        if (idPix != ""){
+            const timer = setInterval(checkPix, 2000);
+            return () => clearInterval( timer );
+        }
+    },[idPix]);
     
 
     const sync = async() => {
@@ -111,6 +129,7 @@ export default function Pedido({navigation}){
             let _info = await setPagamentoPix(pagamento);
             setLinkPix(_info.data.Pix);
             setQrCode(_info.data.QrCode);
+            setIdPix(_info.data.id);
             setCheckoutPedido(true);
         } else if(selectedValue.includes("credito")){
             let _info = await setPagamentoCartao(pagamento);
