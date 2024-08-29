@@ -2,85 +2,46 @@
 
 import { useEffect, useState } from 'react';
 import {ScrollView, View,TextInput,Text,SafeAreaView} from 'react-native'
+import { useForm, Controller, setValue } from "react-hook-form"
 import {styles} from './styles'
 
 import { getEndereco } from '../../servicos/service';
 
 export function FormClient({callback, cliente_, endereco_}){
-    const [cliente, setCliente] = useState({});
-    const [endereco, setEndereco] = useState({});
-
-    const [nome, setNomeCliente] = useState("");
-    const [cpf, setCPF] = useState("");
-    const [numeroContato, setNumeroContato] = useState("");
-
-    const [cep, setCEP] = useState("");
-    const [rua, setRua] = useState("");
-    const [numero, setNumero] = useState("");
-    const [complemento, setComplemento] = useState("");
-    const [bairro, setBairro] = useState("");
-    const [UF, setUF] = useState("");
-    const [cidade, setCidade] = useState("");
 
 
-    async function getEnderecodata() {
+    const {
+        control,handleSubmit,setValue,formState: { errors },
+    } = useForm({
+        defaultValues: {
+          nome: "",
+          cpf: "",
+          numeroContato: "",
+          cep: "",
+          rua:"",
+          numero: "",
+          complemento: "",
+          bairro: "",
+          uf: "",
+          cidade: ""
+        },
+      })
+
+    const onSubmit = (data) => console.log(data)
+
+
+    async function getEnderecodata(cep) {
         const reqCEP = await getEndereco(cep);
         const endereco = reqCEP.data;
-        setBairro(endereco.bairro)
-        setRua(endereco.logradouro)
-        setUF(endereco.uf)
-        setCidade(endereco.localidade)
+        setValue("rua", endereco.logradouro)
+        setValue("bairro", endereco.bairro)
+        setValue("uf", endereco.uf)
+        setValue("cidade", endereco.localidade)
+        return endereco;
     }
+    
+    
 
-    useEffect(() => {
-        
-        if (cliente_.nome != undefined && endereco_.cep != undefined){
-            setCliente(cliente_);
-            setEndereco(endereco_);
-            
-            setNomeCliente(cliente_.nome);
-            setCPF(cliente_.cpf);
-            setNumeroContato(cliente_.numeroContato);
-
-            setCEP(endereco_.cep);
-            setRua(endereco_.rua);
-            setNumero(endereco_.numero);
-            setBairro(endereco_.bairro);
-            setUF(endereco_.uf);
-            setCidade(endereco_.cidade);
-            setComplemento(endereco_.complemento);
-        }
-    }, [cliente_, endereco_])
-
-    useEffect(() => {
-      if(cep != "" && rua != "" && numero != "" && bairro != "" && UF != "" && cidade != ""){
-        let _endereco = {}
-        _endereco.cep = cep;
-        _endereco.rua = rua;
-        _endereco.numero = numero;
-        _endereco.bairro = bairro;
-        _endereco.uf = UF;
-        _endereco.cidade = cidade;
-        _endereco.complemento = complemento;
-        setEndereco(_endereco);
-      }
-    },[cep,rua,numero,complemento,bairro,UF,cidade])
-
-    useEffect(() => {
-        if (nome != "" && cpf != "" && numeroContato != ""){
-            let _cliente = {}
-            _cliente.nome = nome;
-            _cliente.cpf = cpf;
-            _cliente.numeroContato = numeroContato;
-            setCliente(_cliente);
-        }
-    },[nome, cpf, numeroContato])
-
-    useEffect(() => {
-        if(cliente.cpf != undefined && endereco.cidade != undefined){
-            callback(cliente, endereco)
-        }
-    },[cliente, endereco])
 
     return(
     <SafeAreaView>
@@ -90,103 +51,216 @@ export function FormClient({callback, cliente_, endereco_}){
                     <Text style={styles.textCamp}>Informações do Cliente</Text>
                 </View>
                 <View style={styles.viewCamp}>
+                <Controller
+                    control={control}
+                    rules={{
+                    required: true,
+                    }}
+                    render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
                         style={styles.formCamp}
-                        value={nome}
-                        onChangeText={setNomeCliente}
-                        placeholder='Seu Nome'
-                        returnKeyType="next"
+                        placeholder="Nome"
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        value={value}
                     />
+                    )}
+                    name="nomeCliente"
+                />
+                {errors.nomeCliente && <Text>Esse campo e necessário.</Text>}
                 </View>
                 <View style={styles.viewCamp}>
+                <Controller
+                    control={control}
+                    rules={{
+                    required: true,
+                    }}
+                    render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
                         style={styles.formCamp}
-                        value={numeroContato}
-                        onChangeText={setNumeroContato}
+                        placeholder="Número para contato"
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        value={value}
                         keyboardType='phone-pad'
-                        placeholder='Seu telefone para contato'
-                        returnKeyType="next"
                     />
+                    )}
+                    name="numeroContato"
+                />
+                {errors.numeroContato && <Text>Esse campo e necessário.</Text>}
                 </View>
                 <View style={styles.viewCamp}>
-                    <TextInput
-                        style={styles.formCamp}
-                        value={cpf}
-                        onChangeText={(e) => setCPF(e)}
-                        keyboardType='phone-pad'
-                        placeholder='Seu CPF'
-                        returnKeyType="next"
+                    <Controller
+                        control={control}
+                        rules={{
+                        required: true,
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                        <TextInput
+                            style={styles.formCamp}
+                            placeholder="Número do CPF"
+                            onBlur={onBlur}
+                            onChangeText={onChange}
+                            value={value}
+                            keyboardType='phone-pad'
+                            returnKeyType="next"
+                        />
+                        )}
+                        name="cpf"
                     />
+                    {errors.cpf && <Text>Esse campo e necessário.</Text>}
                 </View>
                 <View style={{height:30}}/>
                 <View style={styles.viewCamp}>
                     <Text style={styles.textCamp}>Endereço de Entrega</Text>
                 </View>
                 <View style={styles.viewCamp}>
-                    <TextInput
-                        style={styles.formCamp}
-                        value={cep}
-                        onChangeText={setCEP}
-                        onBlur={() => getEnderecodata()}
-                        keyboardType='phone-pad'
-                        placeholder='Seu CEP sem Traço'
-                        returnKeyType="next"
+                    <Controller
+                        control={control}
+                        rules={{
+                        required: true,
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                        <TextInput
+                            style={styles.formCamp}
+                            placeholder="Número do CEP sem Traço"
+                            onBlur={() => {
+                                onBlur; 
+                                let end = getEnderecodata(value);
+                            }}
+                            onChangeText={onChange}
+                            value={value}
+                            keyboardType='phone-pad'
+                            returnKeyType="next"
+                        />
+                        )}
+                        name="cep"
                     />
+                    {errors.cep && <Text>Esse campo e necessário.</Text>}
                 </View>
                 <View style={styles.viewEndereco}>
                     <View style={styles.viewCampEnd}>
-                        <TextInput
-                            style={styles.formCampEnd}
-                            value={rua}
-                            onChangeText={setRua}
-                            placeholder='Endereço'
-                            returnKeyType="next"
+                        <Controller
+                            control={control}
+                            rules={{
+                            required: true,
+                            }}
+                            render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput
+                                style={styles.formCampEnd}
+                                placeholder="Endereço para o envio"
+                                onBlur={onBlur}
+                                onChangeText={onChange}
+                                value={value}
+                                returnKeyType="next"
+                            />
+                            )}
+                            name="rua"
                         />
+                        {errors.rua && <Text>Esse campo e necessário.</Text>}
                     </View>
                     <View style={styles.viewCampEndNum}>
-                        <TextInput
-                            style={styles.formCampEndNum}
-                            value={numero}
-                            onChangeText={setNumero}
-                            placeholder='Nº'
-                            returnKeyType="next"
+                        <Controller
+                            control={control}
+                            rules={{
+                            required: true,
+                            }}
+                            render={({ field: { onChange, onBlur, value } }) => (
+                                <TextInput
+                                    style={styles.formCampEndNum}
+                                    placeholder='Nº'
+                                    onBlur={onBlur}
+                                    onChangeText={onChange}
+                                    value={value}
+                                    keyboardType='phone-pad'
+                                    returnKeyType="next"
+                                />
+                            )}
+                            name="numero"
                         />
+                        {errors.numero && <Text>Esse campo e necessário.</Text>}
+                        
                     </View>
                 </View>
                 <View style={styles.viewCamp}>
-                    <TextInput
-                        style={styles.formCamp}
-                        value={complemento}
-                        onChangeText={setComplemento}
-                        placeholder='Complemento'
-                        returnKeyType="next"
+                    <Controller
+                            control={control}
+                            rules={{
+                            required: false,
+                            }}
+                            render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput
+                                style={styles.formCamp}
+                                placeholder="Complemento"
+                                onBlur={onBlur}
+                                onChangeText={onChange}
+                                value={value}
+                                returnKeyType="next"
+                            />
+                            )}
+                            name="complemento"
                     />
                 </View>
                 <View style={styles.viewCamp}>
-                    <TextInput
-                        style={styles.formCamp}
-                        value={bairro}
-                        onChangeText={setBairro}
-                        placeholder='Bairro'
-                        returnKeyType="next"
+                    <Controller
+                        control={control}
+                        rules={{
+                            required: true,
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput
+                                style={styles.formCamp}
+                                placeholder="Bairro"
+                                onBlur={onBlur}
+                                onChangeText={onChange}
+                                value={value}
+                                returnKeyType="next"
+                            />
+                            )}
+                            name="bairro"
                     />
+                    {errors.bairro && <Text>Esse campo e necessário.</Text>}
                 </View>
                 <View style={styles.viewCamp}>
-                    <TextInput
-                        style={styles.formCamp}
-                        value={UF}
-                        onChangeText={setUF}
-                        placeholder='Estado'
-                        returnKeyType="next"
+                    <Controller
+                        control={control}
+                        rules={{
+                            required: true,
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput
+                                style={styles.formCamp}
+                                placeholder="Estado"
+                                onBlur={onBlur}
+                                onChangeText={onChange}
+                                value={value}
+                                returnKeyType="next"
+                            />
+                            )}
+                            name="uf"
                     />
+                    {errors.uf && <Text>Esse campo e necessário.</Text>}
+                    
                 </View>
                 <View style={styles.viewCamp}>
-                    <TextInput
-                        style={styles.formCamp}
-                        value={cidade}
-                        onChangeText={setCidade}
-                        placeholder='Cidade'
+                <Controller
+                        control={control}
+                        rules={{
+                            required: true,
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput
+                                style={styles.formCamp}
+                                placeholder="Cidade"
+                                onBlur={onBlur}
+                                onChangeText={onChange}
+                                value={value}
+                                returnKeyType="next"
+                            />
+                            )}
+                            name="cidade"
                     />
+                    {errors.cidade && <Text>Esse campo e necessário.</Text>}
                 </View>
             </View>
             <View style={{height:150}}/>

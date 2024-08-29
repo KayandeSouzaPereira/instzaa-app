@@ -1,13 +1,13 @@
-import {Text, View, TouchableOpacity, Image, Linking} from 'react-native';
+import {Text, View, TouchableOpacity, Alert} from 'react-native';
 import {styles} from './styles'
 import { MaterialIcons } from '@expo/vector-icons';
 
 export function BotaoConcluir({callback, validPay}){
     return(
-        <TouchableOpacity onPress={() => {if(validPay){callback()}}} style={validPay? styles.container : styles.containerOff}>
+        <TouchableOpacity onPress={() => {if(validPay){callback()}else{Alert.alert("Atenção !", "É necessário completar os dados de compra para realizar o pedido.")}}} style={styles.container}>
            <View style={styles.containerText}>
-           <MaterialIcons style={validPay? { top:5} : {top:0}} name="delivery-dining" size={45} color="white" />
-           { validPay? <Text style={styles.text}>Pagamento</Text> : <Text style={styles.textDisable}>...</Text>}
+           <MaterialIcons style={{ top:5}} name="delivery-dining" size={45} color="white" />
+           <Text style={styles.text}>Pagamento</Text>
             </View> 
         </TouchableOpacity>
     )

@@ -66,6 +66,9 @@ export default function Pedido({navigation}){
             if (_pedido != null && _pedido != undefined){
                 setPedido(JSON.parse(_pedido));
                 calculaPedido(JSON.parse(_pedido));
+                navigation.setOptions({
+                    tabBarBadge: JSON.parse(_pedido).length
+                })
             }
             if (_cliente != null && _cliente != undefined){
                 setCliente(JSON.parse(_cliente));
@@ -82,16 +85,22 @@ export default function Pedido({navigation}){
     
     const calculaPedido = (_pedido) => {
         let valor = 0 
+        let cont = 0
         if (_pedido.length > 0){
             for (let i = 0; i < _pedido.length; i++) {
                 if (_pedido[i].contagem){
                     valor = _pedido[i].preco * _pedido[i].contagem + valor
+                    cont = cont + _pedido[i].contagem
                 }else{
                     valor = _pedido[i].preco + valor
+                    cont ++
                 }
                 
             } 
         }
+        navigation.setOptions({
+            tabBarBadge: cont
+        })
         setValorTotal(valor)
     }
 
@@ -100,6 +109,7 @@ export default function Pedido({navigation}){
         AsyncStorage.setItem("Pedido", JSON.stringify(list));
         setPedido(list);
         calculaPedido(list);
+        
     }
 
     const updateCliente = (cliente, endereco) => {
