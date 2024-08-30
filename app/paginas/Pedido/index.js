@@ -26,6 +26,7 @@ export default function Pedido({navigation}){
     const [qrCode, setQrCode] = useState("");
     const [linkPix, setLinkPix] = useState("");
     const [idPix, setIdPix] = useState("");
+    const [validityPix, setValidityPix] = useState(false)
 
     const [validPay, setValidPay] = useState(false);
     const [checkoutPedido, setCheckoutPedido] = useState(false);
@@ -41,9 +42,8 @@ export default function Pedido({navigation}){
 
     const checkPix = async () => {
         let checkPix = await validPix(idPix);
-        console.log(checkPix.data)
-        if (checkPix.data.includes("bem sucedido !")){
-            
+        if (checkPix.data.includes("bem sucedido")){
+            setValidityPix(true);
             return true;
         }
     }
@@ -52,7 +52,7 @@ export default function Pedido({navigation}){
     useEffect(() => {
         if (idPix != ""){
             const timer = setInterval(checkPix, 2000);
-            return () => clearInterval( timer );
+            return () =>  {if(validityPix){clearInterval( timer )}};
         }
     },[idPix]);
     
@@ -63,6 +63,8 @@ export default function Pedido({navigation}){
             const _pedido = await AsyncStorage.getItem("Pedido");
             const _cliente = await AsyncStorage.getItem("Cliente");
             const _endereco = await AsyncStorage.getItem("Endereco");
+            
+
             if (_pedido != null && _pedido != undefined){
                 setPedido(JSON.parse(_pedido));
                 calculaPedido(JSON.parse(_pedido));
@@ -113,10 +115,12 @@ export default function Pedido({navigation}){
     }
 
     const updateCliente = (cliente, endereco) => {
+        console.log("END:", endereco)
         AsyncStorage.setItem("Cliente", JSON.stringify(cliente));
         AsyncStorage.setItem("Endereco", JSON.stringify(endereco));
         setCliente(cliente);
         setEndereco(endereco);
+        
     }
 
     const updatePagamento = (_pagamento, tipo) => {
@@ -202,60 +206,60 @@ export default function Pedido({navigation}){
     return(
         <View style={styles.container}>
             <Cabecario/>
-            <View style={styles.containerText}><Text style={styles.text}>Pedido</Text></View>
+                <View style={styles.containerText}><Text style={styles.text}>Pedido</Text></View>
             <View>
-            <Modal
-                    visible={checkoutPedido}
-                    transparent={true}
-            >
-                <View  style={{backgroundColor:'rgba(52, 52, 52, 0.7)', flex: 1, justifyContent:'center', alignItems:'center'}}>
-                <TouchableOpacity onPress={() => setCheckoutPedido(false)} style={{flex:1,width:30,height:30}}>
-                            <Entypo style={{flex:1, top:30}} name="cross" size={30} color={theme.colorsPrimary.cardColor} />
-                </TouchableOpacity>
-                <View style={styles.containerModal}>
-                {   qrCode != '' ?
-                    <View style={{width: 380, height: 500, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
-                        <View ><Text style={styles.textPixTitle}>PIX</Text></View>
-                        <Image style={{width: 250, height: 250,marginHorizontal: 5,resizeMode: 'cover', marginTop:15, backgroundColor: 'white'}}  source={{uri: qrCode}}/>
-                        <View><Text style={styles.textPix}>Pague com QrCode ou Copie o link :{"\n"}{"\n"}<Text style={styles.textPixLink}>{linkPix}</Text></Text></View>
-                        <TouchableOpacity onPress={() => copyToClipboardPix()} style={{flex:1,width:30,height:30}}>
-                            <MaterialIcons style={{flex:1, top:30}} name="content-copy" size={30} color={theme.colorsPrimary.cardColor} />
-                        </TouchableOpacity>
+                <Modal
+                        visible={checkoutPedido}
+                        transparent={true}
+                >
+                    <View  style={{backgroundColor:'rgba(52, 52, 52, 0.7)', flex: 1, justifyContent:'center', alignItems:'center'}}>
+                    <TouchableOpacity onPress={() => setCheckoutPedido(false)} style={{flex:1,width:30,height:30}}>
+                                <Entypo style={{flex:1, top:30}} name="cross" size={30} color={theme.colorsPrimary.cardColor} />
+                    </TouchableOpacity>
+                    <View style={styles.containerModal}>
+                    {   qrCode != '' ?
+                        <View style={{width: 380, height: 500, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
+                            <View ><Text style={styles.textPixTitle}>PIX</Text></View>
+                            <Image style={{width: 250, height: 250,marginHorizontal: 5,resizeMode: 'cover', marginTop:15, backgroundColor: 'white'}}  source={{uri: qrCode}}/>
+                            <View><Text style={styles.textPix}>Pague com QrCode ou Copie o link :{"\n"}{"\n"}<Text style={styles.textPixLink}>{linkPix}</Text></Text></View>
+                            <TouchableOpacity onPress={() => copyToClipboardPix()} style={{flex:1,width:30,height:30}}>
+                                <MaterialIcons style={{flex:1, top:30}} name="content-copy" size={30} color={theme.colorsPrimary.cardColor} />
+                            </TouchableOpacity>
+                        </View>
+                            : 
+                        <View style={{width: 380, height: 500, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
+                            <View ><Text style={styles.textPixTitle}>Pagamento Credito</Text></View>
+                            <AntDesign style={{marginTop:20}} name="checkcircleo" size={180} color="green" />
+                            <View style={{width: 280,marginTop:50}}><Text style={styles.textPix}>Em breve iniciaremos o preparo do seu pedido !</Text></View>
+                        </View>
+                    }
                     </View>
-                        : 
-                    <View style={{width: 380, height: 500, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
-                        <View ><Text style={styles.textPixTitle}>Pagamento Credito</Text></View>
-                        <AntDesign style={{marginTop:20}} name="checkcircleo" size={180} color="green" />
-                        <View style={{width: 280,marginTop:50}}><Text style={styles.textPix}>Em breve iniciaremos o preparo do seu pedido !</Text></View>
                     </View>
-                }
-                </View>
-                </View>
-            </Modal>
+                </Modal>
             { valorTotal != 0? <Text style={styles.textTotal}>Total: {valorTotal.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</Text>: <Text style={styles.textTotal}>Total R$: XXX,XX</Text>}
-            <ScrollView nestedScrollEnabled = {true} style={styles.containerBox}>
-                {pedido.length>0?
-                <View>
-                <Text style={styles.textSub}>Pedido:</Text>
-                    <PedidoResumo pedidoList={pedido} callback={updateList}/>
-                <View style={{height:30}}/>
-                <Text style={styles.textSub}>Entrega :</Text>
-                <View>
-                    <FormClient callback={updateCliente} cliente_={cliente} endereco_={endereco}/>
-                </View>
-                <Text style={styles.textSub}>Pagamento :</Text>
-                <View>
-                    <FormPag endereco={endereco} cliente={cliente} valor={valorTotal} callback={updatePagamento} />
-                </View>
-               
-                <View style={{marginHorizontal: 30, marginVertical: 30}}>
-                <BotaoConcluir callback={checkout} validPay={validPay}/>
-                </View>
-                </View>
-                : 
-                <View style={styles.containerTextAviso}><Text style={styles.text}>Ops...{"\n"}Parece que você ainda {"\n"}não fez um pedido.</Text></View>
-                } 
-            </ScrollView>
+                <ScrollView nestedScrollEnabled = {true} style={styles.containerBox}>
+                    {pedido.length>0?
+                    <View>
+                        <Text style={styles.textSub}>Pedido:</Text>
+                            <PedidoResumo pedidoList={pedido} callback={updateList}/>
+                        <View style={{height:30}}/>
+                        <Text style={styles.textSub}>Entrega :</Text>
+                        <View>
+                            <FormClient callback={updateCliente} cliente_={cliente} endereco_={endereco}/>
+                        </View>
+                        <Text style={styles.textSub}>Pagamento :</Text>
+                        <View>
+                            <FormPag endereco={endereco} cliente={cliente} valor={valorTotal} callback={updatePagamento} />
+                        </View>
+                    
+                        <View style={{marginHorizontal: 30, marginVertical: 30}}>
+                            <BotaoConcluir callback={checkout} validPay={validPay}/>
+                        </View>
+                    </View>
+                    : 
+                    <View style={styles.containerTextAviso}><Text style={styles.text}>Ops...{"\n"}Parece que você ainda {"\n"}não fez um pedido.</Text></View>
+                    } 
+                </ScrollView>
             </View>
             
         </View>

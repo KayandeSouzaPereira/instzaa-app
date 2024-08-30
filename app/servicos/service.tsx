@@ -1,8 +1,5 @@
 import { api, apiCEP } from "./Util";
 
- 
-
-
   function getEndereco(cep) {
     return apiCEP.get(cep + "/json/")
   }
@@ -83,7 +80,6 @@ import { api, apiCEP } from "./Util";
 
     async function validPix(id)  {
       let tk = await getToken();
-      console.log(`pagamento/checkPix/${id}`)
       const config = {
         headers: {
           "Cache-Control": "no-cache",
@@ -95,6 +91,19 @@ import { api, apiCEP } from "./Util";
       return api.get(`pagamento/checkPix/${id}`, config)
       } 
 
+      async function getEmpresa()  {
+        let tk = await getToken();
+        const config = {
+          headers: {
+            "Cache-Control": "no-cache",
+            "Access-Control-Allow-Origin": "*",
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${tk}`,
+          }
+        };
+        return api.get(`/empresa/`, config)
+        } 
 
 
-export { getCardapio,setPagamentoPix, setPagamentoCartao, getEndereco, setPedidoEnvio, validPix}
+
+export { getCardapio,setPagamentoPix, setPagamentoCartao, getEndereco, setPedidoEnvio, validPix, getEmpresa}

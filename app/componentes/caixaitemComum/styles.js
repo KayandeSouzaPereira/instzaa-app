@@ -4,12 +4,12 @@ import { theme } from '../../configs';
 export const styles = StyleSheet.create({
 
     container:{
-        width: 270,
+        width: 400,
         height: 170,
         alignItems: 'center',
         alignContent: 'center',
         borderRadius: 15,
-        marginHorizontal: 0,
+        marginHorizontal: 70,
         backgroundColor:theme.colorsPrimary.secondary100
     },
     containerModal:{
@@ -22,8 +22,7 @@ export const styles = StyleSheet.create({
         backgroundColor:theme.colorsPrimary.secondary100
     },
     containerText:{
-        height: 60,
-        top: 120
+        height: 60
     },
     containerTextButton: {
         flexDirection:'row',
@@ -40,10 +39,9 @@ export const styles = StyleSheet.create({
         flexDirection:'row'
     },
     containerTextIMG:{
-        position:'absolute',
-        right: 70,
         height: 60,
-        top: 120
+        marginHorizontal: 50,
+        marginVertical: 10
     },
     titulo:{
         fontFamily: theme.fonts.subtitle,
@@ -87,7 +85,8 @@ export const styles = StyleSheet.create({
         fontFamily: theme.fonts.text,
         color: 'white',
         fontSize: 12,
-        marginHorizontal: 5
+        marginHorizontal: 2,
+        marginVertical:2
     }
     
 })

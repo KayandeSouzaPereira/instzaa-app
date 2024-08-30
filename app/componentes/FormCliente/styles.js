@@ -31,6 +31,20 @@ export const styles = StyleSheet.create({
         fontFamily: theme.fonts.subtitle,
         fontSize: 20
     },
+    textCampHighlight:{
+        color: theme.colorsPrimary.thirdary,
+        fontFamily: theme.fonts.subtitle,
+        fontSize: 14,
+        marginVertical: 5
+    },
+    textCampHighlightE:{
+        color: theme.colorsPrimary.thirdary,
+        fontFamily: theme.fonts.subtitle,
+        fontSize: 14,
+        marginVertical: 5,
+        marginHorizontal: 45
+    },
+
     formCamp:{
         width: 280,
         height: 35,

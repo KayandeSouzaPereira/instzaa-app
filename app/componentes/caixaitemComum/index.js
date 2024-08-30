@@ -27,7 +27,7 @@ export function CaixaComum({data, callback}){
                         <></>
                         }
                         <Text style={styles.tituloModal}>{dataM.nome}</Text>
-                        <Text style={styles.valorModal}>Valor : {dataM.preco}</Text>
+                        <Text style={styles.valorModal}>Valor : {dataM.preco.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</Text>
                         <Text style={styles.descricaoModal}>Descrição : {dataM.descricao}</Text>
                         <TouchableOpacity onPress={callback} style={styles.containerButton}>
                         <View style={styles.containerTextButton}>
@@ -38,8 +38,9 @@ export function CaixaComum({data, callback}){
                         </View>
                     </View>
                 </Modal>
+                <View style={{flex: 1,flexDirection: "row", marginHorizontal: 10, marginVertical: 20}}>
                 {   dataM.imagem ?
-                        <Image style={{width: 250, height: 120,borderRadius: 15, marginHorizontal: 5,resizeMode: 'cover'}}  source={{uri: dataM.imagem}}/>
+                        <Image style={{width: 100, height: 100,borderRadius: 15, marginHorizontal: 2,resizeMode: 'cover'}}  source={{uri: dataM.imagem}}/>
                         : 
                         <></>
                     }
@@ -47,17 +48,17 @@ export function CaixaComum({data, callback}){
                     {   dataM.imagem ?
                     <View style={styles.containerTextIMG}>
                     <Text style={styles.titulo}>{dataM.nome}</Text>
-                    <Text style={styles.descricao}>{dataM.descricao}
-                    </Text>
-                </View>
+                    <Text style={styles.descricao}>{dataM.descricao}</Text>
+                    <Text style={styles.descricao}>Valor : {dataM.preco.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</Text>
+                    </View>
                         : 
                         <View style={styles.containerText}>
                         <Text style={styles.titulo}>{dataM.nome}</Text>
-                        <Text style={styles.descricao}>{dataM.descricao}
-                        </Text>
+                        <Text style={styles.descricao}>{dataM.descricao}</Text>
+                        <Text style={styles.descricao}>Valor : {dataM.preco.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</Text>
                     </View>
                     }
-                
+                </View>
             </TouchableOpacity>
         </View>
     )

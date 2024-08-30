@@ -18,6 +18,11 @@ export const styles = StyleSheet.create({
         height: 400,
         paddingBottom: 50,
     },
+    containerItensComum: {
+        width: 400,
+        height: 400,
+        paddingBottom: 50,
+    },
     textCategoria: {
         fontFamily: theme.fonts.subtitle2,
         fontSize: 25,

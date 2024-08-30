@@ -5,7 +5,7 @@ import { BotaoEmail } from '../botaoEmail';
 import {styles} from './styles'
 import { EvilIcons } from '@expo/vector-icons';
 
-export function Box(){
+export function Box({endereco,numero,email}){
     return(
         <View style={styles.container}>
             <View style={styles.containerText}>
@@ -16,14 +16,13 @@ export function Box(){
                 </Text>
                 </View>
                 <Text style={styles.descricao}>
-                    R.Padre Natanel, 123, CEP: 387660-123,
-                    Jardim Florido.
+                   {endereco}
                 </Text>
             </View>
             <View style={styles.containerBotao}>
-                <BotaoWhats numero={"11987955628"} titulo={"WhatsApp"}/>
-                <BotaoTelefone numero={"11987955628"} titulo={"Telefone"}/>
-                <BotaoEmail email={"kayandesouzapereira@hotmail.com"} titulo={"Email"}/>
+                <BotaoWhats numero={numero} titulo={"WhatsApp"}/>
+                <BotaoTelefone numero={numero} titulo={"Telefone"}/>
+                <BotaoEmail email={email} titulo={"Email"}/>
            </View>
         </View>
     )

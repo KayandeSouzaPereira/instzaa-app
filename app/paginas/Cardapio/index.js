@@ -41,31 +41,35 @@ export default function Cardapio({navigation}){
     }
 
     function getDados(){
-        let get = false;
-        if (get === false){
-            getCardapio().then(result => {setItem(result.data); get = true}).catch()
-        }
+         getCardapio().then(result => {setItem(result.data); get = true}).catch()
     }
 
     function separaItem(items) {
+        setDestaques([])
+        setPromocoes([])
+        setItemsNormais([])
+
         items.forEach((i) => {
              if(i.destaque === true){
                 let _destaques = []
                 _destaques = destaques
                 _destaques.push(i)
                 setDestaques(_destaques)
+                return 
             }
              if(i.promocao === true){
                 let _promocoes = []
                 _promocoes = promocoes
                 _promocoes.push(i)
                 setPromocoes(_promocoes)
+                return
             }
-            if(i.promocao === false && i.destaque === false){
-                setItemsNormais([])
+            else if(i.promocao != true && i.destaque != true){
                 let _normais = []
+                _normais = itemsNormais
                 _normais.push(i)
                 setItemsNormais(_normais)
+                return
             }  
         })
     }
@@ -131,9 +135,9 @@ export default function Cardapio({navigation}){
                                 <Text style={styles.textCategoria}>PROMOCOES</Text>
                          </View>
                          
-                            <View style={[styles.containerItens, {alignContent: 'center', alignItems: 'center'}]}>
-                            <Text style={[styles.textCategoriaComun, {textAlign:'left', width: '100%', marginLeft: 200}]}>Nossos Produtos</Text>
-                                <ScrollView style={{width: 400, height: 400}} nestedScrollEnabled = {true}>
+                            <View style={[styles.containerItensComum, {alignContent: 'center', alignItems: 'center'}]}>
+                            <Text style={[styles.textCategoriaComun, {textAlign:'left', width: '100%', marginLeft: 300}]}>Nossos Produtos</Text>
+                                <ScrollView style={{width: 500, height: 400}} nestedScrollEnabled = {true}>
                                     {
                                      itemsNormais.map((item) =>(
                                         <View>

@@ -1,9 +1,10 @@
 
 
 import { useEffect, useState } from 'react';
-import {ScrollView, View,TextInput,Text,SafeAreaView} from 'react-native'
+import {ScrollView, View,TextInput,Text,SafeAreaView, TouchableOpacity} from 'react-native'
 import { useForm, Controller, setValue } from "react-hook-form"
 import {styles} from './styles'
+import { theme } from '../../configs';
 
 import { getEndereco } from '../../servicos/service';
 
@@ -14,20 +15,39 @@ export function FormClient({callback, cliente_, endereco_}){
         control,handleSubmit,setValue,formState: { errors },
     } = useForm({
         defaultValues: {
-          nome: "",
-          cpf: "",
-          numeroContato: "",
-          cep: "",
-          rua:"",
-          numero: "",
-          complemento: "",
-          bairro: "",
-          uf: "",
-          cidade: ""
+          nome: cliente_.nome,
+          cpf: cliente_.cpf,
+          numeroContato: cliente_.numeroContato,
+          cep: endereco_.cep,
+          rua:endereco_.rua,
+          numero: endereco_.numero,
+          complemento: endereco_.complemento,
+          bairro: endereco_.bairro,
+          uf: endereco_.uf,
+          cidade: endereco_.cidade
         },
       })
 
-    const onSubmit = (data) => console.log(data)
+    const onSubmit = (data) => {
+
+        let _endereco = {}
+        let _cliente = {}
+
+        _cliente.nome = data.nome
+        _cliente.cpf = data.cpf
+        _cliente.numeroContato = data.numeroContato
+        
+        _endereco.cep = data.cep;
+        _endereco.rua = data.rua;
+        _endereco.numero = data.numero;
+        _endereco.bairro = data.bairro;
+        _endereco.uf = data.uf;
+        _endereco.cidade = data.cidade;
+        _endereco.complemento = data.complemento;
+
+        callback(_cliente, _endereco)
+
+    }
 
 
     async function getEnderecodata(cep) {
@@ -55,6 +75,7 @@ export function FormClient({callback, cliente_, endereco_}){
                     control={control}
                     rules={{
                     required: true,
+                    maxLength: 10
                     }}
                     render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
@@ -65,9 +86,9 @@ export function FormClient({callback, cliente_, endereco_}){
                         value={value}
                     />
                     )}
-                    name="nomeCliente"
+                    name="nome"
                 />
-                {errors.nomeCliente && <Text>Esse campo e necessário.</Text>}
+                {errors.nomeCliente && <Text style={styles.textCampHighlight}>Este campo e necessário para identificação.</Text>}
                 </View>
                 <View style={styles.viewCamp}>
                 <Controller
@@ -87,7 +108,7 @@ export function FormClient({callback, cliente_, endereco_}){
                     )}
                     name="numeroContato"
                 />
-                {errors.numeroContato && <Text>Esse campo e necessário.</Text>}
+                {errors.numeroContato &&<Text style={styles.textCampHighlight}>Este campo e necessário para identificação.</Text>}
                 </View>
                 <View style={styles.viewCamp}>
                     <Controller
@@ -108,7 +129,7 @@ export function FormClient({callback, cliente_, endereco_}){
                         )}
                         name="cpf"
                     />
-                    {errors.cpf && <Text>Esse campo e necessário.</Text>}
+                    {errors.cpf &&<Text style={styles.textCampHighlight}>Este campo e necessário para identificação.</Text>}
                 </View>
                 <View style={{height:30}}/>
                 <View style={styles.viewCamp}>
@@ -136,7 +157,7 @@ export function FormClient({callback, cliente_, endereco_}){
                         )}
                         name="cep"
                     />
-                    {errors.cep && <Text>Esse campo e necessário.</Text>}
+                    {errors.cep &&<Text style={styles.textCampHighlight}>Este campo e necessário para a entrega.</Text>}
                 </View>
                 <View style={styles.viewEndereco}>
                     <View style={styles.viewCampEnd}>
@@ -157,7 +178,7 @@ export function FormClient({callback, cliente_, endereco_}){
                             )}
                             name="rua"
                         />
-                        {errors.rua && <Text>Esse campo e necessário.</Text>}
+                        
                     </View>
                     <View style={styles.viewCampEndNum}>
                         <Controller
@@ -178,10 +199,12 @@ export function FormClient({callback, cliente_, endereco_}){
                             )}
                             name="numero"
                         />
-                        {errors.numero && <Text>Esse campo e necessário.</Text>}
                         
                     </View>
+                   
                 </View>
+                {errors.rua &&<Text style={styles.textCampHighlightE}>Campo de endereco e necessário para a entrega.</Text>}
+                {errors.numero &&<Text style={styles.textCampHighlightE}>Campo de número e necessário para a entrega.</Text>}
                 <View style={styles.viewCamp}>
                     <Controller
                             control={control}
@@ -219,7 +242,7 @@ export function FormClient({callback, cliente_, endereco_}){
                             )}
                             name="bairro"
                     />
-                    {errors.bairro && <Text>Esse campo e necessário.</Text>}
+                    {errors.bairro &&<Text style={styles.textCampHighlight}>Este campo e necessário.</Text>}
                 </View>
                 <View style={styles.viewCamp}>
                     <Controller
@@ -239,7 +262,7 @@ export function FormClient({callback, cliente_, endereco_}){
                             )}
                             name="uf"
                     />
-                    {errors.uf && <Text>Esse campo e necessário.</Text>}
+                    {errors.uf &&<Text style={styles.textCampHighlight}>Este campo e necessário.</Text>}
                     
                 </View>
                 <View style={styles.viewCamp}>
@@ -260,8 +283,14 @@ export function FormClient({callback, cliente_, endereco_}){
                             )}
                             name="cidade"
                     />
-                    {errors.cidade && <Text>Esse campo e necessário.</Text>}
+                    {errors.cidade &&<Text style={styles.textCampHighlight}>Este campo e necessário.</Text>}
+                    <TouchableOpacity 
+                        style={{width: 280, height: 50, backgroundColor: theme.colorsPrimary.thirdary, marginVertical: 30, marginHorizontal: 3, borderRadius: 10, alignContent: 'center', alignItems: 'center', paddingVertical: 10}} 
+                        onPress={handleSubmit(onSubmit)}>
+                            <Text style={styles.textCamp}>Confirmar Dados</Text>
+                    </TouchableOpacity>
                 </View>
+                
             </View>
             <View style={{height:150}}/>
         </ScrollView>
