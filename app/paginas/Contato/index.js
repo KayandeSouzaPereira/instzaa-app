@@ -16,7 +16,6 @@ export default function Contato({navigation}){
         setEndereco(res.data.enderecoEstabelecimento);
         setNumero(res.data.numeroAtendimento);
         setEmail(res.data.email);
-        console.log(res.data)
     }
 
     data();
