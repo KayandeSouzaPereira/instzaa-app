@@ -4,6 +4,7 @@ import { Cabecario } from "../../componentes/cabecario"
 import { PedidoResumo } from "../../componentes/PedidoResumo"
 import { FormClient } from "../../componentes/FormCliente"
 import { FormPag } from "../../componentes/FormPag"
+import ModalPedido from '../../componentes/ModalPedido'
 import { BotaoConcluir } from "../../componentes/botaoConcluir"
 import { styles } from "./styles"
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -26,12 +27,9 @@ export default function Pedido({navigation}){
     const [qrCode, setQrCode] = useState("");
     const [linkPix, setLinkPix] = useState("");
     const [idPix, setIdPix] = useState("");
-    const [validityPix, setValidityPix] = useState(false)
 
     const [validPay, setValidPay] = useState(false);
     const [checkoutPedido, setCheckoutPedido] = useState(false);
-
-    const [refreshId, setRefreshId] = useState();
 
     useFocusEffect(
         useCallback(() => {
@@ -42,28 +40,21 @@ export default function Pedido({navigation}){
         }, [])
     );
 
+    useEffect(() => {
+        const timePix = setInterval(checkPix, 5000);
+        return () => clearInterval(timePix);
+    },[qrCode]);
+
     const checkPix = async () => {
         if(qrCode != ''){
             let checkPix = await validPix(idPix);
-            console.log(checkPix.data)
             if (checkPix.data.includes("bem sucedido")){
                 criandoPedido(idPix);
-                setValidityPix(true);
                 setQrCode('');
                 return clearInterval(this);
             }
         }
     }
-
-
-    useEffect(() => {
-        if (idPix != "" && qrCode != ''){
-            const myInterval = setInterval(function () { checkPix(); stopCounter(); }, 5000)
-            setRefreshId(myInterval)
-            const stopCounter = () => { clearInterval(refreshId)}
-        }
-    },[idPix]);
-    
 
     const sync = async() => {
         const _pedidoRealizado = await AsyncStorage.getItem("pedidoRealizado");
@@ -84,8 +75,7 @@ export default function Pedido({navigation}){
                 setEndereco(JSON.parse(_endereco));
             }
         }else {
-            console.log(_pedidoRealizado.id)
-            setPedidoRealizado(_pedidoRealizado);
+            setPedidoRealizado(JSON.parse(_pedidoRealizado));
             setCheckoutPedido(true);
         }
     }
@@ -119,16 +109,13 @@ export default function Pedido({navigation}){
         calculaPedido(list);
         
     }
-
     const updateCliente = (cliente, endereco) => {
-        console.log("Endereço")
         AsyncStorage.setItem("Cliente", JSON.stringify(cliente));
         AsyncStorage.setItem("Endereco", JSON.stringify(endereco));
         setCliente(cliente);
         setEndereco(endereco);
         
     }
-
     const updatePagamento = (_pagamento, tipo) => {
         if (tipo.includes("pix")){
             _pagamento.Valor = valorTotal.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}).substring(3, valorTotal.length).replaceAll(',', '.');
@@ -148,8 +135,8 @@ export default function Pedido({navigation}){
         if (selectedValue.includes("pix")){
             let _info = await setPagamentoPix(pagamento);
             setLinkPix(_info.data.Pix);
-            setQrCode(_info.data.QrCode);
             setIdPix(_info.data.id);
+            setQrCode(_info.data.QrCode);
             setCheckoutPedido(true);
         } else if(selectedValue.includes("credito")){
             let _info = await setPagamentoCartao(pagamento);
@@ -163,10 +150,7 @@ export default function Pedido({navigation}){
         }
     }
 
-    const copyToClipboardPix = async () => {
-        await Clipboard.setStringAsync(linkPix);
-        Alert.alert("Pix:", "link copiado com sucesso !");
-    };
+    const checkOutModalClose = () => {setCheckoutPedido(false)}
 
     const processamentoPedido = () => {
         let _pedido = [];
@@ -200,10 +184,9 @@ export default function Pedido({navigation}){
         _pedido.resumoPedido = processamentoPedido();
 
         let status = await setPedidoEnvio(_pedido);
-        console.log(status.data);
         if (status.data){
             _pedido.id = status.data;
-            setPedidoRealizado(JSON.stringify(_pedido));
+            setPedidoRealizado(_pedido);
             await AsyncStorage.setItem("pedidoRealizado", JSON.stringify(_pedido));
             setCheckoutPedido(true);
         }
@@ -219,29 +202,7 @@ export default function Pedido({navigation}){
                         visible={checkoutPedido}
                         transparent={true}
                 >
-                    <View  style={{backgroundColor:'rgba(52, 52, 52, 0.7)', flex: 1, justifyContent:'center', alignItems:'center'}}>
-                    <TouchableOpacity onPress={() => setCheckoutPedido(false)} style={{flex:1,width:30,height:30}}>
-                                <Entypo style={{flex:1, top:30}} name="cross" size={30} color={theme.colorsPrimary.cardColor} />
-                    </TouchableOpacity>
-                    <View style={styles.containerModal}>
-                    {   qrCode != '' ?
-                        <View style={{width: 380, height: 500, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
-                            <View ><Text style={styles.textPixTitle}>PIX</Text></View>
-                            <Image style={{width: 250, height: 250,marginHorizontal: 5,resizeMode: 'cover', marginTop:15, backgroundColor: 'white'}}  source={{uri: qrCode}}/>
-                            <View><Text style={styles.textPix}>Pague com QrCode ou Copie o link :{"\n"}{"\n"}<Text style={styles.textPixLink}>{linkPix}</Text></Text></View>
-                            <TouchableOpacity onPress={() => copyToClipboardPix()} style={{flex:1,width:30,height:30}}>
-                                <MaterialIcons style={{flex:1, top:30}} name="content-copy" size={30} color={theme.colorsPrimary.cardColor} />
-                            </TouchableOpacity>
-                        </View>
-                            : 
-                        <View style={{width: 380, height: 500, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
-                            <View ><Text style={styles.textPixTitle}>Pagamento {selectedValue}</Text></View>
-                            <AntDesign style={{marginTop:20}} name="checkcircleo" size={180} color="green" />
-                            <View style={{width: 280,marginTop:50}}><Text style={styles.textPix}>Em breve iniciaremos o preparo do seu pedido !</Text></View>
-                        </View>
-                    }
-                    </View>
-                    </View>
+                   <ModalPedido qrCode={qrCode} linkPix={linkPix} selectedValue={selectedValue} pedido={pedidoRealizado} callback={() => checkOutModalClose()} />
                 </Modal>
             { valorTotal != 0? <Text style={styles.textTotal}>Total: {valorTotal.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</Text>: <Text style={styles.textTotal}>Total R$: XXX,XX</Text>}
                 <ScrollView nestedScrollEnabled = {true} style={styles.containerBox}>

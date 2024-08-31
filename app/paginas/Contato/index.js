@@ -1,9 +1,10 @@
 import { useState } from "react"
-import  {Text, View} from "react-native"
+import  {Text, View, Button} from "react-native"
 import { Cabecario } from "../../componentes/cabecario"
 import { styles } from "./styles"
 import { Box } from "../../componentes/box"
 import { getEmpresa } from "../../servicos/service"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 export default function Contato({navigation}){
     
@@ -26,7 +27,7 @@ export default function Contato({navigation}){
             <Cabecario/>
             <View style={styles.containerText}><Text style={styles.text}>Fale conosco</Text></View>
             <View style={styles.containerBox}><Box endereco={endereco} numero={numero} email={email}/></View>
-            
+            <Button title="clear" onPress={()=> AsyncStorage.clear()}/>
         </View>
     )
     

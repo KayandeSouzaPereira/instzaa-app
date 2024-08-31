@@ -29,7 +29,6 @@ export function FormClient({callback, cliente_, endereco_}){
       })
 
     const onSubmit = (data) => {
-        console.log("SUB")
         let _endereco = {}
         let _cliente = {}
 

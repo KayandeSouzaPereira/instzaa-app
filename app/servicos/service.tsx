@@ -78,6 +78,19 @@ import { api, apiCEP } from "./Util";
       return api.post('pedido', pedido, config);
     }  
 
+    async function getPedido(id)  {
+      let tk = await getToken();
+      const config = {
+        headers: {
+          "Cache-Control": "no-cache",
+          "Access-Control-Allow-Origin": "*",
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${tk}`,
+        }
+      };
+      return api.get(`pedido/${id}`, config)
+      } 
+
     async function validPix(id)  {
       let tk = await getToken();
       const config = {
@@ -106,4 +119,4 @@ import { api, apiCEP } from "./Util";
 
 
 
-export { getCardapio,setPagamentoPix, setPagamentoCartao, getEndereco, setPedidoEnvio, validPix, getEmpresa}
+export { getCardapio,setPagamentoPix, setPagamentoCartao, getEndereco, setPedidoEnvio, validPix, getEmpresa, getPedido}
