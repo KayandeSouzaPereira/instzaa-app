@@ -31,6 +31,8 @@ export default function Pedido({navigation}){
     const [validPay, setValidPay] = useState(false);
     const [checkoutPedido, setCheckoutPedido] = useState(false);
 
+    const [refreshId, setRefreshId] = useState();
+
     useFocusEffect(
         useCallback(() => {
           setPedido("")
@@ -41,25 +43,31 @@ export default function Pedido({navigation}){
     );
 
     const checkPix = async () => {
-        let checkPix = await validPix(idPix);
-        if (checkPix.data.includes("bem sucedido")){
-            setValidityPix(true);
-            return true;
+        if(qrCode != ''){
+            let checkPix = await validPix(idPix);
+            console.log(checkPix.data)
+            if (checkPix.data.includes("bem sucedido")){
+                criandoPedido(idPix);
+                setValidityPix(true);
+                setQrCode('');
+                return clearInterval(this);
+            }
         }
     }
 
 
     useEffect(() => {
-        if (idPix != ""){
-            const timer = setInterval(checkPix, 2000);
-            return () =>  {if(validityPix){clearInterval( timer )}};
+        if (idPix != "" && qrCode != ''){
+            const myInterval = setInterval(function () { checkPix(); stopCounter(); }, 5000)
+            setRefreshId(myInterval)
+            const stopCounter = () => { clearInterval(refreshId)}
         }
     },[idPix]);
     
 
     const sync = async() => {
         const _pedidoRealizado = await AsyncStorage.getItem("pedidoRealizado");
-        if (_pedidoRealizado == null){
+        if (_pedidoRealizado == null || _pedidoRealizado == {}){
             const _pedido = await AsyncStorage.getItem("Pedido");
             const _cliente = await AsyncStorage.getItem("Cliente");
             const _endereco = await AsyncStorage.getItem("Endereco");
@@ -68,9 +76,6 @@ export default function Pedido({navigation}){
             if (_pedido != null && _pedido != undefined){
                 setPedido(JSON.parse(_pedido));
                 calculaPedido(JSON.parse(_pedido));
-                navigation.setOptions({
-                    tabBarBadge: JSON.parse(_pedido).length
-                })
             }
             if (_cliente != null && _cliente != undefined){
                 setCliente(JSON.parse(_cliente));
@@ -79,6 +84,7 @@ export default function Pedido({navigation}){
                 setEndereco(JSON.parse(_endereco));
             }
         }else {
+            console.log(_pedidoRealizado.id)
             setPedidoRealizado(_pedidoRealizado);
             setCheckoutPedido(true);
         }
@@ -115,7 +121,7 @@ export default function Pedido({navigation}){
     }
 
     const updateCliente = (cliente, endereco) => {
-        console.log("END:", endereco)
+        console.log("Endereço")
         AsyncStorage.setItem("Cliente", JSON.stringify(cliente));
         AsyncStorage.setItem("Endereco", JSON.stringify(endereco));
         setCliente(cliente);
@@ -150,7 +156,6 @@ export default function Pedido({navigation}){
             if(_info.data != undefined){
                 if(_info.data.Status.includes("approved")){
                     criandoPedido(_info.data.id);
-                    
                 }
             }else{
                 Alert.alert("Ops: ", "Ocorreu um erro no envio do pagamento, confirme se todos os campos foram preenchidos corretamente.")
@@ -195,9 +200,11 @@ export default function Pedido({navigation}){
         _pedido.resumoPedido = processamentoPedido();
 
         let status = await setPedidoEnvio(_pedido);
-        if (status.data.includes("Cadastro feito com sucesso !")){
+        console.log(status.data);
+        if (status.data){
+            _pedido.id = status.data;
             setPedidoRealizado(JSON.stringify(_pedido));
-            await AsyncStorage.setItem("pedidoRealizado", pedidoRealizado);
+            await AsyncStorage.setItem("pedidoRealizado", JSON.stringify(_pedido));
             setCheckoutPedido(true);
         }
     }
@@ -228,7 +235,7 @@ export default function Pedido({navigation}){
                         </View>
                             : 
                         <View style={{width: 380, height: 500, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
-                            <View ><Text style={styles.textPixTitle}>Pagamento Credito</Text></View>
+                            <View ><Text style={styles.textPixTitle}>Pagamento {selectedValue}</Text></View>
                             <AntDesign style={{marginTop:20}} name="checkcircleo" size={180} color="green" />
                             <View style={{width: 280,marginTop:50}}><Text style={styles.textPix}>Em breve iniciaremos o preparo do seu pedido !</Text></View>
                         </View>

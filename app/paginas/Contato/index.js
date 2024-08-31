@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react"
-import  {Text, View, StatusBar} from "react-native"
+import { useState } from "react"
+import  {Text, View} from "react-native"
 import { Cabecario } from "../../componentes/cabecario"
 import { styles } from "./styles"
 import { Box } from "../../componentes/box"

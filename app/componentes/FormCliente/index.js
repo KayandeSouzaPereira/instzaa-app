@@ -1,7 +1,7 @@
 
 
 import { useEffect, useState } from 'react';
-import {ScrollView, View,TextInput,Text,SafeAreaView, TouchableOpacity} from 'react-native'
+import {ScrollView, View,TextInput,Text,SafeAreaView, Button} from 'react-native'
 import { useForm, Controller, setValue } from "react-hook-form"
 import {styles} from './styles'
 import { theme } from '../../configs';
@@ -29,7 +29,7 @@ export function FormClient({callback, cliente_, endereco_}){
       })
 
     const onSubmit = (data) => {
-
+        console.log("SUB")
         let _endereco = {}
         let _cliente = {}
 
@@ -74,8 +74,7 @@ export function FormClient({callback, cliente_, endereco_}){
                 <Controller
                     control={control}
                     rules={{
-                    required: true,
-                    maxLength: 10
+                    required: true
                     }}
                     render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
@@ -284,15 +283,21 @@ export function FormClient({callback, cliente_, endereco_}){
                             name="cidade"
                     />
                     {errors.cidade &&<Text style={styles.textCampHighlight}>Este campo e necessário.</Text>}
-                    <TouchableOpacity 
-                        style={{width: 280, height: 50, backgroundColor: theme.colorsPrimary.thirdary, marginVertical: 30, marginHorizontal: 3, borderRadius: 10, alignContent: 'center', alignItems: 'center', paddingVertical: 10}} 
+                    {
+                    
+                    <View style={{width: 180 ,marginVertical: 30, marginHorizontal: 50, borderRadius: 10, alignContent: 'center', alignItems: 'center', paddingVertical: 10}} >
+                    <Button 
+                        title='Confirmar Dados'
+                        color={theme.colorsPrimary.thirdary}
+                        
                         onPress={handleSubmit(onSubmit)}>
-                            <Text style={styles.textCamp}>Confirmar Dados</Text>
-                    </TouchableOpacity>
+                    </Button>
+                    </View>
+                    }
                 </View>
                 
             </View>
-            <View style={{height:150}}/>
+            <View style={{height:10}}/>
         </ScrollView>
         </SafeAreaView>
     )

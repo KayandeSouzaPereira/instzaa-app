@@ -1,6 +1,6 @@
 
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef  } from 'react';
 import {View,TextInput,Text,SafeAreaView, ScrollView} from 'react-native'
 import Cartao from '../cartao';
 import { RadioButton } from 'react-native-paper';
@@ -9,13 +9,15 @@ import WebView from 'react-native-webview';
 import DateTimePicker from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
 import {styles} from './styles'
-import { getEndereco } from '../../servicos/service';
+import { getEndereco, getEmpresa } from '../../servicos/service';
 
 import 'dayjs/locale/pt-br';
 
 
 
 export function FormPag({endereco, cliente, valor, callback}){
+    const scrollRef = useRef();
+
     const [pagamento, setPagamento] = useState({});
 
     const [ativo, setAtivo] = useState(false);
@@ -25,6 +27,7 @@ export function FormPag({endereco, cliente, valor, callback}){
     const [nascimento, setNascimento] = useState(dayjs());
     const [email, setEmail] = useState('');
     const [tokenCard, setTokenCard] = useState(false);
+    const [tokenConta, setTokenConta] = useState("");
     const [cartao, setCartao] = useState("");
     const [cvc, setCvc] = useState("");
     const [mes, setMes] = useState("");
@@ -40,6 +43,15 @@ export function FormPag({endereco, cliente, valor, callback}){
     const [bairro, setBairro] = useState("");
     const [UF, setUF] = useState("");
     const [cidade, setCidade] = useState("");
+
+    const getDadosEmpresa = async () => {
+        let ret = await getEmpresa();
+        setTokenConta(ret.data.idCont);
+    }
+
+    getDadosEmpresa();
+
+    
 
     const cartaoData = async (data) => {
         if (data.valid){
@@ -72,6 +84,8 @@ export function FormPag({endereco, cliente, valor, callback}){
             _pagamento.Cpf = cliente.cpf;
             _pagamento.Valor = valor;
             setPagamento(_pagamento);
+        }else if(selectedValue.includes("credito")) {
+            onPressTouch()
         }
     },[selectedValue])
 
@@ -121,10 +135,17 @@ export function FormPag({endereco, cliente, valor, callback}){
         }
     },[paymentToken])
 
+    const onPressTouch = () => {
+        scrollRef.current?.scrollTo({
+          y: 0,
+          animated: true,
+        });
+      }
+
     return(
     <SafeAreaView>
             { ativo == true ?
-            <ScrollView nestedScrollEnabled = {true} style={styles.container}>
+            <ScrollView nestedScrollEnabled = {true} style={styles.container} ref={scrollRef}>
                 <View style={styles.viewCamp}>
                     <Text style={styles.textCamp}>Methodo de Pagamento</Text>
                 </View>
@@ -255,15 +276,7 @@ export function FormPag({endereco, cliente, valor, callback}){
                                 />
                             </View>
                             <View style={styles.viewCampFormDate}>
-                               {/*  <TextInput
-                                    style={styles.formCamp}
-                                    value={nascimento}
-                                    onChangeText={setNascimento}
-                                    maxLength={8}
-                                    keyboardType='phone-pad'
-                                    placeholder='A data de nascimento so em numeros'
-                                    returnKeyType="next"
-                                /> */}
+                              
                                 <Text style={{marginHorizontal: 30}}>Selecione a data do seu nascimento.</Text>
                                 <DateTimePicker
                                         mode="single"
@@ -285,7 +298,7 @@ export function FormPag({endereco, cliente, valor, callback}){
                     tokenCard ? 
                     <View style={{width: 380, height: 250}}>
                         <WebView
-                             source={{ uri: `https://instzaa-landing.vercel.app/card/${cartao}/${cvc}/${bandeira}/${ano}/${mes}`}}
+                             source={{ uri: `https://instzaa-landing.vercel.app/card/${cartao}/${cvc}/${bandeira}/${ano}/${mes}/${tokenConta}`}}
                              javaScriptEnabled={true}
                              originWhitelist={['*']}
                              allowFileAccess={true}
