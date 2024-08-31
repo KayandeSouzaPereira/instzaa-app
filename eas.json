@@ -13,9 +13,13 @@
     "preview": {
       "distribution": "internal"
     },
-    "production": {}
+    "production": {
+      "node": "20.10.0"
+    }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "node": "20.10.0"
+    }
   }
 }
