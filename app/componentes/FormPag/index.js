@@ -63,7 +63,7 @@ export function FormPag({endereco, cliente, valor, callback}){
             mes: "",
             ano: "",
             bandeira: "",
-            paymentToken, "",
+            paymentToken: "",
             cep: "",
             rua: "",
             numero: "",

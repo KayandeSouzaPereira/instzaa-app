@@ -8,7 +8,8 @@
     },
     "development": {
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "node": "20.10.0"
     },
     "preview": {
       "distribution": "internal"
