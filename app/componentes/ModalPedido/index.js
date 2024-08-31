@@ -5,6 +5,7 @@ import * as Clipboard from 'expo-clipboard';
 import { theme } from '../../configs';
 import { styles } from './styles';
 import { getPedido } from '../../servicos/service';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ModalPedido({qrCode, linkPix, selectedValue, callback, pedido}){
 
@@ -23,7 +24,10 @@ export default function ModalPedido({qrCode, linkPix, selectedValue, callback, p
             setStatus(pedidoSt.data.status);
             if(pedidoSt.data.status.includes("Concluido") || pedidoSt.data.status.includes("Cancelado") ){
                 init = false;
-            }
+                if(pedidoSt.data.status.includes("Cancelado")){
+                    AsyncStorage.clear();
+                }
+            } 
             return true;
         }
     }

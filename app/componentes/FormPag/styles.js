@@ -71,6 +71,12 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 20,
         borderRadius: 5
     },
+    textCampHighlight:{
+        color: theme.colorsPrimary.thirdary,
+        fontFamily: theme.fonts.subtitle,
+        fontSize: 14,
+        marginVertical: 5
+    },
     formCampEnd:{
         width: 230,
         height: 35,

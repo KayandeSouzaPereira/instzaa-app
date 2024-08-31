@@ -29,21 +29,8 @@ export function FormPag({endereco, cliente, valor, callback}){
     const [email, setEmail] = useState('');
     const [tokenCard, setTokenCard] = useState(false);
     const [tokenConta, setTokenConta] = useState("");
-    const [cartao, setCartao] = useState("");
-    const [cvc, setCvc] = useState("");
-    const [mes, setMes] = useState("");
-    const [ano, setAno] = useState("");
-    const [bandeira, setBandeira] = useState("");
     const [cartaoValid, setCartaoValid] = useState(false);
     const [paymentToken, setPaymentToken] = useState(""); 
-
-    const [cep, setCEP] = useState("");
-    const [rua, setRua] = useState("");
-    const [numero, setNumero] = useState("");
-    const [complemento, setComplemento] = useState("");
-    const [bairro, setBairro] = useState("");
-    const [UF, setUF] = useState("");
-    const [cidade, setCidade] = useState("");
 
     const getDadosEmpresa = async () => {
         let ret = await getEmpresa();
@@ -52,7 +39,7 @@ export function FormPag({endereco, cliente, valor, callback}){
 
     getDadosEmpresa();
 
-    const {control, handleSubmit, setValue, formState: {errors},
+    const {control, handleSubmit, setValue, getValues, formState: {errors},
     } = useForm({
         defaultValues: {
             nascimento: dayjs(),
@@ -114,14 +101,14 @@ export function FormPag({endereco, cliente, valor, callback}){
     },[selectedValue])
 
     useEffect(() => {
-        if(ano != ""){
-            if (ano.includes("20")){
+        if(getValues("ano") != ""){
+            if (getValues("ano").includes("20")){
                 setCartaoValid(true);
             }else{
-                setAno("20" + ano)
+                setValue("ano", "20" + getValues("ano"))
             }
         }
-    },[ano])
+    },[getValues("ano")])
 
     useEffect(() => {
         if (cliente.cpf != undefined && endereco.cep != undefined && ativo == false){
@@ -220,97 +207,193 @@ export function FormPag({endereco, cliente, valor, callback}){
                                 <Text style={styles.textCamp}>Endereço cadastrado do cartão</Text>
                             </View>
                             <View style={styles.viewCamp}>
-                                <TextInput
-                                    style={styles.formCamp}
-                                    value={cep}
-                                    onChangeText={setCEP}
-                                    onBlur={() => getEnderecodata()}
-                                    keyboardType='phone-pad'
-                                    placeholder='Seu CEP sem Traço'
-                                    returnKeyType="next"
-                                />
+                            <Controller
+                                control={control}
+                                rules={{
+                                required: enderecoCob,
+                                }}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <TextInput
+                                        style={styles.formCamp}
+                                        onBlur={() => {onBlur; let end = getEnderecodata(value);}}
+                                        onChangeText={onChange}
+                                        value={value}
+                                        keyboardType='phone-pad'
+                                        placeholder='Seu CEP sem Traço'
+                                        returnKeyType="next"
+                                    />
+                                )}
+                                name="cep"
+                            />
+                            {errors.cep &&<Text style={styles.textCampHighlight}>Este campo e necessário para identificação.</Text>}
                             </View>
                             <View style={styles.viewEndereco}>
                                 <View style={styles.viewCampEnd}>
-                                    <TextInput
-                                        style={styles.formCampEnd}
-                                        value={rua}
-                                        onChangeText={setRua}
-                                        placeholder='Endereço'
-                                        returnKeyType="next"
-                                    />
+                                <Controller
+                                    control={control}
+                                    rules={{
+                                    required: enderecoCob,
+                                    }}
+                                    render={({ field: { onChange, onBlur, value } }) => (
+                                        <TextInput
+                                            style={styles.formCampEnd}
+                                            onBlur={onBlur}
+                                            onChangeText={onChange}
+                                            value={value}
+                                            placeholder='Endereço'
+                                            returnKeyType="next"
+                                        />
+                                    )}
+                                    name="rua"
+                                />
+                                {errors.rua &&<Text style={styles.textCampHighlight}>Este campo e necessário para identificação.</Text>}
                                 </View>
                                 <View style={styles.viewCampEndNum}>
+                                <Controller
+                                    control={control}
+                                    rules={{
+                                    required: enderecoCob,
+                                    }}
+                                    render={({ field: { onChange, onBlur, value } }) => (
                                     <TextInput
                                         style={styles.formCampEndNum}
-                                        value={numero}
-                                        onChangeText={setNumero}
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                        value={value}
                                         placeholder='Nº'
                                         returnKeyType="next"
                                     />
+                                    )}
+                                    name="numero"
+                                />
+                                {errors.numero &&<Text style={styles.textCampHighlight}>Este campo e necessário para identificação.</Text>}
                                 </View>
                             </View>
                             <View style={styles.viewCamp}>
-                                <TextInput
-                                    style={styles.formCamp}
-                                    value={complemento}
-                                    onChangeText={setComplemento}
-                                    placeholder='Complemento'
-                                    returnKeyType="next"
-                                />
+                            <Controller
+                                    control={control}
+                                    rules={{
+                                    required: false,
+                                    }}
+                                    render={({ field: { onChange, onBlur, value } }) => (
+                                    <TextInput
+                                        style={styles.formCamp}
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                        value={value}
+                                        placeholder='Complemento'
+                                        returnKeyType="next"
+                                    />
+                                )}
+                                name="complemento"
+                            />
                             </View>
                             <View style={styles.viewCamp}>
+                            <Controller
+                                control={control}
+                                rules={{
+                                required: enderecoCob,
+                                }}
+                                render={({ field: { onChange, onBlur, value } }) => (
                                 <TextInput
                                     style={styles.formCamp}
-                                    value={bairro}
-                                    onChangeText={setBairro}
+                                    onBlur={onBlur}
+                                    onChangeText={onChange}
+                                    value={value}
                                     placeholder='Bairro'
                                     returnKeyType="next"
                                 />
-                            </View>
-                            <View style={styles.viewCamp}>
+                            )}
+                            name="bairro"
+                        />
+                        {errors.bairro &&<Text style={styles.textCampHighlight}>Este campo e necessário para identificação.</Text>}
+                        </View>
+                        <View style={styles.viewCamp}>
+                            <Controller
+                                control={control}
+                                rules={{
+                                required: enderecoCob,
+                                }}
+                                render={({ field: { onChange, onBlur, value } }) => (
                                 <TextInput
                                     style={styles.formCamp}
-                                    value={UF}
-                                    onChangeText={setUF}
+                                    onBlur={onBlur}
+                                    onChangeText={onChange}
+                                    value={value}
                                     placeholder='Estado'
                                     returnKeyType="next"
                                 />
-                            </View>
-                            <View style={styles.viewCamp}>
+                            )}
+                            name="uf"
+                            />
+                            {errors.uf &&<Text style={styles.textCampHighlight}>Este campo e necessário para identificação.</Text>}
+                        </View>
+                        <View style={styles.viewCamp}>
+                            <Controller
+                                control={control}
+                                rules={{
+                                required: enderecoCob,
+                                }}
+                                render={({ field: { onChange, onBlur, value } }) => (
                                 <TextInput
                                     style={styles.formCamp}
-                                    value={cidade}
-                                    onChangeText={setCidade}
+                                    onBlur={onBlur}
+                                    onChangeText={onChange}
+                                    value={value}
                                     placeholder='Cidade'
                                 />
-                            </View>
+                            )}
+                            name="cidade"
+                            />
+                            {errors.cidade &&<Text style={styles.textCampHighlight}>Este campo e necessário para identificação.</Text>}
+                        </View>
                         </View>
                         }
                             <View style={styles.viewCamp}>
                                 <Text style={styles.textCampHigh}>Informações para pagamento com cartão.</Text>
                             </View>
                             <View style={styles.viewCampForm}>
-                                <TextInput
-                                    style={styles.formCamp}
-                                    value={email}
-                                    onChangeText={setEmail}
-                                    placeholder='Email'
-                                    returnKeyType="next"
+                            <Controller
+                                control={control}
+                                rules={{
+                                required: true,
+                                }}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <TextInput
+                                        style={styles.formCamp}
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                        value={value}
+                                        placeholder='Email'
+                                        returnKeyType="next"
+                                    />
+                                )}
+                                name="email"
                                 />
+                                {errors.email &&<Text style={styles.textCampHighlight}>Este campo e necessário para identificação.</Text>}
                             </View>
                             <View style={styles.viewCampFormDate}>
                               
                                 <Text style={{marginHorizontal: 30}}>Selecione a data do seu nascimento.</Text>
-                                <DateTimePicker
-                                        mode="single"
-                                        locale={'pt-br'}
-                                        initialView={'year'}
-                                        date={nascimento}
-                                        onChange={(params) => {setNascimento(params.date.format('YYYY-MM-DD'))}}
-                                        minDate={dayjs('1950-01-01')}
-                                        maxDate={dayjs('2008-01-01')}
+                                <Controller
+                                    control={control}
+                                    rules={{
+                                    required: true,
+                                    }}
+                                    render={({ field: { onChange, onBlur, value } }) => (
+                                    <DateTimePicker
+                                            mode="single"
+                                            locale={'pt-br'}
+                                            initialView={'year'}
+                                            date={value}
+                                            onChange={(params) => {onChange(params.date.format('YYYY-MM-DD'))}}
+                                            minDate={dayjs('1950-01-01')}
+                                            maxDate={dayjs('2008-01-01')}
+                                        />
+                                    )}
+                                    name="nascimento"
                                     />
+                                    {errors.nascimento &&<Text style={styles.textCampHighlight}>Este campo e necessário para identificação.</Text>}
                             </View>
                             
                             <View style={styles.viewCampForm}>
@@ -322,7 +405,7 @@ export function FormPag({endereco, cliente, valor, callback}){
                     tokenCard ? 
                     <View style={{width: 380, height: 250}}>
                         <WebView
-                             source={{ uri: `https://instzaa-landing.vercel.app/card/${cartao}/${cvc}/${bandeira}/${ano}/${mes}/${tokenConta}`}}
+                             source={{ uri: `https://instzaa-landing.vercel.app/card/${getValues("cartao")}/${getValues("cvc")}/${getValues("bandeira")}/${getValues("ano")}/${getValues("mes")}/${tokenConta}`}}
                              javaScriptEnabled={true}
                              originWhitelist={['*']}
                              allowFileAccess={true}
@@ -334,7 +417,17 @@ export function FormPag({endereco, cliente, valor, callback}){
                     </View>
                     : 
                     <View style={{width: 380, height: 500}}>
-                        <Cartao callback={cartaoData}/>
+                        <Controller
+                                    control={control}
+                                    rules={{
+                                    required: true,
+                                    }}
+                                    render={({ field: { onChange, onBlur, value } }) => (
+                                    <Cartao callback={cartaoData}/>
+                                )}
+                                name="cartao"
+                                />
+                                {errors.cartao &&<Text style={styles.textCampHighlight}>Este campo e necessário para identificação.</Text>}
                         <BotaoValidar valid={cartaoValid} callback={() => setTokenCard(true)}/>
                     </View>
 

@@ -27,7 +27,6 @@ export default function Contato({navigation}){
             <Cabecario/>
             <View style={styles.containerText}><Text style={styles.text}>Fale conosco</Text></View>
             <View style={styles.containerBox}><Box endereco={endereco} numero={numero} email={email}/></View>
-            <Button title="clear" onPress={()=> AsyncStorage.clear()}/>
         </View>
     )
     
