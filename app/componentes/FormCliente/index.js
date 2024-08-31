@@ -1,8 +1,7 @@
 
 
-import { useEffect, useState } from 'react';
 import {ScrollView, View,TextInput,Text,SafeAreaView, Button} from 'react-native'
-import { useForm, Controller, setValue } from "react-hook-form"
+import { useForm, Controller } from "react-hook-form"
 import {styles} from './styles'
 import { theme } from '../../configs';
 

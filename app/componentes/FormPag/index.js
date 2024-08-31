@@ -8,6 +8,7 @@ import { BotaoValidar } from '../botaoValidar';
 import WebView from 'react-native-webview';
 import DateTimePicker from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
+import { useForm, Controller } from "react-hook-form"
 import {styles} from './styles'
 import { getEndereco, getEmpresa } from '../../servicos/service';
 
@@ -51,24 +52,47 @@ export function FormPag({endereco, cliente, valor, callback}){
 
     getDadosEmpresa();
 
+    const {control, handleSubmit, setValue, formState: {errors},
+    } = useForm({
+        defaultValues: {
+            nascimento: dayjs(),
+            email: "",
+            tokenConta: "",
+            cartao: "",
+            cvc: "",
+            mes: "",
+            ano: "",
+            bandeira: "",
+            paymentToken, "",
+            cep: "",
+            rua: "",
+            numero: "",
+            complemento: "",
+            bairro: "",
+            uf: "",
+            cidade: ""
+        },
+    })
+
     
 
     const cartaoData = async (data) => {
         if (data.valid){
-            await setCartao(data.values.number.replace(/ /g, ''));
-            await setCvc(data.values.cvc);
-            await setBandeira(data.values.type);
-            await setMes(data.values.expiry.substring(0, 2));
-            await setAno(data.values.expiry.substring(3, 5));
+            setValue("cartao", data.values.number.replace(/ /g, ''));
+            setValue("cvc",data.values.cvc);           
+            setValue("bandeira",data.values.type)
+            setValue("mes",data.values.expiry.substring(0, 2))
+            setValue("ano",data.values.expiry.substring(3, 5))
         }
     }
     async function getEnderecodata() {
         const reqCEP = await getEndereco(cep);
         const endereco = reqCEP.data;
-        setBairro(endereco.bairro)
-        setRua(endereco.logradouro)
-        setUF(endereco.uf)
-        setCidade(endereco.localidade)
+        setValue("rua", endereco.logradouro)
+        setValue("bairro", endereco.bairro)
+        setValue("uf", endereco.uf)
+        setValue("cidade", endereco.localidade)
+        return endereco;
     }
 
     useEffect(() => {
