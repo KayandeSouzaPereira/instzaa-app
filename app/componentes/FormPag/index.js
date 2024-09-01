@@ -155,7 +155,6 @@ export function FormPag({endereco, cliente, valor, callback}){
 
     return(
     <SafeAreaView>
-            { ativo == true ?
             <ScrollView nestedScrollEnabled = {true} style={styles.container} ref={scrollRef}>
                 <View style={styles.viewCamp}>
                     <Text style={styles.textCamp}>Methodo de Pagamento</Text>
@@ -436,13 +435,6 @@ export function FormPag({endereco, cliente, valor, callback}){
                 :<></>
                 }
            </ScrollView>  
-           :
-           <ScrollView nestedScrollEnabled = {true} style={styles.containerPix}>
-           <View style={styles.viewCampAviso}>
-                   <Text style={styles.textCampAviso}>E necessário preencher os campos da entrega para seguir com essa etapa.</Text>
-               </View>
-       </ScrollView>
-        }  
         </SafeAreaView>
     )
 }

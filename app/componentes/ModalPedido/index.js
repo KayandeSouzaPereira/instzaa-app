@@ -10,12 +10,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function ModalPedido({qrCode, linkPix, selectedValue, callback, pedido}){
 
     const [status, setStatus] = useState(pedido.status);
-    const init = true;
+    const checkStatusPedido = true;
 
     useEffect(() => {
         const timePedido = setInterval(checkPedido, 3000);
         return () => clearInterval(timePedido);
-    },[init])
+    },[checkStatusPedido])
 
     const checkPedido = async () => {
         let id = pedido.id
@@ -23,7 +23,7 @@ export default function ModalPedido({qrCode, linkPix, selectedValue, callback, p
         if (pedidoSt.data.status != undefined){
             setStatus(pedidoSt.data.status);
             if(pedidoSt.data.status.includes("Concluido") || pedidoSt.data.status.includes("Cancelado") ){
-                init = false;
+                checkStatusPedido = false;
                 if(pedidoSt.data.status.includes("Cancelado")){
                     AsyncStorage.clear();
                 }
@@ -39,9 +39,11 @@ export default function ModalPedido({qrCode, linkPix, selectedValue, callback, p
 
     return (
         <View  style={{backgroundColor:'rgba(52, 52, 52, 0.7)', flex: 1, justifyContent:'center', alignItems:'center'}}>
+        {/* 
         <TouchableOpacity onPress={() => callback()} style={{flex:1,width:30,height:30}}>
                     <Entypo style={{flex:1, top:30}} name="cross" size={30} color={theme.colorsPrimary.cardColor} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+        <View style={{flex:1,width:30,height:30}}></View>
         <View style={styles.containerModal}>
         {   qrCode != '' ?
             <View style={{width: 380, height: 500, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>

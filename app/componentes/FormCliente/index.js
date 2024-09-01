@@ -285,7 +285,7 @@ export function FormClient({callback, cliente_, endereco_}){
                     
                     <View style={{width: 180 ,marginVertical: 30, marginHorizontal: 50, borderRadius: 10, alignContent: 'center', alignItems: 'center', paddingVertical: 10}} >
                     <Button 
-                        title='Confirmar Dados'
+                        title='Confirmar Dados e itens do pedido.'
                         color={theme.colorsPrimary.thirdary}
                         
                         onPress={handleSubmit(onSubmit)}>

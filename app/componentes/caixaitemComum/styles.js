@@ -40,7 +40,8 @@ export const styles = StyleSheet.create({
     },
     containerTextIMG:{
         height: 60,
-        marginHorizontal: 50,
+        width: 200,
+        marginHorizontal: 35,
         marginVertical: 10
     },
     titulo:{

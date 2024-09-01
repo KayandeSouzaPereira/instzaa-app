@@ -75,6 +75,9 @@ export default function Pedido({navigation}){
                 setEndereco(JSON.parse(_endereco));
             }
         }else {
+            navigation.setOptions({
+                tabBarBadge: "..."
+            })
             setPedidoRealizado(JSON.parse(_pedidoRealizado));
             setCheckoutPedido(true);
         }
@@ -110,11 +113,12 @@ export default function Pedido({navigation}){
         
     }
     const updateCliente = (cliente, endereco) => {
-        AsyncStorage.setItem("Cliente", JSON.stringify(cliente));
-        AsyncStorage.setItem("Endereco", JSON.stringify(endereco));
         setCliente(cliente);
         setEndereco(endereco);
+        AsyncStorage.setItem("Cliente", JSON.stringify(cliente));
+        AsyncStorage.setItem("Endereco", JSON.stringify(endereco));
         
+        return true;
     }
     const updatePagamento = (_pagamento, tipo) => {
         if (tipo.includes("pix")){
@@ -208,6 +212,8 @@ export default function Pedido({navigation}){
                 <ScrollView nestedScrollEnabled = {true} style={styles.containerBox}>
                     {pedido.length>0?
                     <View>
+                    { endereco.cep == undefined ?
+                        <View>
                         <Text style={styles.textSub}>Pedido:</Text>
                             <PedidoResumo pedidoList={pedido} callback={updateList}/>
                         <View style={{height:30}}/>
@@ -215,14 +221,19 @@ export default function Pedido({navigation}){
                         <View>
                             <FormClient callback={updateCliente} cliente_={cliente} endereco_={endereco}/>
                         </View>
-                        <Text style={styles.textSub}>Pagamento :</Text>
+                        </View>
+                        :
                         <View>
-                            <FormPag endereco={endereco} cliente={cliente} valor={valorTotal} callback={updatePagamento} />
+                            <Text style={styles.textSub}>Pagamento :</Text>
+                            <View>
+                                <FormPag endereco={endereco} cliente={cliente} valor={valorTotal} callback={updatePagamento} />
+                            </View>
+
+                            <View style={{marginHorizontal: 30, marginVertical: 30}}>
+                                <BotaoConcluir callback={checkout} validPay={validPay}/>
+                            </View>
                         </View>
-                    
-                        <View style={{marginHorizontal: 30, marginVertical: 30}}>
-                            <BotaoConcluir callback={checkout} validPay={validPay}/>
-                        </View>
+                        }
                     </View>
                     : 
                     <View style={styles.containerTextAviso}><Text style={styles.text}>Ops...{"\n"}Parece que você ainda {"\n"}não fez um pedido.</Text></View>
