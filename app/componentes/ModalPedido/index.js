@@ -7,7 +7,7 @@ import { styles } from './styles';
 import { getPedido } from '../../servicos/service';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function ModalPedido({qrCode, linkPix, selectedValue, callback, pedido}){
+export default function ModalPedido({qrCode, linkPix, selectedValue, pedido}){
 
     const [status, setStatus] = useState(pedido.status);
     const checkStatusPedido = true;
@@ -16,6 +16,8 @@ export default function ModalPedido({qrCode, linkPix, selectedValue, callback, p
         const timePedido = setInterval(checkPedido, 3000);
         return () => clearInterval(timePedido);
     },[checkStatusPedido])
+
+    useEffect(() => {},[qrCode])
 
     const checkPedido = async () => {
         let id = pedido.id
