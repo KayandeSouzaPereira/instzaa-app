@@ -5,6 +5,7 @@ import * as Clipboard from 'expo-clipboard';
 import { theme } from '../../configs';
 import { styles } from './styles';
 import { getPedido } from '../../servicos/service';
+import AvaliacaoForm from '../AvaliacaoForm';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ModalPedido({qrCode, linkPix, selectedValue, pedido}){
@@ -41,10 +42,14 @@ export default function ModalPedido({qrCode, linkPix, selectedValue, pedido}){
 
     return (
         <View  style={{backgroundColor:'rgba(52, 52, 52, 0.7)', flex: 1, justifyContent:'center', alignItems:'center'}}>
-        {/* 
-        <TouchableOpacity onPress={() => callback()} style={{flex:1,width:30,height:30}}>
+        {   
+            status.includes('Concluido')?
+            <TouchableOpacity onPress={() => callback()} style={{flex:1,width:30,height:30}}>
                     <Entypo style={{flex:1, top:30}} name="cross" size={30} color={theme.colorsPrimary.cardColor} />
-        </TouchableOpacity> */}
+            </TouchableOpacity>
+            :
+            <></>
+        }
         <View style={{flex:1,width:30,height:30}}></View>
         <View style={styles.containerModal}>
         {   qrCode != '' ?
@@ -90,10 +95,10 @@ export default function ModalPedido({qrCode, linkPix, selectedValue, pedido}){
               'Concluido':
                 <View style={{width: 380, height: 500, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
                     <View >
-                        <Text style={styles.textPixTitle}>Pedido entregue. gostou ? conte para nós como foi sua experiência.</Text>
+                        <Text style={styles.textPixTitle}>Pedido entregue. Gostou ? conte para nós como foi sua experiência.</Text>
                     </View>
                     <Ionicons style={{marginTop:20}}  name="pizza-outline" size={180} color="white" />
-                    {/* Implementar sistema de avaliação */}
+                    <AvaliacaoForm idPedido={pedido.id}/>
                 </View>,
                 'Cancelado':
                 <View style={{width: 380, height: 500, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>

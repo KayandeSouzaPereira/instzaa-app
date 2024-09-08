@@ -65,9 +65,13 @@ export default function Cardapio({navigation}){
                 return
             }
             else if(i.promocao != true && i.destaque != true){
+                
                 let _normais = []
+                let _normaisItem = {}
                 _normais = itemsNormais
-                _normais.push(i)
+                _normaisItem.i = i.id + 156
+                _normaisItem.res = i
+                _normais.push(_normaisItem)
                 setItemsNormais(_normais)
                 return
             }  
@@ -142,8 +146,8 @@ export default function Cardapio({navigation}){
                                      itemsNormais.map((item) =>(
                                         <View>
                                         <CaixaComum 
-                                            data={item}
-                                            callback={() => {updateList(item)}}
+                                            data={item.res}
+                                            callback={() => {updateList(item.res)}}
                                             />
                                         <View style={{height:10}}/>
                                         </View>

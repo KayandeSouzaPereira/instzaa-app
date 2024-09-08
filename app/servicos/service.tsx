@@ -117,6 +117,21 @@ import { api, apiCEP } from "./Util";
         return api.get(`/empresa/`, config)
         } 
 
+        async function setAvalicaoPedido(avaliacao)  {
+          let tk = await getToken();
+          const config = {
+            headers: {
+              "Cache-Control": "no-cache",
+              "Access-Control-Allow-Origin": "*",
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${tk}`,
+            }
+          };
+          return api.post('avaliacao', avaliacao, config);
+        }  
 
 
-export { getCardapio,setPagamentoPix, setPagamentoCartao, getEndereco, setPedidoEnvio, validPix, getEmpresa, getPedido}
+
+export { getCardapio,setPagamentoPix, setPagamentoCartao, 
+  getEndereco, setPedidoEnvio, 
+  validPix, getEmpresa, getPedido,setAvalicaoPedido}
