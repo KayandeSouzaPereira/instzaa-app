@@ -70,6 +70,7 @@ export function FormPag({endereco, cliente, valor, callback}){
             setValue("bandeira",data.values.type)
             setValue("mes",data.values.expiry.substring(0, 2))
             setValue("ano",data.values.expiry.substring(3, 5))
+            setCartaoValid(true)
         }
     }
     async function getEnderecodata() {
@@ -124,8 +125,8 @@ export function FormPag({endereco, cliente, valor, callback}){
             _pagamento.Cpf = cliente.cpf;
             _pagamento.Valor = valor;
             _pagamento.PaymentToken = paymentToken;
-            _pagamento.Email = email;
-            _pagamento.DataDeNascimento = nascimento;
+            _pagamento.Email = getValues("email");
+            _pagamento.DataDeNascimento = getValues("nascimento");
 
             if (enderecoCob == false){
                 _pagamento.Rua = rua
@@ -142,6 +143,8 @@ export function FormPag({endereco, cliente, valor, callback}){
                 _pagamento.Cidade = endereco.cidade;
                 _pagamento.Estado = endereco.uf;
             }
+
+            console.log(_pagamento)
             setPagamento(_pagamento);
         }
     },[paymentToken])

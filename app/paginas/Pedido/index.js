@@ -137,12 +137,14 @@ export default function Pedido({navigation}){
 
     const checkout = async () => {
         if (selectedValue.includes("pix")){
+            console.log("DEBITO")
             let _info = await setPagamentoPix(pagamento);
             setLinkPix(_info.data.Pix);
             setIdPix(_info.data.id);
             setQrCode(_info.data.QrCode);
             setCheckoutPedido(true);
         } else if(selectedValue.includes("credito")){
+            console.log("CREDITO")
             let _info = await setPagamentoCartao(pagamento);
             if(_info.data != undefined){
                 if(_info.data.Status.includes("approved")){
@@ -186,13 +188,26 @@ export default function Pedido({navigation}){
         _pedido.status = "Confirmado";
         _pedido.payId = payID;
         _pedido.resumoPedido = processamentoPedido();
+        _pedido.avaliacao = 0;
 
         let status = await setPedidoEnvio(_pedido);
         if (status.data){
+            console.log(status.data)
             _pedido.id = status.data;
             setPedidoRealizado(_pedido);
             await AsyncStorage.setItem("pedidoRealizado", JSON.stringify(_pedido));
             setCheckoutPedido(true);
+        }
+    }
+
+    const criandoAvaliacaoPedido = async (avaliacao) => {
+        const _pedido = pedidoRealizado;
+        _pedido.avaliacao = avaliacao;
+
+        let status = await setPedidoEnvio(_pedido);
+        if (status.data){
+            Alert.alert("Sucesso.", "Somos gratos pela sua avaliação !")
+            AsyncStorage.clear();
         }
     }
    
@@ -206,7 +221,7 @@ export default function Pedido({navigation}){
                         visible={checkoutPedido}
                         transparent={true}
                 >
-                   <ModalPedido qrCode={qrCode} linkPix={linkPix} selectedValue={selectedValue} pedido={pedidoRealizado} callback={() => checkOutModalClose()} />
+                   <ModalPedido qrCode={qrCode} linkPix={linkPix} selectedValue={selectedValue} pedido={pedidoRealizado} callback={() => checkOutModalClose()} avaliacaoCallback={criandoAvaliacaoPedido}/>
                 </Modal>
             { valorTotal != 0? <Text style={styles.textTotal}>Total: {valorTotal.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</Text>: <Text style={styles.textTotal}>Total R$: XXX,XX</Text>}
                 <ScrollView nestedScrollEnabled = {true} style={styles.containerBox}>

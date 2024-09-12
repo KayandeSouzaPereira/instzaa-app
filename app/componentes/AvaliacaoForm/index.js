@@ -5,21 +5,13 @@ import { setAvalicaoPedido } from "../../servicos/service";
 import { style } from "./styles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function AvaliacaoForm({idPedido}) {
+export default function AvaliacaoForm({callback}) {
 
     const [avaliacao, setAvaliacao] = useState(0);
 
 
     const sendAva = async () => {
-        const avaliacaoobj = {};
-        avaliacaoobj.idPedido = idPedido;
-        avaliacaoobj.avaliacao = avaliacao
-        const avalia = await setAvalicaoPedido(avaliacaoobj);
-        if (avalia.status == 200){
-            Alert.alert("Sucesso.", "Somos gratos pela sua avaliação !")
-            AsyncStorage.clear();
-        }
-
+        callback(avaliacao)
     };
 
     return (
