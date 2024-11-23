@@ -39,7 +39,7 @@ export function CaixaDestaque({data, callback}){
                     </View>
                 </Modal>
                 {   data.imagem ?
-                        <Image style={{width: 380, height: 230,borderRadius: 15, marginHorizontal: 5,resizeMode: 'cover'}}  source={{uri: data.imagem}}/>
+                        <Image style={{width: 380, height: 230,borderRadius: 15, marginHorizontal: 10,resizeMode: 'cover'}}  source={{uri: data.imagem}}/>
                         : 
                         <></>
                     }

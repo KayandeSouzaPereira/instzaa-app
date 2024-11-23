@@ -8,11 +8,8 @@ import ModalPedido from '../../componentes/ModalPedido'
 import { BotaoConcluir } from "../../componentes/botaoConcluir"
 import { styles } from "./styles"
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as Clipboard from 'expo-clipboard';
-import { Entypo, MaterialIcons, AntDesign } from '@expo/vector-icons';
 import { useFocusEffect } from "@react-navigation/native";
 import { setPagamentoPix, setPagamentoCartao, setPedidoEnvio, validPix } from "../../servicos/service"
-import { theme } from '../../configs';
 
 export default function Pedido({navigation}){
     const [pedidoRealizado, setPedidoRealizado] = useState({});

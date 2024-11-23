@@ -86,7 +86,7 @@ export const styles = StyleSheet.create({
         fontFamily: theme.fonts.text,
         color: 'white',
         fontSize: 12,
-        marginHorizontal: 5
+        marginHorizontal: 20
     }
     
 })
