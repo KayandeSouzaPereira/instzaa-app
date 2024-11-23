@@ -22,8 +22,7 @@ export const styles = StyleSheet.create({
         backgroundColor:theme.colorsPrimary.secondary100
     },
     containerText:{
-        height: 60,
-        top: 120
+        height: 60
     },
     containerTextButton: {
         flexDirection:'row',
@@ -53,7 +52,7 @@ export const styles = StyleSheet.create({
         fontFamily: theme.fonts.subtitle2,
         color: theme.colorsPrimary.heading,
         fontSize: 25,
-        marginTop: 20,
+        marginTop: 10,
         marginLeft: 20,
         textAlign: 'left',
         alignSelf:'flex-start'
@@ -86,7 +85,8 @@ export const styles = StyleSheet.create({
         fontFamily: theme.fonts.text,
         color: 'white',
         fontSize: 12,
-        marginHorizontal: 20
+        marginHorizontal: 20,
+        marginVertical: 5
     }
     
 })

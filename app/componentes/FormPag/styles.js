@@ -7,17 +7,19 @@ export const styles = StyleSheet.create({
         flex: 1,
         width:380,
         height:400,
-        backgroundColor: theme.colorsPrimary.overlay,
+        backgroundColor: theme.colorsPrimary.formBackGround,
         color: theme.colorsPrimary.cardColor,
         flexDirection: 'column',
+        borderRadius:20
     },
     containerPix:{
         flex: 1,
         width:380,
         height:300,
-        backgroundColor: theme.colorsPrimary.overlay,
+        backgroundColor: theme.colorsPrimary.formBackGround,
         color: theme.colorsPrimary.cardColor,
         flexDirection: 'column',
+        borderRadius:20
     },
     viewEndereco:{
         flexDirection:'row',
@@ -51,12 +53,12 @@ export const styles = StyleSheet.create({
         fontSize: 18
     },
     textCampHigh:{
-        color: theme.colorsPrimary.cardColor,
+        color: theme.colorsPrimary.formText,
         fontFamily: theme.fonts.text,
         fontSize: 17
     },
     textCampAviso:{
-        color: theme.colorsPrimary.cardColor,
+        color: theme.colorsPrimary.formTextInput,
         fontFamily: theme.fonts.text,
         fontSize: 15,
         textAlign: 'center'
@@ -66,7 +68,7 @@ export const styles = StyleSheet.create({
         height: 35,
         fontFamily: theme.fonts.text,
         fontSize: 15,
-        backgroundColor: theme.colorsPrimary.cardColor,
+        backgroundColor: theme.colorsPrimary.formTextInput,
         color:theme.colorsPrimary.highlight,
         paddingHorizontal: 20,
         borderRadius: 5
@@ -82,7 +84,7 @@ export const styles = StyleSheet.create({
         height: 35,
         fontFamily: theme.fonts.text,
         fontSize: 15,
-        backgroundColor: theme.colorsPrimary.cardColor,
+        backgroundColor: theme.colorsPrimary.formTextInput,
         color:theme.colorsPrimary.highlight,
         paddingHorizontal: 20,
         borderRadius: 5
@@ -92,7 +94,7 @@ export const styles = StyleSheet.create({
         height: 35,
         fontFamily: theme.fonts.text,
         fontSize: 15,
-        backgroundColor: theme.colorsPrimary.cardColor,
+        backgroundColor: theme.colorsPrimary.formTextInput,
         color:theme.colorsPrimary.highlight,
         paddingHorizontal: 5,
         borderRadius: 5

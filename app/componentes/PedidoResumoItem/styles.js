@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     },
     containerItem:{
         flex: 1,
-        width:380,
+        width:370,
         height:150,
         marginVertical: 10,
         marginHorizontal: 5,

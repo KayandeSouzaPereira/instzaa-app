@@ -4,7 +4,7 @@ import { theme } from '../../configs';
 export const styles = StyleSheet.create({
 
     container:{
-        width: 400,
+        width: 380,
         height: 170,
         alignItems: 'center',
         alignContent: 'center',

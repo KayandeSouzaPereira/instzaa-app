@@ -81,6 +81,8 @@ export function FormClient({callback, cliente_, endereco_}){
                         onBlur={onBlur}
                         onChangeText={onChange}
                         value={value}
+                        placeholderTextColor='#ffffff'
+                        color = '#ffffff'
                     />
                     )}
                     name="nome"
@@ -101,6 +103,8 @@ export function FormClient({callback, cliente_, endereco_}){
                         onChangeText={onChange}
                         value={value}
                         keyboardType='phone-pad'
+                        placeholderTextColor='#ffffff'
+                        color = '#ffffff'
                     />
                     )}
                     name="numeroContato"
@@ -122,6 +126,8 @@ export function FormClient({callback, cliente_, endereco_}){
                             value={value}
                             keyboardType='phone-pad'
                             returnKeyType="next"
+                        placeholderTextColor='#ffffff'
+                        color = '#ffffff'
                         />
                         )}
                         name="cpf"
@@ -150,6 +156,8 @@ export function FormClient({callback, cliente_, endereco_}){
                             value={value}
                             keyboardType='phone-pad'
                             returnKeyType="next"
+                        placeholderTextColor='#ffffff'
+                        color = '#ffffff'
                         />
                         )}
                         name="cep"
@@ -171,6 +179,8 @@ export function FormClient({callback, cliente_, endereco_}){
                                 onChangeText={onChange}
                                 value={value}
                                 returnKeyType="next"
+                                placeholderTextColor='#ffffff'
+                                color = '#ffffff'
                             />
                             )}
                             name="rua"
@@ -192,6 +202,8 @@ export function FormClient({callback, cliente_, endereco_}){
                                     value={value}
                                     keyboardType='phone-pad'
                                     returnKeyType="next"
+                                    placeholderTextColor='#ffffff'
+                                    color = '#ffffff'
                                 />
                             )}
                             name="numero"
@@ -216,6 +228,8 @@ export function FormClient({callback, cliente_, endereco_}){
                                 onChangeText={onChange}
                                 value={value}
                                 returnKeyType="next"
+                                placeholderTextColor='#ffffff'
+                                color = '#ffffff'
                             />
                             )}
                             name="complemento"
@@ -235,6 +249,8 @@ export function FormClient({callback, cliente_, endereco_}){
                                 onChangeText={onChange}
                                 value={value}
                                 returnKeyType="next"
+                                placeholderTextColor='#ffffff'
+                                color = '#ffffff'
                             />
                             )}
                             name="bairro"
@@ -255,6 +271,8 @@ export function FormClient({callback, cliente_, endereco_}){
                                 onChangeText={onChange}
                                 value={value}
                                 returnKeyType="next"
+                                placeholderTextColor='#ffffff'
+                                color = '#ffffff'
                             />
                             )}
                             name="uf"
@@ -276,6 +294,8 @@ export function FormClient({callback, cliente_, endereco_}){
                                 onChangeText={onChange}
                                 value={value}
                                 returnKeyType="next"
+                                placeholderTextColor='#ffffff'
+                                color = '#ffffff'
                             />
                             )}
                             name="cidade"

@@ -223,6 +223,8 @@ export function FormPag({endereco, cliente, valor, callback}){
                                         keyboardType='phone-pad'
                                         placeholder='Seu CEP sem Traço'
                                         returnKeyType="next"
+                                        placeholderTextColor='#ffffff'
+                                        color = '#ffffff'
                                     />
                                 )}
                                 name="cep"
@@ -244,6 +246,8 @@ export function FormPag({endereco, cliente, valor, callback}){
                                             value={value}
                                             placeholder='Endereço'
                                             returnKeyType="next"
+                                            placeholderTextColor='#ffffff'
+                                            color = '#ffffff'
                                         />
                                     )}
                                     name="rua"
@@ -264,6 +268,8 @@ export function FormPag({endereco, cliente, valor, callback}){
                                         value={value}
                                         placeholder='Nº'
                                         returnKeyType="next"
+                                        placeholderTextColor='#ffffff'
+                                        color = '#ffffff'
                                     />
                                     )}
                                     name="numero"
@@ -285,6 +291,8 @@ export function FormPag({endereco, cliente, valor, callback}){
                                         value={value}
                                         placeholder='Complemento'
                                         returnKeyType="next"
+                                        placeholderTextColor='#ffffff'
+                                        color = '#ffffff'
                                     />
                                 )}
                                 name="complemento"
@@ -304,6 +312,8 @@ export function FormPag({endereco, cliente, valor, callback}){
                                     value={value}
                                     placeholder='Bairro'
                                     returnKeyType="next"
+                                    placeholderTextColor='#ffffff'
+                                    color = '#ffffff'
                                 />
                             )}
                             name="bairro"
@@ -324,6 +334,8 @@ export function FormPag({endereco, cliente, valor, callback}){
                                     value={value}
                                     placeholder='Estado'
                                     returnKeyType="next"
+                                    placeholderTextColor='#ffffff'
+                                    color = '#ffffff'
                                 />
                             )}
                             name="uf"
@@ -343,6 +355,8 @@ export function FormPag({endereco, cliente, valor, callback}){
                                     onChangeText={onChange}
                                     value={value}
                                     placeholder='Cidade'
+                                    placeholderTextColor='#ffffff'
+                                    color = '#ffffff'
                                 />
                             )}
                             name="cidade"
@@ -368,6 +382,8 @@ export function FormPag({endereco, cliente, valor, callback}){
                                         value={value}
                                         placeholder='Email'
                                         returnKeyType="next"
+                                        placeholderTextColor='#ffffff'
+                                        color = '#ffffff'
                                     />
                                 )}
                                 name="email"
@@ -391,6 +407,8 @@ export function FormPag({endereco, cliente, valor, callback}){
                                             onChange={(params) => {onChange(params.date.format('YYYY-MM-DD'))}}
                                             minDate={dayjs('1950-01-01')}
                                             maxDate={dayjs('2008-01-01')}
+                                            placeholderTextColor='#ffffff'
+                                            color = '#ffffff'
                                         />
                                     )}
                                     name="nascimento"

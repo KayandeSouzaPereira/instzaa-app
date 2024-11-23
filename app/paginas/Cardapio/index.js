@@ -104,6 +104,7 @@ export default function Cardapio({navigation}){
             <ScrollView nestedScrollEnabled = {true}>
                         <Cabecario/>
                         <View style={styles.containerDestaque}>
+                        <Text style={styles.textCategoria}>DESTAQUES</Text>
                             { <FlatList
                                 horizontal={true}
                                 data={destaques}
@@ -118,10 +119,10 @@ export default function Cardapio({navigation}){
                                         contentContainerStyle={{ paddingRight: 180, paddingLeft: 0}}
                                         showsHorizontalScrollIndicator={false}
                             /> }
-                            <Text style={styles.textCategoria}>DESTAQUES</Text>
+                            
                         </View>
                         <View style={styles.containerDestaque}>
-                       
+                        <Text style={styles.textCategoria}>PROMOCOES</Text>
                                 { <FlatList
                                     horizontal={true}
                                     data={promocoes}
@@ -136,10 +137,10 @@ export default function Cardapio({navigation}){
                                         contentContainerStyle={{ paddingRight: 200, paddingLeft: 0}}
                                         showsHorizontalScrollIndicator={false}
                             /> }
-                                <Text style={styles.textCategoria}>PROMOCOES</Text>
+                               
                          </View>
                          
-                            <View style={[styles.containerItensComum, {alignContent: 'center', alignItems: 'center'}]}>
+                            <View style={[styles.containerItensComum, {alignContent: 'center', alignItems: 'center', marginTop: 40}]}>
                             <Text style={[styles.textCategoriaComun, {textAlign:'left', width: '100%', marginLeft: 300}]}>Nossos Produtos</Text>
                                 <ScrollView style={{width: 500, height: 400}} nestedScrollEnabled = {true}>
                                     {

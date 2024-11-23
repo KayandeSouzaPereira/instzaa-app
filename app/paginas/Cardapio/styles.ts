@@ -10,8 +10,8 @@ export const styles = StyleSheet.create({
     },
     containerDestaque: {
         width: 600,
-        height: 500,
-        paddingBottom: 20,
+        height: 430,
+        paddingBottom: 10,
     },
     containerItens: {
         width: 600,
@@ -26,9 +26,10 @@ export const styles = StyleSheet.create({
     textCategoria: {
         fontFamily: theme.fonts.subtitle2,
         fontSize: 25,
-        height: 60,
+        height: 70,
         right: 80,
-        bottom:80,
+        top:10,
+        paddingTop:10,
         textAlign: 'center',
         color: 'white',
         backgroundColor:theme.colorsPrimary.secondary100

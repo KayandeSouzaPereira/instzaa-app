@@ -62,13 +62,16 @@ export default function Pedido({navigation}){
             
 
             if (_pedido != null && _pedido != undefined){
+                console.log(_pedido)
                 setPedido(JSON.parse(_pedido));
                 calculaPedido(JSON.parse(_pedido));
             }
             if (_cliente != null && _cliente != undefined){
+                console.log(_cliente)
                 setCliente(JSON.parse(_cliente));
             }
             if (_endereco != null && _endereco != undefined){
+                console.log(_endereco)
                 setEndereco(JSON.parse(_endereco));
             }
         }else {

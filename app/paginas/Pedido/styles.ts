@@ -49,8 +49,8 @@ export const styles = StyleSheet.create({
     },
     textTotal: {
         fontFamily: theme.fonts.subtitle2,
-        fontSize: 25,
-        paddingVertical: 10,
+        fontSize: 20,
+        paddingVertical: 5,
         paddingHorizontal: 20,
         textAlign: 'left',
         color: 'white'

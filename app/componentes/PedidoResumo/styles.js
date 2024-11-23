@@ -7,9 +7,10 @@ export const styles = StyleSheet.create({
         flex: 1,
         width:380,
         height:300,
-        backgroundColor: theme.colorsPrimary.overlay,
+        backgroundColor: theme.colorsPrimary.secondary120,
         color: theme.colorsPrimary.cardColor,
         flexDirection: 'column',
+        borderRadius: 20
     },
     containerItem:{
         flex: 1,
