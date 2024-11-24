@@ -8,19 +8,19 @@ Promove comodidade para o usuário para realização de pedidos de delivery que 
 ## Demonstração
 
 ### Pagina de Destaques e demonstração de pedido
-<img src='https://github.com/KayandeSouzaPereira/Pro-Trainer/blob/main/assets/gifDash1.gif?raw=true' width='300'>
+<img src='https://github.com/KayandeSouzaPereira/instzaa-app/blob/master/assets/mock/readme/cardapio.gif?raw=true' width='300'>
 
 ### Pagina de Pedido e cadastro de informações de contato
-<img src='https://github.com/KayandeSouzaPereira/Pro-Trainer/blob/main/assets/GifInfo.gif?raw=true' width='300'>
+<img src='https://github.com/KayandeSouzaPereira/instzaa-app/blob/master/assets/mock/readme/pedido.gif?raw=true' width='300'>
 
 ### Cadastro de informações de endereço
-<img src='https://github.com/KayandeSouzaPereira/Pro-Trainer/blob/main/assets/giftreino.gif?raw=true' width='300'>
+<img src='https://github.com/KayandeSouzaPereira/instzaa-app/blob/master/assets/mock/readme/autocompleteDeEndere%C3%A7o.gif?raw=true' width='300'>
 
 ### Pagamento via cartão de crédito.
-<img src='https://github.com/KayandeSouzaPereira/Pro-Trainer/blob/main/assets/gifhistorico.gif?raw=true' width='300'>
+<img src='https://github.com/KayandeSouzaPereira/instzaa-app/blob/master/assets/mock/readme/pagamentoCartao.gif?raw=true' width='300'>
 
 ### Atualização do pedido.
-<img src='https://github.com/KayandeSouzaPereira/Pro-Trainer/blob/main/assets/gifhistorico.gif?raw=true' width='300'>
+<img src='https://github.com/KayandeSouzaPereira/instzaa-app/blob/master/assets/mock/readme/statusPedidoAvaliacao.gif?raw=true' width='300'>
 
 ## Stack utilizada
 
