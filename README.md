@@ -44,7 +44,6 @@ Promove comodidade para o usuário para realização de pedidos de delivery que 
 - Apresentação de resumo do pedido detalhado.
 - Transações via PIX ou Cartão de Credito utilizando o Gateway de pagamento EfiPay.
 - Atualização de status do pedido em tempo real.
-- 
 
 
 ## Instalação local
