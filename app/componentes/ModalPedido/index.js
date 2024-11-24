@@ -8,16 +8,15 @@ import { getPedido } from '../../servicos/service';
 import AvaliacaoForm from '../AvaliacaoForm';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function ModalPedido({qrCode, linkPix, selectedValue, pedido, avaliacaoCallback}) {
+export default function ModalPedido({qrCode, linkPix, pedido, avaliacaoCallback, callback}) {
     const [status, setStatus] = useState(pedido.status);
-    const checkStatusPedido = true;
+    let checkStatusPedido = true;
 
     useEffect(() => {
         const timePedido = setInterval(checkPedido, 3000);
         return () => clearInterval(timePedido);
     },[checkStatusPedido])
 
-    useEffect(() => {},[qrCode])
 
     const checkPedido = async () => {
         let id = pedido.id
@@ -39,6 +38,53 @@ export default function ModalPedido({qrCode, linkPix, selectedValue, pedido, ava
         Alert.alert("Pix:", "link copiado com sucesso !");
     };
 
+    const statusPedido = () => {
+        console.log(status)
+        if(status != undefined){
+        switch (status){
+            case 'Confirmado':
+                return <View style={{width: 380, height: 500, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
+                    <View>
+                        <Text style={styles.textPixTitle}>O seu pagamento já foi confirmado.</Text>
+                    </View>
+                    <SimpleLineIcons style={{marginTop:20}} name="note" size={180} color="white" />
+                    <View style={{width: 280,marginTop:50}}><Text style={styles.textPix}>Em breve iniciaremos o preparo do seu pedido !</Text></View>
+                </View>
+            case 'Fabricando':
+                return <View style={{width: 380, height: 500, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
+                    <View >
+                        <Text style={styles.textPixTitle}>O seu pedido ja esta sendo feito.</Text>
+                    </View>
+                    <MaterialCommunityIcons style={{marginTop:20}}  name="chef-hat" size={180} color="white" />
+                    <View style={{width: 280,marginTop:50}}><Text style={styles.textPix}>Em breve ele estará a caminho com todo carinho !</Text></View>
+                </View>
+            case 'Enviado':
+                return <View style={{width: 380, height: 500, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
+                    <View >
+                        <Text style={styles.textPixTitle}>O seu pedido foi enviado com sucesso !</Text>
+                    </View>
+                    <MaterialIcons style={{marginTop:20}}  name="delivery-dining" size={180} color="white" />
+                    <View style={{width: 280,marginTop:50}}><Text style={styles.textPix}>Em instantes estará na sua porta !</Text></View>
+                </View>
+            case 'Concluido':
+                return <View style={{width: 380, height: 500, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
+                    <View >
+                        <Text style={styles.textPixTitle}>Pedido entregue. Gostou ? conte para nós como foi sua experiência.</Text>
+                    </View>
+                    <Ionicons style={{marginTop:20}}  name="pizza-outline" size={180} color="white" />
+                    <AvaliacaoForm callback={avaliacaoCallback}/>
+                </View>
+            case 'Cancelado':
+                return <View style={{width: 380, height: 500, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
+                    <View >
+                        <Text style={styles.textPixTitle}>Ops... Ocorreu algum problema com o seu pedido. Sinto muito pelo ocorrido. </Text>
+                    </View>
+                    <AntDesign style={{marginTop:20}} name="exclamationcircle" size={180} color="red" />
+                    <View style={{width: 280,marginTop:50}}><Text style={styles.textPix}>Fique avontade para nos contatar para entender o problema.</Text></View>
+                </View>
+        }}else{return <></>}
+    }
+
     return (
         <View  style={{backgroundColor:'rgba(52, 52, 52, 0.7)', flex: 1, justifyContent:'center', alignItems:'center'}}>
         {   
@@ -46,8 +92,8 @@ export default function ModalPedido({qrCode, linkPix, selectedValue, pedido, ava
             <View>
                 {
                 status.includes("Concluido")?
-                <TouchableOpacity onPress={() => callback()} style={{flex:1,width:30,height:30}}>
-                        <Entypo style={{flex:1, top:30}} name="cross" size={30} color={theme.colorsPrimary.cardColor} />
+                <TouchableOpacity onPress={() => callback()} style={{width:120,height:120}}>
+                        <Entypo style={{top:30,left:40}} name="cross" size={30} color={theme.colorsPrimary.cardColor} />
                 </TouchableOpacity>
                 :
                 <></>
@@ -68,54 +114,9 @@ export default function ModalPedido({qrCode, linkPix, selectedValue, pedido, ava
                 </TouchableOpacity>
             </View>
             :
-            <>
-                {(() => {
-                switch (status) {
-                case 'Confirmado':
-                return <View style={{width: 380, height: 500, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
-                    <View>
-                        <Text style={styles.textPixTitle}>O seu pagamento já foi confirmado.</Text>
-                    </View>
-                    <SimpleLineIcons style={{marginTop:20}} name="note" size={180} color="white" />
-                    <View style={{width: 280,marginTop:50}}><Text style={styles.textPix}>Em breve iniciaremos o preparo do seu pedido !</Text></View>
-                </View>
-                case 'Fabricando':
-                <View style={{width: 380, height: 500, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
-                    <View >
-                        <Text style={styles.textPixTitle}>O seu pedido ja esta sendo feito.</Text>
-                    </View>
-                    <MaterialCommunityIcons style={{marginTop:20}}  name="chef-hat" size={180} color="white" />
-                    <View style={{width: 280,marginTop:50}}><Text style={styles.textPix}>Em breve ele estará a caminho com todo carinho !</Text></View>
-                </View>
-                case 'Enviado':
-                <View style={{width: 380, height: 500, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
-                    <View >
-                        <Text style={styles.textPixTitle}>O seu pedido foi enviado com sucesso !</Text>
-                    </View>
-                    <MaterialIcons style={{marginTop:20}}  name="delivery-dining" size={180} color="white" />
-                    <View style={{width: 280,marginTop:50}}><Text style={styles.textPix}>Em instantes estará na sua porta !</Text></View>
-                </View>
-                case 'Concluido':
-                <View style={{width: 380, height: 500, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
-                    <View >
-                        <Text style={styles.textPixTitle}>Pedido entregue. Gostou ? conte para nós como foi sua experiência.</Text>
-                    </View>
-                    <Ionicons style={{marginTop:20}}  name="pizza-outline" size={180} color="white" />
-                    <AvaliacaoForm callback={avaliacaoCallback}/>
-                </View>
-                case 'Cancelado':
-                <View style={{width: 380, height: 500, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
-                    <View >
-                        <Text style={styles.textPixTitle}>Ops... Ocorreu algum problema com o seu pedido. Sinto muito pelo ocorrido. </Text>
-                    </View>
-                    <AntDesign style={{marginTop:20}} name="exclamationcircle" size={180} color="red" />
-                    <View style={{width: 280,marginTop:50}}><Text style={styles.textPix}>Fique avontade para nos contatar para entender o problema.</Text></View>
-                </View>
-                    default:
-                        break;
-                }
-            })()}
-            </> 
+            <View>
+                {statusPedido()}
+            </View> 
         }
         </View>
     </View>

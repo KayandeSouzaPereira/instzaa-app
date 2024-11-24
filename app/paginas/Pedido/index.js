@@ -9,7 +9,7 @@ import { BotaoConcluir } from "../../componentes/botaoConcluir"
 import { styles } from "./styles"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from "@react-navigation/native";
-import { setPagamentoPix, setPagamentoCartao, setPedidoEnvio, validPix } from "../../servicos/service"
+import { setPagamentoPix, setPagamentoCartao, setPedidoEnvio, validPix,setUpdatePedidoEnvio } from "../../servicos/service"
 
 export default function Pedido({navigation}){
     const [pedidoRealizado, setPedidoRealizado] = useState({});
@@ -62,16 +62,13 @@ export default function Pedido({navigation}){
             
 
             if (_pedido != null && _pedido != undefined){
-                console.log(_pedido)
                 setPedido(JSON.parse(_pedido));
                 calculaPedido(JSON.parse(_pedido));
             }
             if (_cliente != null && _cliente != undefined){
-                console.log(_cliente)
                 setCliente(JSON.parse(_cliente));
             }
             if (_endereco != null && _endereco != undefined){
-                console.log(_endereco)
                 setEndereco(JSON.parse(_endereco));
             }
         }else {
@@ -137,14 +134,12 @@ export default function Pedido({navigation}){
 
     const checkout = async () => {
         if (selectedValue.includes("pix")){
-            console.log("DEBITO")
             let _info = await setPagamentoPix(pagamento);
             setLinkPix(_info.data.Pix);
             setIdPix(_info.data.id);
             setQrCode(_info.data.QrCode);
             setCheckoutPedido(true);
         } else if(selectedValue.includes("credito")){
-            console.log("CREDITO")
             let _info = await setPagamentoCartao(pagamento);
             if(_info.data != undefined){
                 if(_info.data.Status.includes("approved")){
@@ -192,7 +187,6 @@ export default function Pedido({navigation}){
 
         let status = await setPedidoEnvio(_pedido);
         if (status.data){
-            console.log(status.data)
             _pedido.id = status.data;
             setPedidoRealizado(_pedido);
             await AsyncStorage.setItem("pedidoRealizado", JSON.stringify(_pedido));
@@ -203,10 +197,15 @@ export default function Pedido({navigation}){
     const criandoAvaliacaoPedido = async (avaliacao) => {
         const _pedido = pedidoRealizado;
         _pedido.avaliacao = avaliacao;
-
-        let status = await setPedidoEnvio(_pedido);
+        _pedido.status = "Concluido";
+        let status = await setUpdatePedidoEnvio(_pedido, pedidoRealizado.id);
         if (status.data){
             Alert.alert("Sucesso.", "Somos gratos pela sua avaliação !")
+            checkOutModalClose();
+            navigation.navigate("Cardapio");
+            navigation.setOptions({
+                tabBarBadge: null
+            })
             AsyncStorage.clear();
         }
     }
@@ -227,17 +226,18 @@ export default function Pedido({navigation}){
                 <ScrollView nestedScrollEnabled = {true} style={styles.containerBox}>
                     {pedido.length>0?
                     <View>
-                    { endereco.cep == undefined ?
                         <View>
                         <Text style={styles.textSub}>Pedido:</Text>
                             <PedidoResumo pedidoList={pedido} callback={updateList}/>
                         <View style={{height:30}}/>
-                        <Text style={styles.textSub}>Entrega :</Text>
+                        
+                        </View>
                         <View>
+                        <View>
+                            <Text style={styles.textSub}>Entrega :</Text>
                             <FormClient callback={updateCliente} cliente_={cliente} endereco_={endereco}/>
                         </View>
-                        </View>
-                        :
+                        {endereco.cep != undefined ?
                         <View>
                             <Text style={styles.textSub}>Pagamento :</Text>
                             <View>
@@ -247,8 +247,8 @@ export default function Pedido({navigation}){
                             <View style={{marginHorizontal: 30, marginVertical: 30}}>
                                 <BotaoConcluir callback={checkout} validPay={validPay}/>
                             </View>
+                        </View>:<></>}
                         </View>
-                        }
                     </View>
                     : 
                     <View style={styles.containerTextAviso}><Text style={styles.text}>Ops...{"\n"}Parece que você ainda {"\n"}não fez um pedido.</Text></View>

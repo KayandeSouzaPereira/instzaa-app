@@ -11,6 +11,7 @@ export default function AvaliacaoForm({callback}) {
 
 
     const sendAva = async () => {
+        console.log("Avaliacao:" + avaliacao)
         callback(avaliacao)
     };
 
