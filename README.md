@@ -29,12 +29,6 @@ Promove comodidade para o usuário para realização de pedidos de delivery que 
 - React-Native
 - Expo
 
-**Back-end:** 
-
-- Java
-- Springboot
-- MySql
-
 
 ## Funcionalidades
 
