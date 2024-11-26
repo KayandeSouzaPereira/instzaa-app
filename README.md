@@ -8,7 +8,7 @@ Este projeto também compoem:
 
 [Instzaa Api](https://github.com/KayandeSouzaPereira/instzaa-api)
 
-[Instzaa Adm]()
+[Instzaa Adm](https://github.com/KayandeSouzaPereira/instzaa-adm)
 
 ## Demonstração
 
