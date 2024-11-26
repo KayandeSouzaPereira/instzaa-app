@@ -14,6 +14,8 @@ Este projeto também compoem:
 
 Demonstração via Expo pelo [link](https://expo.dev/accounts/kayandesouzapereira/projects/instzaa-app/builds/659248fe-8b26-475c-8161-58a32224c410) ou pelo qrcode:
 
+<img src='https://github.com/KayandeSouzaPereira/instzaa-app/blob/master/assets/readme/qrcode.png?raw=true' width='300'>
+
 
 ### Pagina de Destaques e demonstração de pedido
 <img src='https://github.com/KayandeSouzaPereira/instzaa-app/blob/master/assets/mock/readme/cardapio.gif?raw=true' width='300'>
