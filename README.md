@@ -12,6 +12,10 @@ Este projeto também compoem:
 
 ## Demonstração
 
+Demonstração via Snack:
+<div data-snack-id="@kayandesouzapereira/6698a8" data-snack-platform="mydevice" data-snack-preview="true" data-snack-theme="light" style="overflow:hidden;background:#fbfcfd;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%"></div>
+<script async src="https://snack.expo.dev/embed.js"></script>
+
 ### Pagina de Destaques e demonstração de pedido
 <img src='https://github.com/KayandeSouzaPereira/instzaa-app/blob/master/assets/mock/readme/cardapio.gif?raw=true' width='300'>
 
