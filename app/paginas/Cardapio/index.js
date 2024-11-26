@@ -1,6 +1,6 @@
 import React from "react"
 import { useState, useEffect, useCallback } from "react"
-import { View, FlatList, Text, SafeAreaView, ScrollView} from "react-native"
+import { View, FlatList, Text, ScrollView} from "react-native"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFocusEffect } from "@react-navigation/native";
@@ -13,7 +13,7 @@ import { CaixaComum } from "../../componentes/caixaitemComum";
 
 import { getCardapio } from '../../servicos/service'
 
-import { styles } from "./styles"
+import { styles } from "./styles";
 
 export default function Cardapio({navigation}){
 
@@ -84,6 +84,7 @@ export default function Cardapio({navigation}){
         pedidoLs.push(pedidoObj);
         setPedido(pedidoLs);
         await AsyncStorage.setItem('Pedido', JSON.stringify(pedidoLs));
+        navigation.navigate("Pedido");
     }
 
     useEffect(() => {

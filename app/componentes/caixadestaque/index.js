@@ -29,7 +29,7 @@ export function CaixaDestaque({data, callback}){
                         <Text style={styles.tituloModal}>{data.nome}</Text>
                         <Text style={styles.valorModal}>Valor : {data.preco.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</Text>
                         <Text style={styles.descricaoModal}>Descrição : {data.descricao}</Text>
-                        <TouchableOpacity onPress={callback} style={styles.containerButton}>
+                        <TouchableOpacity onPress={() => { callback(); setModal(false);}} style={styles.containerButton}>
                         <View style={styles.containerTextButton}>
                         <MaterialIcons style={{marginHorizontal: 20}} name="delivery-dining" size={45} color="white" />
                             <Text style={styles.buttonModal}>Adicionar</Text>

@@ -18,7 +18,7 @@ export function Cabecario({}){
                     justifyContent: 'center'
                 }}
             >
-                <Text style={{fontFamily: theme.fonts.title2, fontSize: 15, color: 'white'}}>Instzaa</Text>
+                <Text style={{fontFamily: theme.fonts.title2, fontSize: 15, color: 'white', top:10}}>Instzaa</Text>
             </View>
       </View>
     )

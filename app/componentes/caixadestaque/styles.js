@@ -4,7 +4,7 @@ import { theme } from '../../configs';
 export const styles = StyleSheet.create({
 
     container:{
-        width: 430,
+        width: 400,
         height: 350,
         alignItems: 'center',
         alignContent: 'center',
@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     },
     containerModal:{
         width: 400,
-        height: 700,
+        height: 600,
         alignItems: 'center',
         alignContent: 'center',
         borderRadius: 15,
@@ -51,16 +51,16 @@ export const styles = StyleSheet.create({
     tituloModal:{
         fontFamily: theme.fonts.subtitle2,
         color: theme.colorsPrimary.heading,
-        fontSize: 25,
+        fontSize: 20,
         marginTop: 10,
-        marginLeft: 20,
-        textAlign: 'left',
-        alignSelf:'flex-start'
+        marginHorizontal: 15,
+        textAlign: 'center',
+        alignSelf:'center'
     },
     valorModal:{
         fontFamily: theme.fonts.subtitle,
         color: "#c1bec1",
-        fontSize: 20,
+        fontSize: 15,
         marginTop: 10,
         marginLeft: 20,
         textAlign: 'left',
@@ -71,9 +71,9 @@ export const styles = StyleSheet.create({
         color: "#c1bec1",
         fontSize: 15,
         marginTop: 10,
-        marginLeft: 20,
+        marginHorizontal: 20,
         textAlign: 'left',
-        alignSelf:'flex-start'
+        alignSelf:'center'
     },
     buttonModal:{
         fontFamily: theme.fonts.subtitle2,
@@ -85,7 +85,7 @@ export const styles = StyleSheet.create({
         fontFamily: theme.fonts.text,
         color: 'white',
         fontSize: 12,
-        marginHorizontal: 20,
+        marginHorizontal: 30,
         marginVertical: 5
     }
     

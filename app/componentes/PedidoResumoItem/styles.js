@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
 
     container:{
         flex: 1,
-        width:400,
+        width:380,
         height:300,
         backgroundColor: theme.colorsPrimary.overlay,
         color: theme.colorsPrimary.cardColor,
@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
     },
     controleItemPedido:{
         marginTop: 30,
-        width: 230,
+        width: 200,
         flexDirection:'row-reverse'
     }
 })

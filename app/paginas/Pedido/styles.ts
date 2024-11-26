@@ -16,12 +16,15 @@ export const styles = StyleSheet.create({
         alignContent: 'center'
     },
     containerText: {
-        width: 570,
+        width: 520,
         height: 100,
         paddingHorizontal: 50,
         paddingBottom: 5,
         paddingTop: 5,
         backgroundColor: theme.colorsPrimary.primary,
+        alignContent:"center",
+        justifyContent:"center",
+        textAlign:"center"
     },
     containerModal:{
         width: 400,

@@ -12,6 +12,7 @@ export const styles = StyleSheet.create({
         width: 600,
         height: 430,
         paddingBottom: 10,
+        marginRight:15
     },
     containerItens: {
         width: 600,
@@ -27,7 +28,7 @@ export const styles = StyleSheet.create({
         fontFamily: theme.fonts.subtitle2,
         fontSize: 25,
         height: 70,
-        right: 80,
+        width:"65%",
         top:10,
         paddingTop:10,
         textAlign: 'center',
