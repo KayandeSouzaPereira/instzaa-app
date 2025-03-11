@@ -20,7 +20,7 @@ import { api, apiCEP } from "./Util";
     }  
 
 
-  async function getCardapio()  {
+  async function getCardapioLanches()  {
     let tk = await getToken();
     const config = {
       headers: {
@@ -30,8 +30,21 @@ import { api, apiCEP } from "./Util";
         Authorization: `Bearer ${tk}`,
       }
     };
-    return api.get('cardapio/', config)
-    }  
+    return api.get(`cardapio/listCardapio`, config)
+    } 
+    
+    async function getCardapio()  {
+      let tk = await getToken();
+      const config = {
+        headers: {
+          "Cache-Control": "no-cache",
+          "Access-Control-Allow-Origin": "*",
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${tk}`,
+        }
+      };
+      return api.get('cardapio/', config)
+      } 
   
     async function setPagamentoPix(pagamento)  {
       let tk = await getToken();
@@ -147,4 +160,4 @@ import { api, apiCEP } from "./Util";
 
 export { getCardapio,setPagamentoPix, setPagamentoCartao, 
   getEndereco, setPedidoEnvio, setUpdatePedidoEnvio,
-  validPix, getEmpresa, getPedido,setAvalicaoPedido}
+  validPix, getEmpresa, getPedido,setAvalicaoPedido, getCardapioLanches}

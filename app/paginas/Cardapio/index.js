@@ -150,6 +150,7 @@ export default function Cardapio({navigation}){
                                         <CaixaComum 
                                             data={item.res}
                                             callback={() => {updateList(item.res)}}
+                                            isLanche={item.res.itemLanche}
                                             />
                                         <View style={{height:10}}/>
                                         </View>

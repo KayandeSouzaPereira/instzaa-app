@@ -1,5 +1,6 @@
-//const API_URL = "http://10.0.2.2:8080/";
-const API_URL = "https://instzaa-api-production.up.railway.app/";
+const API_URL = "http://10.0.2.2:3000/";
+
+//const API_URL = "https://instzaa-api-production.up.railway.app/";
 import axios from 'axios';
 
 const api = axios.create({

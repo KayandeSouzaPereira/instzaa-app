@@ -91,7 +91,7 @@ export default function ModalPedido({qrCode, linkPix, pedido, avaliacaoCallback,
             status != undefined?
             <View>
                 {
-                status.includes("Concluido")?
+                status.includes("Concluido") || status.includes("Cancelado") ?
                 <TouchableOpacity onPress={() => callback()} style={{width:120,height:120}}>
                         <Entypo style={{top:30,left:40}} name="cross" size={30} color={theme.colorsPrimary.cardColor} />
                 </TouchableOpacity>
