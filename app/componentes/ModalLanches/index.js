@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
-import { Text, View, TouchableOpacity, Image, Alert, ScrollView } from "react-native";
+import { Text, View, TouchableOpacity, Image, Alert, ScrollView, FlatList } from "react-native";
 import { theme } from "../../configs";
-import { styles } from "./styles";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Entypo } from "@expo/vector-icons";
 import { getCardapioLanches } from "../../servicos/service";
-import { PedidoResumo } from "../PedidoResumo";
+import BotaoPao from "../botaoPao";
+import BotaoIngredientes from "../botaoIngredientes";
+import mockSandwich from "../../paginas/Cardapio/mock"
 
-export default function ModalLanches(){
+export default function ModalLanches({callback}){
     const [lanche, setLanche] = useState([]);
     const [itens, setItens] = useState({});
-    const [index, setIndex] = useState(0);
     const [component, setComponent] = useState("")
+    const [componentIngredientes, setComponentIngredientes] = useState("")
+    const [paoSelected, setPaoSelected] = useState(false);
+    const [pao, setPao] = useState({});
+    const [total, setTotal] = useState(0);
+    
     
     useEffect( () => {
         async function data() {
@@ -23,50 +26,146 @@ export default function ModalLanches(){
 
     useEffect(() => {
         if(itens.length > 0 ){
-            setComponent(getItemLanche());
+            filtroCategoria()
         }
-    }, [itens])
+    }, [itens]) 
 
     useEffect(() => {
-        if(itens.length > 0 ){
-            setComponent(getItemLanche());
-        }
-    },[index])
-
-    function minus(idx) {
-        if(idx > 0) {setIndex(idx-1)}
-    }
-    function plus(idx){if(idx+1 < itens.length) setIndex(idx+1)}
+        calculaTotal(lanche)
+    },[lanche])
 
     function addComponenteLanche(item){
+        _item = item
         const _itens = lanche;
-        _itens.push(item);
+        if(_item.categoria == "Pães"){
+            setPaoSelected(true);
+            setPao(_item)
+        } else {
+             _item.imagem = ""
+        }
+        _itens.push(_item);
         setLanche(_itens);
+        calculaTotal(_itens)
+    }
+    
+    function filtroCategoria(){
+        let _lista = itens
+        let _outros = []
+        let _paes = []
+
+        _lista.forEach((i) => {
+            if(i.categoria == "Pães"){_paes.push(i)}
+            else{_outros.push(i)}
+        })
+
+        const listaPaes = montagemLista(_paes, true);
+        const listaIngrediente = montagemLista(_outros, false);
+        
+        setComponent(listaPaes);
+        setComponentIngredientes(listaIngrediente);
     }
 
-    function getItemLanche(){ 
-        const item = itens[index];
+    function montagemLista(lista, isPao){
+        if(isPao){
+            return (<FlatList
+                data={lista}
+                keyExtractor={item => item.idCardapio}
+                renderItem={({item}) => (
+                    getItemLanchePao(item)
+                ) 
+            }
+            contentContainerStyle={{paddingVertical: 10}}
+            showsHorizontalScrollIndicator={false}
+        />)
+        }else{
+        return (<FlatList
+                data={lista}
+                keyExtractor={item => item.idCardapio}
+                renderItem={({item}) => (
+                    getItemLanche(item)
+                ) 
+            }
+            contentContainerStyle={{paddingVertical: 10}}
+            showsHorizontalScrollIndicator={false}
+        />)}
+
+    }
+
+    function updateComponentes(id, cont){
+        let _lanche = lanche;
+        for (let i = 0; i < _lanche.length; i++) {
+            if (_lanche[i].id === id){
+                _lanche[i].contagem = cont;
+            }
+        }
+        setLanche(_lanche)
+        calculaTotal(_lanche)
+    }
+
+    function calculaTotal(_lanche) {
+        let valor = 0;
+        if(_lanche.length > 0){
+            _lanche.forEach((item) => {
+                if(item.contagem){
+                    valor = item.preco * item.contagem + valor
+                }
+                else{valor = item.preco + valor}
+            })
+        }
+        setTotal(valor);
+    }
+
+
+    function getItemLanche(item){ 
         return (
-            <View style={{flexDirection:"row"}}>
-
-               <TouchableOpacity onPress={() => minus(index)} style={{borderRadius: 8,marginHorizontal: 30,width:34, height: 34, alignContent: "center", justifyContent: "center", alignItems: "center", backgroundColor: theme.colorsPrimary.cardColor}}>
-                <Entypo  name="chevron-left" size={24}/>
-                </TouchableOpacity>
-
-                <View style={{flexDirection: "Column", width: 200, alignContent: "center", justifyContent: "center", alignItems: "center"}}>
-                    <Image style={{width: 150, height: 150,borderRadius: 15, marginHorizontal: 5,resizeMode: 'cover'}} source={{uri: item.imagem}}/>
-                    <Text style={{color:theme.colorsPrimary.cardColor, fontSize: 12, fontFamily: theme.fonts.subtitle, textAlign:"center"}}>{item.descricao}</Text>
-                    <Text style={{color:theme.colorsPrimary.cardColor, fontSize: 20, fontFamily: theme.fonts.subtitle, textAlign:"center"}}>{item.preco.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</Text>
-                    <TouchableOpacity onPress={() => addComponenteLanche(item)} style={{borderRadius: 8,marginVertical: 10,width:150, height: 34, alignContent: "center", justifyContent: "center", alignItems: "center", backgroundColor: theme.colorsPrimary.primary80}}>
-                        <Text style={{color:theme.colorsPrimary.cardColor, fontSize: 20, fontFamily: theme.fonts.subtitle, textAlign:"center"}}>Adicionar complemento</Text>
-                    </TouchableOpacity>
+            <View style={{flexDirection:"row", marginVertical: 10}}>
+                <View style={{flexDirection: "row", width: 200, marginHorizontal: 20, alignItems: "center"}}>
+                    <Image style={{width: 150, height: 150,borderRadius: 15, marginHorizontal: 10,resizeMode: 'cover'}} source={{uri: item.imagem}}/>
+                    <View style={{flexDirection:"column", marginHorizontal: 20}}>
+                        <Text style={{color:theme.colorsPrimary.cardColor, fontSize: 12, fontFamily: theme.fonts.subtitle, textAlign:"center"}}>{item.descricao}</Text>
+                        <Text style={{color:theme.colorsPrimary.cardColor, fontSize: 20, fontFamily: theme.fonts.subtitle, textAlign:"center"}}>{item.preco.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</Text>
+                        <BotaoIngredientes callback={() => addComponenteLanche(item)} updateComponentes={updateComponentes} idItem={item.id}/>
+                    </View>
                 </View>
-
-                <TouchableOpacity onPress={() => plus(index)} style={{borderRadius: 8,marginHorizontal: 30,width:34, height: 34, alignContent: "center", justifyContent: "center", alignItems: "center", backgroundColor: theme.colorsPrimary.cardColor}}>
-                    <Entypo name="chevron-right" size={24}/>
-                </TouchableOpacity>
             </View>
         )
+    }
+
+    function getItemLanchePao(item){ 
+        return (
+            <View style={{flexDirection:"row", marginVertical: 10}}>
+                <View style={{flexDirection: "row", width: 200, marginHorizontal: 20, alignItems: "center"}}>
+                    <Image style={{width: 150, height: 150,borderRadius: 15, marginHorizontal: 10,resizeMode: 'cover'}} source={{uri: item.imagem}}/>
+                    <View style={{flexDirection:"column", marginHorizontal: 20}}>
+                        <Text style={{color:theme.colorsPrimary.cardColor, fontSize: 12, fontFamily: theme.fonts.subtitle, textAlign:"center"}}>{item.descricao}</Text>
+                        <Text style={{color:theme.colorsPrimary.cardColor, fontSize: 20, fontFamily: theme.fonts.subtitle, textAlign:"center"}}>{item.preco.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</Text>
+                        <BotaoPao callback={() => addComponenteLanche(item)}/>
+                    </View>
+                </View>
+            </View>
+        )
+    }
+
+    function sendLanche(){
+        let _descricao = [];
+
+        lanche.forEach((item) => {
+            _descricao.push(item.nome)
+        })
+        let _lanche = {
+            "id": 152,
+            "categoria": "Lanche",
+            "nome": "Lanche",
+            "descricao": JSON.stringify(_descricao),
+            "itemLanche": false,
+            "itemLanches": [],
+            "promocao": false,
+            "destaque": false,
+            "preco": total,
+            "imagem": mockSandwich.imagem
+        }
+
+        callback(_lanche)
     }
 
     return (
@@ -75,17 +174,38 @@ export default function ModalLanches(){
                 <ScrollView nestedScrollEnabled={true} style={{width: 380, alignContent: "center"}}>
                 <View style={{marginVertical: 10}}><Text style={{color:theme.colorsPrimary.cardColor, fontSize: 20, fontFamily: theme.fonts.subtitle, textAlign: "center"}}>Monte seu lanche</Text></View>
                 <View style={{marginVertical: 10}}>
-                    {component}
-                </View>
-                <View style={{marginVertical: 10}}><Text style={{color:theme.colorsPrimary.cardColor, fontSize: 20, fontFamily: theme.fonts.subtitle, textAlign: "center"}}>Acompanhamentos</Text></View>
-                { lanche.length > 0?
-                    <View style={{backgroundColor: theme.colorsPrimary.primary, paddingVertical: 20}}>
-                        <PedidoResumo pedidoList={lanche}/>
+                
+                {
+                    paoSelected==false ?
+                    <View>
+                        <View style={{marginVertical: 10}}><Text style={{color:theme.colorsPrimary.cardColor, fontSize: 20, fontFamily: theme.fonts.subtitle, textAlign: "center"}}>Selecione seu pão</Text></View>
+                        {component}
                     </View>
                     :
-                    <></>
+                    <View>
+                        <View style={{marginVertical: 10}}><Text style={{color:theme.colorsPrimary.cardColor, fontSize: 20, fontFamily: theme.fonts.subtitle, textAlign: "center"}}>Pão Selecionado</Text></View>
+                         <View style={{flexDirection:"row", marginVertical: 10}}>
+                            <View style={{flexDirection: "row", width: 200, marginHorizontal: 20, alignItems: "center"}}>
+                                <Image style={{width: 150, height: 150,borderRadius: 15, marginHorizontal: 10,resizeMode: 'cover'}} source={{uri: pao.imagem}}/>
+                                <View style={{flexDirection:"column", marginHorizontal: 20}}>
+                                    <Text style={{color:theme.colorsPrimary.cardColor, fontSize: 12, fontFamily: theme.fonts.subtitle, textAlign:"center"}}>{pao.descricao}</Text>
+                                    <Text style={{color:theme.colorsPrimary.cardColor, fontSize: 20, fontFamily: theme.fonts.subtitle, textAlign:"center"}}>{pao.preco.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</Text>
+                                </View>
+                            </View>
+                        </View>
+                    </View>
                 }
+                </View>
+                <View style={{marginVertical: 10}}><Text style={{color:theme.colorsPrimary.cardColor, fontSize: 20, fontFamily: theme.fonts.subtitle, textAlign: "center"}}>Turbine seu lanche !!!</Text></View>
+                {componentIngredientes}
                 <View></View>
+                <View style={{marginVertical: 10}}>
+                    <Text style={{color:theme.colorsPrimary.cardColor, fontSize: 20, fontFamily: theme.fonts.title2, textAlign: "Left", marginHorizontal: 20}}>Total : {total.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</Text>
+                </View>
+                <TouchableOpacity onPress={() => sendLanche()} style={{width: 200, height:50, backgroundColor: theme.colorsPrimary.highlight, marginHorizontal: 100, marginVertical: 30, justifyContent:'center', alignItems:'center', borderRadius: 10}}>
+                    <Text style={{fontSize: 20, color: theme.colorsPrimary.cardColor}}>Concluir</Text>
+                </TouchableOpacity>
+                <View style={{height: 150}}/>
                 </ScrollView>
             </View>
         </View>
