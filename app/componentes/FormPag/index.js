@@ -143,8 +143,6 @@ export function FormPag({endereco, cliente, valor, callback}){
                 _pagamento.Cidade = endereco.cidade;
                 _pagamento.Estado = endereco.uf;
             }
-
-            console.log(_pagamento)
             setPagamento(_pagamento);
         }
     },[paymentToken])

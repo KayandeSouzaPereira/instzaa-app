@@ -5,7 +5,7 @@ import {styles} from './styles'
 import { theme } from '../../configs';
 import ModalLanches from '../ModalLanches';
 
-export function CaixaDestaque({data, callback, isLanche}){
+export function CaixaDestaque({data, callback, isLanche, callbackLanche}){
     const [modal, setModal] = useState(false);
     const [modalLanche, setModalLanche] = useState(false);
 
@@ -47,7 +47,7 @@ export function CaixaDestaque({data, callback, isLanche}){
                                     <TouchableOpacity onPress={() => setModalLanche(false)} style={{alignContent: "center", justifyContent: "center", alignItems: "center",flex:1,backgroundColor:'rgba(52, 52, 52, 0.7)'}}>
                                             <Entypo style={{flex:1, top:5}} name="cross" size={30} color={theme.colorsPrimary.cardColor} />
                                     </TouchableOpacity>
-                                    <ModalLanches/>
+                                    <ModalLanches callback={callbackLanche}/>
                                 </Modal>
                 {   data.imagem ?
                         <Image style={{width: 380, height: 230,borderRadius: 15, marginHorizontal: 10,resizeMode: 'cover'}}  source={{uri: data.imagem}}/>
