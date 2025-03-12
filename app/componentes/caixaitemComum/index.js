@@ -3,14 +3,15 @@ import {Text, View, TouchableOpacity, Image, Modal} from 'react-native';
 import { Entypo, MaterialIcons } from '@expo/vector-icons';
 import {styles} from './styles'
 import { theme } from '../../configs';
+import ModalLanches from '../ModalLanches';
 
-export function CaixaComum({data, callback}){
+export function CaixaComum({data, callback, isLanche}){
     const [modal, setModal] = useState(false);
     const [dataM, setDataM] = useState(data);
-
+    const [modalLanche, setModalLanche] = useState(false);
     return(
         <View style={styles.container}>
-            <TouchableOpacity onPress={() => setModal(true)} >
+            <TouchableOpacity onPress={() => {if(isLanche){setModalLanche(true)}else{setModal(true)}}} >
                 <Modal
                     visible={modal}
                     transparent={true}
@@ -37,6 +38,16 @@ export function CaixaComum({data, callback}){
                         </TouchableOpacity>
                         </View>
                     </View>
+                </Modal>
+                <Modal
+                    visible={modalLanche}
+                    transparent={true}
+                    onRequestClose={() => {setModalLanche(false)}}
+                >
+                    <TouchableOpacity onPress={() => setModalLanche(false)} style={{alignContent: "center", justifyContent: "center", alignItems: "center",flex:1,backgroundColor:'rgba(52, 52, 52, 0.7)'}}>
+                            <Entypo style={{flex:1, top:5}} name="cross" size={30} color={theme.colorsPrimary.cardColor} />
+                    </TouchableOpacity>
+                    <ModalLanches/>
                 </Modal>
                 <View style={{flex: 1,flexDirection: "row", marginHorizontal: 10, marginVertical: 20}}>
                 {   dataM.imagem ?

@@ -11,9 +11,10 @@ import { Cabecario } from "../../componentes/cabecario"
 import { CaixaDestaque } from "../../componentes/caixadestaque"
 import { CaixaComum } from "../../componentes/caixaitemComum";
 
-import { getCardapio } from '../../servicos/service'
+import { getCardapioNoLanches } from '../../servicos/service'
 
 import { styles } from "./styles";
+import mockSandwich from "./mock"
 
 export default function Cardapio({navigation}){
 
@@ -41,13 +42,17 @@ export default function Cardapio({navigation}){
     }
 
     function getDados(){
-         getCardapio().then(result => {setItem(result.data); get = true}).catch()
+        getCardapioNoLanches().then(result => {setItem(result.data); get = true}).catch()
     }
 
     function separaItem(items) {
         setDestaques([])
         setPromocoes([])
         setItemsNormais([])
+
+        let _mock = []
+        _mock.push(mockSandwich);
+        setDestaques(_mock);
 
         items.forEach((i) => {
              if(i.destaque === true){
@@ -76,6 +81,7 @@ export default function Cardapio({navigation}){
                 return
             }  
         })
+
     }
 
     async function updateList(pedidoObj){
@@ -114,6 +120,7 @@ export default function Cardapio({navigation}){
                                         <CaixaDestaque 
                                         data={item}
                                         callback={() => {updateList(item)}}
+                                        isLanche={item.itemLanche}
                                         />
                                     ) 
                                 }
@@ -150,6 +157,7 @@ export default function Cardapio({navigation}){
                                         <CaixaComum 
                                             data={item.res}
                                             callback={() => {updateList(item.res)}}
+                                            isLanche={item.res.itemLanche}
                                             />
                                         <View style={{height:10}}/>
                                         </View>
@@ -163,5 +171,8 @@ export default function Cardapio({navigation}){
             </LinearGradient>
         </View >
     )
+
+
+    
     
 }
