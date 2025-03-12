@@ -32,6 +32,19 @@ import { api, apiCEP } from "./Util";
     };
     return api.get(`cardapio/listCardapio`, config)
     } 
+
+    async function getCardapioNoLanches()  {
+      let tk = await getToken();
+      const config = {
+        headers: {
+          "Cache-Control": "no-cache",
+          "Access-Control-Allow-Origin": "*",
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${tk}`,
+        }
+      };
+      return api.get(`cardapio/listCardapioNoLanche`, config)
+      } 
     
     async function getCardapio()  {
       let tk = await getToken();
@@ -160,4 +173,4 @@ import { api, apiCEP } from "./Util";
 
 export { getCardapio,setPagamentoPix, setPagamentoCartao, 
   getEndereco, setPedidoEnvio, setUpdatePedidoEnvio,
-  validPix, getEmpresa, getPedido,setAvalicaoPedido, getCardapioLanches}
+  validPix, getEmpresa, getPedido,setAvalicaoPedido, getCardapioLanches, getCardapioNoLanches}
