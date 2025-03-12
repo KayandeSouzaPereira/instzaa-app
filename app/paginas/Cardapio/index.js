@@ -93,6 +93,8 @@ export default function Cardapio({navigation}){
         navigation.navigate("Pedido");
     }
 
+    
+
     useEffect(() => {
         getDados();
     }, []);
@@ -121,6 +123,7 @@ export default function Cardapio({navigation}){
                                         data={item}
                                         callback={() => {updateList(item)}}
                                         isLanche={item.itemLanche}
+                                        callbackLanche={updateList}
                                         />
                                     ) 
                                 }

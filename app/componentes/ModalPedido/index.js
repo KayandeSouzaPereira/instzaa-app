@@ -39,7 +39,6 @@ export default function ModalPedido({qrCode, linkPix, pedido, avaliacaoCallback,
     };
 
     const statusPedido = () => {
-        console.log(status)
         if(status != undefined){
         switch (status){
             case 'Confirmado':
