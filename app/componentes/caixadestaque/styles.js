@@ -1,92 +1,90 @@
-import { StyleSheet } from 'react-native';
-import { theme } from '../../configs';
+import { StyleSheet } from "react-native";
+import { theme } from "../../configs";
 
 export const styles = StyleSheet.create({
-
-    container:{
-        width: 400,
-        height: 350,
-        alignItems: 'center',
-        alignContent: 'center',
-        borderRadius: 15,
-        marginHorizontal: 0,
-        backgroundColor:theme.colorsPrimary.secondary100
-    },
-    containerModal:{
-        width: 400,
-        height: 600,
-        alignItems: 'center',
-        alignContent: 'center',
-        borderRadius: 15,
-        bottom:70,
-        backgroundColor:theme.colorsPrimary.secondary100
-    },
-    containerText:{
-        height: 60
-    },
-    containerTextButton: {
-        flexDirection:'row',
-    },
-    containerButton:{
-        width: 300,
-        height: 70,
-        alignItems: 'center',
-        alignContent: 'center',
-        borderRadius: 15,
-        marginHorizontal: 5,
-        marginVertical: 30,
-        backgroundColor:theme.colorsPrimary.thirdary,
-        flexDirection:'row'
-    },
-    containerTextIMG:{
-        height: 60,
-        marginVertical: 30,
-        alignItems:'center'
-    },
-    titulo:{
-        fontFamily: theme.fonts.subtitle,
-        color: 'white',
-        fontSize: 20
-    },
-    tituloModal:{
-        fontFamily: theme.fonts.subtitle2,
-        color: theme.colorsPrimary.heading,
-        fontSize: 20,
-        marginTop: 10,
-        marginHorizontal: 15,
-        textAlign: 'center',
-        alignSelf:'center'
-    },
-    valorModal:{
-        fontFamily: theme.fonts.subtitle,
-        color: "#c1bec1",
-        fontSize: 15,
-        marginTop: 10,
-        marginLeft: 20,
-        textAlign: 'left',
-        alignSelf:'flex-start'
-    },
-    descricaoModal:{
-        fontFamily: theme.fonts.text,
-        color: "#c1bec1",
-        fontSize: 15,
-        marginTop: 10,
-        marginHorizontal: 20,
-        textAlign: 'left',
-        alignSelf:'center'
-    },
-    buttonModal:{
-        fontFamily: theme.fonts.subtitle2,
-        color: theme.colorsPrimary.heading,
-        fontSize: 25,
-        alignSelf:'center'
-    },
-    descricao:{
-        fontFamily: theme.fonts.text,
-        color: 'white',
-        fontSize: 12,
-        marginHorizontal: 30,
-        marginVertical: 5
-    }
-    
-})
+  container: {
+    width: 400,
+    height: 350,
+    alignItems: "center",
+    alignContent: "center",
+    borderRadius: 15,
+    marginHorizontal: 0,
+    backgroundColor: theme.colorsPrimary.secondary100,
+  },
+  containerModal: {
+    width: 400,
+    height: 750,
+    alignItems: "center",
+    alignContent: "center",
+    borderRadius: 15,
+    bottom: 30,
+    backgroundColor: theme.colorsPrimary.secondary100,
+  },
+  containerText: {
+    height: 60,
+  },
+  containerTextButton: {
+    flexDirection: "row",
+  },
+  containerButton: {
+    width: 300,
+    height: 70,
+    alignItems: "center",
+    alignContent: "center",
+    borderRadius: 15,
+    marginHorizontal: 5,
+    marginVertical: 30,
+    backgroundColor: theme.colorsPrimary.thirdary,
+    flexDirection: "row",
+  },
+  containerTextIMG: {
+    height: 60,
+    marginVertical: 30,
+    alignItems: "center",
+  },
+  titulo: {
+    fontFamily: theme.fonts.subtitle,
+    color: "white",
+    fontSize: 20,
+  },
+  tituloModal: {
+    fontFamily: theme.fonts.subtitle2,
+    color: theme.colorsPrimary.heading,
+    fontSize: 20,
+    marginTop: 10,
+    marginHorizontal: 15,
+    textAlign: "center",
+    alignSelf: "center",
+  },
+  valorModal: {
+    fontFamily: theme.fonts.subtitle,
+    color: "#c1bec1",
+    fontSize: 15,
+    marginTop: 10,
+    marginLeft: 20,
+    textAlign: "left",
+    alignSelf: "flex-start",
+  },
+  descricaoModal: {
+    fontFamily: theme.fonts.text,
+    color: "#c1bec1",
+    fontSize: 15,
+    marginTop: 10,
+    marginHorizontal: 20,
+    textAlign: "left",
+    alignSelf: "center",
+  },
+  buttonModal: {
+    fontFamily: theme.fonts.subtitle2,
+    color: theme.colorsPrimary.heading,
+    fontSize: 25,
+    alignSelf: "center",
+  },
+  descricao: {
+    fontFamily: theme.fonts.text,
+    color: "white",
+    fontSize: 12,
+    marginHorizontal: 30,
+    marginVertical: 5,
+  },
+});
