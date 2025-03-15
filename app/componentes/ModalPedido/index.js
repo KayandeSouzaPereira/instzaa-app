@@ -12,7 +12,6 @@ import * as Clipboard from "expo-clipboard";
 import { theme } from "../../configs";
 import { styles } from "./styles";
 import { getPedido } from "../../servicos/service";
-import AvaliacaoForm from "../AvaliacaoForm";
 import CaixaComentario from "../caixaComentario";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -20,6 +19,7 @@ export default function ModalPedido({ qrCode, linkPix, pedido, callback }) {
   const [status, setStatus] = useState(pedido.status);
   let checkStatusPedido = true;
   let avaliacao = initAvaliacao();
+  let idCardapios = loopCardapio();
 
   function initAvaliacao() {
     let _avaliacao = {};
@@ -30,6 +30,14 @@ export default function ModalPedido({ qrCode, linkPix, pedido, callback }) {
     _avaliacao.nota = 0;
     _avaliacao.idCardapio = 0;
     return _avaliacao;
+  }
+
+  function loopCardapio() {
+    let idPedidos = [];
+    pedido.resumoPedido.forEach((element) => {
+      idPedidos.push(element.id);
+    });
+    return idPedidos;
   }
 
   useEffect(() => {
@@ -169,7 +177,10 @@ export default function ModalPedido({ qrCode, linkPix, pedido, callback }) {
                 size={180}
                 color="white"
               />
-              <CaixaComentario comentario={avaliacao} />
+              <CaixaComentario
+                comentario={avaliacao}
+                itemCardapios={idCardapios}
+              />
             </View>
           );
         case "Cancelado":

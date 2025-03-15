@@ -1,19 +1,12 @@
 import { useEffect, useState } from "react";
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  TextInput,
-  FlatList,
-  Alert,
-} from "react-native";
+import { Text, View, TextInput, FlatList, Alert } from "react-native";
 import { theme } from "../../configs";
 import { getComentarios, setComentario } from "../../servicos/service";
 import { style } from "./styles";
 import AvaliacaoEstrelas from "../AvaliacaoEstrelas";
 import AvaliacaoForm from "../AvaliacaoForm";
 
-export default function CaixaComentario({ id, comentario }) {
+export default function CaixaComentario({ id, comentario, itemCardapios }) {
   const [listaComentarios, setListaComentarios] = useState({});
   const [comentarioEditado, setComentarioEditado] = useState();
   const [comentarioTexto, setComentarioTexto] = useState();
@@ -70,8 +63,11 @@ export default function CaixaComentario({ id, comentario }) {
     _comentario = comentarioEditado;
     _comentario.nota = avaliacao;
     _comentario.comentario = comentarioTexto;
-
-    const response = await setComentario(_comentario);
+    let response;
+    for (let index = 0; index < itemCardapios.length; index++) {
+      _comentario.idCardapio = itemCardapios[index];
+      response = await setComentario(_comentario);
+    }
     if (response) {
       Alert.alert("Atenção!", "Comentário enviado com sucesso");
     }
