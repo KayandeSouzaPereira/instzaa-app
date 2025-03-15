@@ -73,6 +73,20 @@ async function getComentarios(id) {
   return api.get("comentario/comentarioByIdProduto/" + id, config);
 }
 
+async function setComentario(comentario) {
+  let tk = await getToken();
+  const body = JSON.stringify(comentario);
+  const config = {
+    headers: {
+      "Cache-Control": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${tk}`,
+    },
+  };
+  return api.post("comentario", body, config);
+}
+
 async function setPagamentoPix(pagamento) {
   let tk = await getToken();
   let data = {
@@ -197,4 +211,5 @@ export {
   getCardapioLanches,
   getCardapioNoLanches,
   getComentarios,
+  setComentario,
 };

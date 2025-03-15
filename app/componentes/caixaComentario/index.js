@@ -1,26 +1,38 @@
 import { useEffect, useState } from "react";
-import { Text, View, TouchableOpacity, FlatList } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  TextInput,
+  FlatList,
+  Alert,
+} from "react-native";
 import { theme } from "../../configs";
-import { getComentarios } from "../../servicos/service";
+import { getComentarios, setComentario } from "../../servicos/service";
 import { style } from "./styles";
 import AvaliacaoEstrelas from "../AvaliacaoEstrelas";
+import AvaliacaoForm from "../AvaliacaoForm";
 
 export default function CaixaComentario({ id, comentario }) {
   const [listaComentarios, setListaComentarios] = useState({});
-  const [comentarioEditado, setComentarioEditado] = useState({});
-  const [nota, setNota] = useState(0);
-  const [textoComentario, setTextoComentario] = useState("");
+  const [comentarioEditado, setComentarioEditado] = useState();
+  const [comentarioTexto, setComentarioTexto] = useState();
 
   useEffect(() => {
     async function data() {
       let _listaComentarios = await getComentarios(id);
       setListaComentarios(_listaComentarios.data);
     }
-    data();
+    if (comentario) {
+      setComentarioEditado(comentario);
+      setComentarioTexto(comentario.comentario);
+    } else {
+      data();
+    }
   }, []);
 
-  function ElementoComentario(comentario) {
-    let data = new Date(comentario.dataComentario).toLocaleDateString("pt-br");
+  function ElementoComentario(_comentario) {
+    let data = new Date(_comentario.dataComentario).toLocaleDateString("pt-br");
     return (
       <View
         style={{
@@ -30,10 +42,10 @@ export default function CaixaComentario({ id, comentario }) {
           borderRadius: 5,
           padding: 8,
         }}>
-        <AvaliacaoEstrelas nota={comentario.nota} />
+        <AvaliacaoEstrelas nota={_comentario.nota} />
         <View style={{ height: 70 }}>
           <Text style={{ fontSize: 16, color: "#ffffff", marginHorizontal: 5 }}>
-            {comentario.comentario}
+            {_comentario.comentario}
           </Text>
         </View>
         <View
@@ -43,7 +55,7 @@ export default function CaixaComentario({ id, comentario }) {
             marginHorizontal: 5,
           }}>
           <Text style={{ fontSize: 16, color: theme.colorsPrimary.forthary }}>
-            {comentario.nomeComentario}
+            {_comentario.nomeComentario}
           </Text>
 
           <Text style={{ fontSize: 16, color: theme.colorsPrimary.forthary }}>
@@ -53,15 +65,39 @@ export default function CaixaComentario({ id, comentario }) {
       </View>
     );
   }
+
+  async function sendComentario(avaliacao) {
+    _comentario = comentarioEditado;
+    _comentario.nota = avaliacao;
+    _comentario.comentario = comentarioTexto;
+
+    const response = await setComentario(_comentario);
+    if (response) {
+      Alert.alert("Atenção!", "Comentário enviado com sucesso");
+    }
+  }
+
   return (
     <>
       {comentario ? (
         <View>
           <View style={style.listaComentarios}>
-            <Text style={{ fontSize: 32 }}>Data: {}</Text>
-            <Text style={{ fontSize: 32 }}>Nome: {}</Text>
-            <Text style={{ fontSize: 32 }}>Comentário: {}</Text>
-            <Text style={{ fontSize: 32 }}>Nota: {}</Text>
+            <Text style={{ color: "#ffffff" }}>
+              {comentario.nomeComentario}
+            </Text>
+            <TextInput
+              onChangeText={(e) => {
+                setComentarioTexto(e);
+              }}
+              value={comentarioTexto}
+              color="#ffffff"
+              placeholder="Comentário"
+              placeholderTextColor="#ffffff"
+              multiline
+              maxLength={250}
+              style={{ width: 300 }}
+            />
+            <AvaliacaoForm callback={sendComentario} />
           </View>
         </View>
       ) : (
