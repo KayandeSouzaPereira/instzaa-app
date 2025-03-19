@@ -63,5 +63,6 @@ Instale Instzaa e o utilize de maneira local.
 ## Autores
 
 - [@kayandesouza](https://github.com/KayandeSouzaPereira) Desenvolvedor do App
+- [@matheusmarti](https://github.com/Matheus-Marti1) Desenvolvedor responsável pela implementação dos comentários na Aplicação móvel e Api.
 
 
