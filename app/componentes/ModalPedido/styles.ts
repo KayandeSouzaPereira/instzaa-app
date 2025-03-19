@@ -83,6 +83,13 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
         color: 'white'
     },
+    textConcluido: {
+        fontFamily: theme.fonts.subtitle2,
+        fontSize: 12,
+        paddingVertical: 15,
+        textAlign: 'center',
+        color: 'white'
+    },
     textCreditoTitle: {
         fontFamily: theme.fonts.subtitle2,
         fontSize: 25,

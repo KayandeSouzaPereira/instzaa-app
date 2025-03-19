@@ -35,7 +35,7 @@ export default function ModalPedido({ qrCode, linkPix, pedido, callback }) {
   function loopCardapio() {
     let idPedidos = [];
     pedido.resumoPedido.forEach((element) => {
-      idPedidos.push(element.id);
+      idPedidos.push(element);
     });
     return idPedidos;
   }
@@ -166,15 +166,15 @@ export default function ModalPedido({ qrCode, linkPix, pedido, callback }) {
                 alignItems: "center",
               }}>
               <View>
-                <Text style={styles.textPixTitle}>
+                <Text style={styles.textConcluido}>
                   Pedido entregue. Gostou ? conte para nós como foi sua
                   experiência.
                 </Text>
               </View>
               <Ionicons
-                style={{ marginTop: 20 }}
+                style={{ marginVertical: 20 }}
                 name="pizza-outline"
-                size={180}
+                size={80}
                 color="white"
               />
               <CaixaComentario

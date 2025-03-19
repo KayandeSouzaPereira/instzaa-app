@@ -114,7 +114,7 @@ export function CaixaDestaque({ data, callback, isLanche, callbackLanche }) {
               color={theme.colorsPrimary.cardColor}
             />
           </TouchableOpacity>
-          {/* <ModalLanches callback={callbackLanche}/> */}
+          <ModalLanches callback={callbackLanche}/>
         </Modal>
         {data.imagem ? (
           <Image

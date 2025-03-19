@@ -14,11 +14,11 @@ export const styles = StyleSheet.create({
     },
     containerModal:{
         width: 400,
-        height: 700,
+        height: 800,
         alignItems: 'center',
         alignContent: 'center',
         borderRadius: 15,
-        bottom:100,
+        bottom:30,
         backgroundColor:theme.colorsPrimary.secondary100
     },
     containerText:{

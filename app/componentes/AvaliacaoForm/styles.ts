@@ -3,12 +3,13 @@ import { theme } from "../../configs";
 
 export const style = StyleSheet.create({
   containerAvaliacaoGroup: {
-    top: 75,
+    top: 0,
     flex: 1,
     flexDirection: "column",
     justifyContent: "center",
     alignContent: "center",
     alignItems: "center",
+    marginVertical: 50
   },
   containerAvaliacao: {
     width: 200,

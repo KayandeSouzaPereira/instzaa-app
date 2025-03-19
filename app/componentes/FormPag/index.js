@@ -32,6 +32,7 @@ export function FormPag({endereco, cliente, valor, callback}){
     const [cartaoValid, setCartaoValid] = useState(false);
     const [paymentToken, setPaymentToken] = useState(""); 
 
+  
     const getDadosEmpresa = async () => {
         let ret = await getEmpresa();
         setTokenConta(ret.data.idCont);

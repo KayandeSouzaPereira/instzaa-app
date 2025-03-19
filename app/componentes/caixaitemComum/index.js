@@ -4,6 +4,7 @@ import { Entypo, MaterialIcons } from '@expo/vector-icons';
 import {styles} from './styles'
 import { theme } from '../../configs';
 import ModalLanches from '../ModalLanches';
+import CaixaComentario from '../caixaComentario';
 
 export function CaixaComum({data, callback, isLanche}){
     const [modal, setModal] = useState(false);
@@ -36,6 +37,7 @@ export function CaixaComum({data, callback, isLanche}){
                             <Text style={styles.buttonModal}>Adicionar</Text>
                             </View> 
                         </TouchableOpacity>
+                        <CaixaComentario id={data.id} />
                         </View>
                     </View>
                 </Modal>

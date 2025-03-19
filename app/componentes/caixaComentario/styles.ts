@@ -9,4 +9,11 @@ export const style = StyleSheet.create({
     height: 220,
     borderRadius: 10,
   },
+  bodyCadastroComentario: {
+    width: 350,
+    backgroundColor: theme.colorsPrimary.secondary120,
+    top: 30,
+    height: 280,
+    borderRadius: 10,
+  },
 });
