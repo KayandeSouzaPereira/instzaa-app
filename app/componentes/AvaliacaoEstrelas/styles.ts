@@ -3,22 +3,21 @@ import { theme } from "../../configs";
 
 export const style = StyleSheet.create({
   containerAvaliacaoGroup: {
-    top: 75,
     flex: 1,
     flexDirection: "column",
-    justifyContent: "center",
-    alignContent: "center",
-    alignItems: "center",
+    justifyContent: "flex-start",
+    alignContent: "flex-start",
+    alignItems: "flex-start",
+    marginHorizontal: 5,
   },
   containerAvaliacao: {
-    width: 200,
-    marginVertical: 30,
+    marginVertical: 5,
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "flex-start",
   },
   buttonAvalicao: {
     width: 280,
-    height: 50,
+    height: 80,
     borderRadius: 10,
     backgroundColor: theme.colorsPrimary.primary80,
     justifyContent: "center",

@@ -1,176 +1,215 @@
 import { api, apiCEP } from "./Util";
 
-  function getEndereco(cep) {
-    return apiCEP.get(cep + "/json/")
-  }
+function getEndereco(cep) {
+  return apiCEP.get(cep + "/json/");
+}
 
-  async function getToken()  {
-    const config = {
-      headers: {
-        "Cache-Control": "no-cache",
-        "Access-Control-Allow-Origin": "*",
-        'Content-Type': 'application/json',
-      }
-    };
-    const body = {
-        "email": "instzaa@app.com",
-        "password": "Instzaa@834"
-      }
-    return api.post('/auth/login',body, config).then(res => {return res.data.token})
-    }  
+async function getToken() {
+  const config = {
+    headers: {
+      "Cache-Control": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+    },
+  };
+  const body = {
+    email: "instzaa@app.com",
+    password: "Instzaa@834",
+  };
+  return api.post("/auth/login", body, config).then((res) => {
+    return res.data.token;
+  });
+}
 
+async function getCardapioLanches() {
+  let tk = await getToken();
+  const config = {
+    headers: {
+      "Cache-Control": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${tk}`,
+    },
+  };
+  return api.get(`cardapio/listCardapio`, config);
+}
 
-  async function getCardapioLanches()  {
-    let tk = await getToken();
-    const config = {
-      headers: {
-        "Cache-Control": "no-cache",
-        "Access-Control-Allow-Origin": "*",
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${tk}`,
-      }
-    };
-    return api.get(`cardapio/listCardapio`, config)
-    } 
+async function getCardapioNoLanches() {
+  let tk = await getToken();
+  const config = {
+    headers: {
+      "Cache-Control": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${tk}`,
+    },
+  };
+  return api.get(`cardapio/listCardapioNoLanche`, config);
+}
 
-    async function getCardapioNoLanches()  {
-      let tk = await getToken();
-      const config = {
-        headers: {
-          "Cache-Control": "no-cache",
-          "Access-Control-Allow-Origin": "*",
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${tk}`,
-        }
-      };
-      return api.get(`cardapio/listCardapioNoLanche`, config)
-      } 
-    
-    async function getCardapio()  {
-      let tk = await getToken();
-      const config = {
-        headers: {
-          "Cache-Control": "no-cache",
-          "Access-Control-Allow-Origin": "*",
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${tk}`,
-        }
-      };
-      return api.get('cardapio/', config)
-      } 
-  
-    async function setPagamentoPix(pagamento)  {
-      let tk = await getToken();
-      let data = {
-        cpf: pagamento.Cpf,
-        nome: pagamento.Nome,
-        valor: pagamento.Valor
-      }
-      const body = JSON.stringify(data)
-      const config = {
-        headers: {
-          "Cache-Control": "no-cache",
-          "Access-Control-Allow-Origin": "*",
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${tk}`,
-        }
-      };
-      return api.post('pagamento/criarPagamento', body, config);
-    }  
+async function getCardapio() {
+  let tk = await getToken();
+  const config = {
+    headers: {
+      "Cache-Control": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${tk}`,
+    },
+  };
+  return api.get("cardapio/", config);
+}
 
-    async function setPagamentoCartao(pagamento)  {
-      let tk = await getToken();
-      const config = {
-        headers: {
-          "Cache-Control": "no-cache",
-          "Access-Control-Allow-Origin": "*",
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${tk}`,
-        }
-      };
-      return api.post('pagamento/criarPagamentoCartao', pagamento, config);
-    }  
+async function getComentarios(id) {
+  let tk = await getToken();
+  const config = {
+    headers: {
+      "Cache-Control": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${tk}`,
+    },
+  };
+  return api.get("comentario/comentarioByIdProduto/" + id, config);
+}
 
-    async function setPedidoEnvio(pedido)  {
-      let tk = await getToken();
-      const config = {
-        headers: {
-          "Cache-Control": "no-cache",
-          "Access-Control-Allow-Origin": "*",
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${tk}`,
-        }
-      };
-      return api.post('pedido', pedido, config);
-    }  
+async function setComentario(comentario) {
+  let tk = await getToken();
+  const body = JSON.stringify(comentario);
+  const config = {
+    headers: {
+      "Cache-Control": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${tk}`,
+    },
+  };
+  return api.post("comentario", body, config);
+}
 
-    async function setUpdatePedidoEnvio(pedido, id)  {
-      let tk = await getToken();
-      const config = {
-        headers: {
-          "Cache-Control": "no-cache",
-          "Access-Control-Allow-Origin": "*",
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${tk}`,
-        }
-      };
-      return api.put(`pedido/${id}`, pedido, config);
-    } 
+async function setPagamentoPix(pagamento) {
+  let tk = await getToken();
+  let data = {
+    cpf: pagamento.Cpf,
+    nome: pagamento.Nome,
+    valor: pagamento.Valor,
+  };
+  const body = JSON.stringify(data);
+  const config = {
+    headers: {
+      "Cache-Control": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${tk}`,
+    },
+  };
+  return api.post("pagamento/criarPagamento", body, config);
+}
 
-    async function getPedido(id)  {
-      let tk = await getToken();
-      const config = {
-        headers: {
-          "Cache-Control": "no-cache",
-          "Access-Control-Allow-Origin": "*",
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${tk}`,
-        }
-      };
-      return api.get(`pedido/${id}`, config)
-      } 
+async function setPagamentoCartao(pagamento) {
+  let tk = await getToken();
+  const config = {
+    headers: {
+      "Cache-Control": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${tk}`,
+    },
+  };
+  return api.post("pagamento/criarPagamentoCartao", pagamento, config);
+}
 
-    async function validPix(id)  {
-      let tk = await getToken();
-      const config = {
-        headers: {
-          "Cache-Control": "no-cache",
-          "Access-Control-Allow-Origin": "*",
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${tk}`,
-        }
-      };
-      return api.get(`pagamento/checkPix/${id}`, config)
-      } 
+async function setPedidoEnvio(pedido) {
+  let tk = await getToken();
+  const config = {
+    headers: {
+      "Cache-Control": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${tk}`,
+    },
+  };
+  return api.post("pedido", pedido, config);
+}
 
-      async function getEmpresa()  {
-        let tk = await getToken();
-        const config = {
-          headers: {
-            "Cache-Control": "no-cache",
-            "Access-Control-Allow-Origin": "*",
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${tk}`,
-          }
-        };
-        return api.get(`/empresa/`, config)
-        } 
+async function setUpdatePedidoEnvio(pedido, id) {
+  let tk = await getToken();
+  const config = {
+    headers: {
+      "Cache-Control": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${tk}`,
+    },
+  };
+  return api.put(`pedido/${id}`, pedido, config);
+}
 
-        async function setAvalicaoPedido(avaliacao)  {
-          let tk = await getToken();
-          const config = {
-            headers: {
-              "Cache-Control": "no-cache",
-              "Access-Control-Allow-Origin": "*",
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${tk}`,
-            }
-          };
-          return api.post('avaliacao', avaliacao, config);
-        }  
+async function getPedido(id) {
+  let tk = await getToken();
+  const config = {
+    headers: {
+      "Cache-Control": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${tk}`,
+    },
+  };
+  return api.get(`pedido/${id}`, config);
+}
 
+async function validPix(id) {
+  let tk = await getToken();
+  const config = {
+    headers: {
+      "Cache-Control": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${tk}`,
+    },
+  };
+  return api.get(`pagamento/checkPix/${id}`, config);
+}
 
+async function getEmpresa() {
+  let tk = await getToken();
+  const config = {
+    headers: {
+      "Cache-Control": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${tk}`,
+    },
+  };
+  return api.get(`/empresa/`, config);
+}
 
-export { getCardapio,setPagamentoPix, setPagamentoCartao, 
-  getEndereco, setPedidoEnvio, setUpdatePedidoEnvio,
-  validPix, getEmpresa, getPedido,setAvalicaoPedido, getCardapioLanches, getCardapioNoLanches}
+async function setAvalicaoPedido(avaliacao) {
+  let tk = await getToken();
+  const config = {
+    headers: {
+      "Cache-Control": "no-cache",
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${tk}`,
+    },
+  };
+  return api.post("avaliacao", avaliacao, config);
+}
+
+export {
+  getCardapio,
+  setPagamentoPix,
+  setPagamentoCartao,
+  getEndereco,
+  setPedidoEnvio,
+  setUpdatePedidoEnvio,
+  validPix,
+  getEmpresa,
+  getPedido,
+  setAvalicaoPedido,
+  getCardapioLanches,
+  getCardapioNoLanches,
+  getComentarios,
+  setComentario,
+};
