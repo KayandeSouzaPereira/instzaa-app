@@ -50,38 +50,31 @@ export default function Cardapio({navigation}){
         setPromocoes([])
         setItemsNormais([])
 
-        let _mock = []
-        _mock.push(mockSandwich);
-        setDestaques(_mock);
+        let _destaques = []
+        let _promocoes = []
+        let _normais = []
+
+        _destaques.push(mockSandwich);
 
         items.forEach((i) => {
              if(i.destaque === true){
-                let _destaques = []
                 _destaques = destaques
                 _destaques.push(i)
-                setDestaques(_destaques)
-                return 
             }
              if(i.promocao === true){
-                let _promocoes = []
                 _promocoes = promocoes
                 _promocoes.push(i)
-                setPromocoes(_promocoes)
-                return
+                
             }
             else if(i.promocao != true && i.destaque != true){
-                
-                let _normais = []
-                let _normaisItem = {}
                 _normais = itemsNormais
-                _normaisItem.i = i.id + 156
-                _normaisItem.res = i
-                _normais.push(_normaisItem)
-                setItemsNormais(_normais)
-                return
+                _normais.push(i)
             }  
         })
 
+        setDestaques(_destaques)
+        setPromocoes(_promocoes)
+        setItemsNormais(_normais)
     }
 
     async function updateList(pedidoObj){
@@ -103,6 +96,7 @@ export default function Cardapio({navigation}){
         separaItem(items)
     }, [items]);
 
+    useEffect(() => {console.log(itemsNormais.length)},[itemsNormais])
 
 
     return(
@@ -151,23 +145,26 @@ export default function Cardapio({navigation}){
                                
                          </View>
                          
-                            <View style={[styles.containerItensComum, {alignContent: 'center', alignItems: 'center', marginTop: 40}]}>
-                            <Text style={[styles.textCategoriaComun, {textAlign:'left', width: '100%', marginLeft: 300}]}>Nossos Produtos</Text>
-                                <ScrollView style={{width: 500, height: 400}} nestedScrollEnabled = {true}>
-                                    {
-                                     itemsNormais.map((item) =>(
-                                        <View>
+                            <View style={[styles.containerItensComum, {alignContent: 'center', alignItems: 'center', justifyContent: "center", marginTop: 40}]}>
+                            <Text style={[styles.textCategoriaComun, {textAlign:'center', width: '100%'}]}>Nossos Produtos</Text>
+                            
+                            { <FlatList
+                                horizontal={false}
+                                data={itemsNormais}
+                                keyExtractor={item => item.idCardapio}
+                                renderItem={({item}) => (
+                                    <View style={{marginVertical: 5}}>
                                         <CaixaComum 
-                                            data={item.res}
-                                            callback={() => {updateList(item.res)}}
-                                            isLanche={item.res.itemLanche}
-                                            />
-                                        <View style={{height:10}}/>
-                                        </View>
-                                     ))   
-                                    }
-                                    
-                                </ScrollView>
+                                        data={item}
+                                        callback={() => {updateList(item)}}
+                                        callbackLanche={updateList}
+                                        />
+                                    </View>
+                                    ) 
+                                }
+                                        contentContainerStyle={{paddingBottom: 20, right: 55}}
+                                        showsHorizontalScrollIndicator={false}
+                            /> }
                             </View>
                             <View style={{height:50}}/>
             </ScrollView>

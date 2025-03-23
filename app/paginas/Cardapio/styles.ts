@@ -23,12 +23,13 @@ export const styles = StyleSheet.create({
         width: 400,
         height: 400,
         paddingBottom: 50,
+        flex: 1
     },
     textCategoria: {
         fontFamily: theme.fonts.subtitle2,
         fontSize: 25,
         height: 70,
-        width:"65%",
+        width:"70%",
         top:10,
         paddingTop:10,
         textAlign: 'center',

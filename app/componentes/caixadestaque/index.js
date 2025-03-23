@@ -62,6 +62,8 @@ export function CaixaDestaque({ data, callback, isLanche, callbackLanche }) {
                 <></>
               )}
               <Text style={styles.tituloModal}>{data.nome}</Text>
+              {
+                data.preco?
               <Text style={styles.valorModal}>
                 Valor :{" "}
                 {data.preco.toLocaleString("pt-br", {
@@ -69,6 +71,8 @@ export function CaixaDestaque({ data, callback, isLanche, callbackLanche }) {
                   currency: "BRL",
                 })}
               </Text>
+              : <></>
+              }
               <Text style={styles.descricaoModal}>
                 Descrição : {data.descricao}
               </Text>
