@@ -2,6 +2,7 @@
   "expo": {
     "name": "instzaa-app",
     "slug": "instzaa-app",
+    "owner": "kayandesouzapereira",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
