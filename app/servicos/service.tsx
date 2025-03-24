@@ -4,6 +4,7 @@ function getEndereco(cep) {
   return apiCEP.get(cep + "/json/");
 }
 
+
 async function getToken() {
   const config = {
     headers: {
@@ -16,7 +17,7 @@ async function getToken() {
     email: "instzaa@app.com",
     password: "Instzaa@834",
   };
-  return api.post("/auth/login", body, config).then((res) => {
+  return api.post("/auth/login", body, config,).then((res) => {
     return res.data.token;
   });
 }

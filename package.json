@@ -28,6 +28,7 @@
     "@types/react": "^17.0.21",
     "@types/react-native": "~0.69.1",
     "axios": "^1.6.0",
+    "axios-https-proxy-fix": "^0.17.1",
     "expo": "^51.0.21",
     "expo-app-loading": "^1.0.3",
     "expo-asset": "~10.0.10",
